@@ -1,5 +1,6 @@
 
 .include "cpctelera.h.s"
+.include "game.h.s"
 
 .area _DATA
 .area _CODE
@@ -9,5 +10,6 @@
 
 _main::
    call cpct_disableFirmware_asm
+   call game_init
 loop:
    jr    loop
