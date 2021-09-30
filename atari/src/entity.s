@@ -74,7 +74,7 @@ _renloop:
     ld a, e_t(ix)
     and d
     and d
-    jr z, cumple
+    jr nz, cumple
     jr continua
     cumple:    
         call physics_sys_for_one
