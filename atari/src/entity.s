@@ -5,8 +5,9 @@
 .include "cpct_func.h.s"
 .include "entity.h.s"
 .include "physics.h.s"
+.include "input.h.s"
 
-max_entities == 40
+max_entities == 2
 
 _num_entities:: .db 0
 _last_elem_ptr:: .dw _entity_array
@@ -61,11 +62,13 @@ ret
 
 
 ;
-;Input: D type that we are looking for
+;Input: A type that we are looking for, D num entity
 E_M_for_all_matching::
     ld c, a
     ld a, d
     ld d, c
+
+    ;intercambio A y D
 
 _renloop:
     ld (_ent_counter), a
@@ -77,8 +80,25 @@ _renloop:
     jr nz, cumple
     jr continua
     cumple:    
-        call physics_sys_for_one
-        
+        ld a, (t_ia)
+        xor d
+        jr z, fisicas
+        jr no_fis
+        fisicas:
+         call physics_sys_for_one
+         jr continua
+
+        no_fis:
+            ld a, (t_input)
+            xor d
+            jr z, control
+            jr continua
+                control:
+                push de
+                call input_update_one
+                pop de
+                jr continua
+            
     continua:
 
 _ent_counter = .+1

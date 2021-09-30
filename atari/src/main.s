@@ -23,13 +23,3 @@ loop:
 
    jr    loop
 
-
-esperar::
-
-   ld e, #0xFF
-   espera:
-      halt
-      dec e
-   jr nz, espera   
-
-ret

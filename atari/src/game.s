@@ -3,6 +3,7 @@
 .include "entity.h.s"
 .include "render.h.s"
 .include "physics.h.s"
+.include "input.h.s"
 
 
 
@@ -18,6 +19,7 @@ man_game_init::
 
     call rendersys_init
     call physics_sys_init
+    call input_init
 
     ld hl, #player
     call man_game_entity_creator
@@ -45,6 +47,8 @@ man_game_update::
    ;; Init system
     call E_M_getEntityArray
    call physics_sys_update
+    call E_M_getEntityArray
+   call input_update
    ret
 
 
