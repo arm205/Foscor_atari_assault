@@ -5,8 +5,8 @@
 ;   GLOBAL FUNCTIONS
 .globl E_M_create
 .globl E_M_getEntityArray
-.globl E_M_destroy_entity
-.globl E_M_for_all
+.globl E_M_init
+.globl E_M_new
 
 
 
@@ -22,15 +22,22 @@
 .endm
 
 .macro DefineDefaultEntity _x, _y, _w, _h, _vx, _c
-    .db 0xFF ;    type of entity default
+    .db 0xF0 ;    type of entity default
     CommonDefine _x, _y, _w, _h, _vx, _c
 .endm
 
-.macro DefineStarEntity _name, _x, _y, _w, _h, _vx, _c
+.macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _c
 _name::
-    .db 0x01 ;    type of entity is star
+    .db 0x01 ;    type of entity is enemy
     CommonDefine _x, _y, _w, _h, _vx, _c
 .endm
+
+.macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _c
+_name::
+    .db 0x02 ;    type of entity is player
+    CommonDefine _x, _y, _w, _h, _vx, _c
+.endm
+
 
 e_t = 0
 e_x = 1

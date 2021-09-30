@@ -3,7 +3,7 @@
 ;
 .include "cpctelera.h.s"
 .include "cpct_func.h.s"
-.include "entity_manager.h.s"
+.include "entity.h.s"
 
 screen_start = 0xC000
 
@@ -54,7 +54,6 @@ _renloop:
     ld c, e_w(ix) ;; width
     ld b, e_h(ix) ;; height
     call cpct_drawSolidBox_asm
-
 
 _ent_counter = .+1
     ld  a, #0

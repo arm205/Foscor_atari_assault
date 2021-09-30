@@ -1,0 +1,39 @@
+XL2
+H 1 areas 7 global symbols
+M cpct_keyboard
+S E_M_init Ref0000
+S E_M_create Ref0000
+S E_M_getEntityArray Ref0000
+S E_M_new Ref0000
+S .__.ABS. Def0000
+A _CODE size 2E flags 0 addr 0
+S physics_sys_init Def0000
+S physics_sys_update Def0001
+T 00 00
+R 00 00 00 00
+T 00 00 C9
+R 00 00 00 00
+T 01 00
+R 00 00 00 00
+T 01 00
+R 00 00 00 00
+T 01 00 32 21 00
+R 00 00 00 00 00 03 00 00
+T 04 00
+R 00 00 00 00
+T 04 00 3E 50 DD 96 03 4F DD 7E 01 DD 86 05 B9 30
+R 00 00 00 00
+T 12 00 05
+R 00 00 00 00
+T 13 00
+R 00 00 00 00
+T 13 00 DD 77 01 18 08
+R 00 00 00 00
+T 18 00
+R 00 00 00 00
+T 18 00 DD 7E 05 ED 44 DD 77 05
+R 00 00 00 00
+T 20 00
+R 00 00 00 00
+T 20 00 3E 00 3D C8 32 21 00 01 09 00 DD 09 18 D3
+R 00 00 00 00 00 07 00 00

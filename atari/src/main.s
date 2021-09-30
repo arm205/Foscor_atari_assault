@@ -1,15 +1,35 @@
-
 .include "cpctelera.h.s"
+.include "cpct_func.h.s"
 .include "game.h.s"
+.include "entity.h.s"
+.include "render.h.s"
+
 
 .area _DATA
 .area _CODE
 
-.globl cpct_disableFirmware_asm
-.globl cpct_getScreenPtr_asm
+
 
 _main::
    call cpct_disableFirmware_asm
-   call game_init
+   call man_game_init
+
 loop:
+;   call esperar
+   call man_game_update
+
+   call cpct_waitVSYNC_asm
+   call man_game_render
+
    jr    loop
+
+
+esperar::
+
+   ld e, #0xFF
+   espera:
+      halt
+      dec e
+   jr nz, espera   
+
+ret

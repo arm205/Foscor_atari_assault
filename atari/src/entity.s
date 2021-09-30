@@ -3,7 +3,7 @@
 ;
 .include "cpctelera.h.s"
 .include "cpct_func.h.s"
-.include "entity_manager.h.s"
+.include "entity.h.s"
 .include "physics.h.s"
 
 max_entities == 40
@@ -58,32 +58,3 @@ E_M_getEntityArray::
     ld a, (_num_entities)
 ret
 
-
-;; INPUT: IX Memory pointer to star that has to die
-
-E_M_destroy_entity::
-;; AQUI TENGO QUE HACER QUE LAS ULTIMAS ENTIDADES
-;; VAYAN OCUPANDO LAS POSICIONES DE LAS ESTRELLAS YA MUERTAS
-    ld a, #0x80 ;; death type of star
-    ld e_t(ix), a
-
-ret
-
-E_M_for_all::
-    ld b, a
-comprueba:
-    ld c, e_t(ix)
-    dec c
-    jr z, viva
-    jr sigue
-
-viva:
-    call physics_sys_update_one_entity
-
-sigue:
-    dec b
-    ret z
-
-    ld de, #sizeof_e
-    add ix, de
-    jr comprueba

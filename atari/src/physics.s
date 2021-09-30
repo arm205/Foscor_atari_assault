@@ -1,4 +1,4 @@
-.include "entity_manager.h.s"
+.include "entity.h.s"
 .include "cpctelera.h.s"
 
 
@@ -11,26 +11,41 @@ screen_height = 200
 physics_sys_init::
 ret
 
+;
+;Entrada: IX puntero al inicio del array, A numero de entidades creadas en array
 
-physics_sys_update_one_entity::
 
-    ld a, #0x01
+;
+;Modifica: CD, IX, DE
+physics_sys_update::
+_renloop:
+    ld (_ent_counter), a
+    ;; erase previous istance
+recorre:
+    ld a, #screen_width
     sub e_w(ix)
     ld  c, a
 
     ld a, e_x(ix)
     add e_vx(ix)
     cp  c
-    jr c, invalid_x
+    jr nc, invalid_x
 
     id_x:
         ld e_x(ix), a
         jr  endif_x
     invalid_x:
-        call E_M_destroy_entity
+        ld  a, e_vx(ix)
+        neg
+        ld  e_vx(ix), a
 endif_x:
-ret
 
-physics_sys_update::
-    call E_M_for_all
-ret
+_ent_counter = .+1
+    ld  a, #0
+    dec a
+    ret z
+
+    ld (_ent_counter), a
+    ld bc, #sizeof_e
+    add ix, bc
+    jr _renloop
