@@ -4439,49 +4439,76 @@ Hexadecimal [16-Bits]
                               5 ;   GLOBAL FUNCTIONS
                               6 .globl E_M_create
                               7 .globl E_M_getEntityArray
-                              8 
-                              9 
-                             10 
-                             11 ; ENTITY DEFINITION MACRO
-                             12 .macro CommonDefine _x, _y, _w, _h, _vx, _c
-                             13     .db _x ;    position x of entity
-                             14     .db _y ;    position y of entity
-                             15     .db _w ;    width of entity
-                             16     .db _h ;    height y of entity
-                             17     .db _vx ;    speed x of entity
-                             18     .db _c ;    color of entity
-                             19     .dw 0xCCCC; last video memory value to delate later
-                             20 .endm
-                             21 
-                             22 .macro DefineDefaultEntity _x, _y, _w, _h, _vx, _c
-                             23     .db 0xFF ;    type of entity default
-                             24     CommonDefine _x, _y, _w, _h, _vx, _c
-                             25 .endm
-                             26 
-                             27 .macro DefineStarEntity _name, _x, _y, _w, _h, _vx, _c
-                             28 _name::
-                             29     .db 0x01 ;    type of entity is star
-                             30     CommonDefine _x, _y, _w, _h, _vx, _c
-                             31 .endm
-                             32 
-                     0000    33 e_t = 0
-                     0001    34 e_x = 1
-                     0002    35 e_y = 2
-                     0003    36 e_w = 3
-                     0004    37 e_h = 4
-                     0005    38 e_vx = 5
-                     0006    39 e_c = 6
-                     0007    40 e_lastVP_l = 7
-                     0008    41 e_lastVP_h = 8
-                     0009    42 sizeof_e = 9
+                              8 .globl E_M_init
+                              9 .globl E_M_new
+                             10 .globl E_M_for_all_matching
+                             11 
+                             12 
+                             13 
+                             14 ; ENTITY DEFINITION MACRO
+                             15 .macro CommonDefine _x, _y, _w, _h, _vx, _c
+                             16     .db _x ;    position x of entity
+                             17     .db _y ;    position y of entity
+                             18     .db _w ;    width of entity
+                             19     .db _h ;    height y of entity
+                             20     .db _vx ;    speed x of entity
+                             21     .db _c ;    color of entity
+                             22     .dw 0xCCCC; last video memory value to delate later
+                             23 .endm
+                             24 
+                             25 
+                             26 .macro DefineDefaultEntity _x, _y, _w, _h, _vx, _c
+                             27     .db 0x00 ;    type of entity default
+                             28     CommonDefine _x, _y, _w, _h, _vx, _c
+                             29 .endm
+                             30 
+                             31 .macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _c
+                             32 _name::
+                             33     .db 0x03 ;    type of entity is enemy
+                             34     CommonDefine _x, _y, _w, _h, _vx, _c
+                             35 .endm
+                             36 
+                             37 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _c
+                             38 _name::
+                             39     .db 0x05 ;    type of entity is player
+                             40     CommonDefine _x, _y, _w, _h, _vx, _c
+                             41 .endm
+                             42 
                              43 
-                             44 .macro DefineEntityArray _name, _N
-                             45 _name::
-                             46     .rept _N
-                             47         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-                             48     .endm
-                             49 .endm
+                     0000    44 e_t = 0
+                     0001    45 e_x = 1
+                     0002    46 e_y = 2
+                     0003    47 e_w = 3
+                     0004    48 e_h = 4
+                     0005    49 e_vx = 5
+                     0006    50 e_c = 6
+                     0007    51 e_lastVP_l = 7
+                     0008    52 e_lastVP_h = 8
+                     0009    53 sizeof_e = 9
+                             54 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 86.
+Hexadecimal [16-Bits]
+
+
+
+                             55 .macro DefineEntityArray _name, _N
+                             56 _name::
+                             57     .rept _N
+                             58         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+                             59     .endm
+                             60 .endm
+                             61 
+                             62 
+                             63 
+                             64 
+                             65 ;;; Usando los bits  para definir signatures luego
+                             66 ;; 00000001 para lo que sea para renderizar
+   0000 01                   67 t_render: .db 0x01
+                             68 ;; 00000010 para las entidades que usen IA
+   0001 02                   69 t_ia: .db 0x02
+                             70 ;; 00000100 para las entidades con input (player)
+   0002 04                   71 t_input: .db 0x04
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 87.
 Hexadecimal [16-Bits]
 
 
@@ -4493,7 +4520,8 @@ Hexadecimal [16-Bits]
                               4 
                               5 .globl physics_sys_init
                               6 .globl physics_sys_update
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 87.
+                              7 .globl physics_sys_for_one
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 88.
 Hexadecimal [16-Bits]
 
 
@@ -4501,499 +4529,531 @@ Hexadecimal [16-Bits]
                               8 
                      0028     9 max_entities == 40
                              10 
-   0000 00                   11 _num_entities:: .db 0
-   0001 03 00                12 _last_elem_ptr:: .dw _entity_array
-   0003                      13 DefineEntityArray _entity_array, max_entities
-   0003                       1 _entity_array::
+   0003 00                   11 _num_entities:: .db 0
+   0004 06 00                12 _last_elem_ptr:: .dw _entity_array
+   0006                      13 DefineEntityArray _entity_array, max_entities
+   0006                       1 _entity_array::
                               2     .rept max_entities
                               3         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
                               4     .endm
-   0003                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0003 FF                    1     .db 0xFF ;    type of entity default
-   0004                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0004 DE                    1     .db 0xDE ;    position x of entity
-   0005 AD                    2     .db 0xAD ;    position y of entity
-   0006 DE                    3     .db 0xDE ;    width of entity
-   0007 AD                    4     .db 0xAD ;    height y of entity
-   0008 DE                    5     .db 0xDE ;    speed x of entity
-   0009 AD                    6     .db 0xAD ;    color of entity
-   000A CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   000C                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   000C FF                    1     .db 0xFF ;    type of entity default
-   000D                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   000D DE                    1     .db 0xDE ;    position x of entity
-   000E AD                    2     .db 0xAD ;    position y of entity
-   000F DE                    3     .db 0xDE ;    width of entity
-   0010 AD                    4     .db 0xAD ;    height y of entity
-   0011 DE                    5     .db 0xDE ;    speed x of entity
-   0012 AD                    6     .db 0xAD ;    color of entity
-   0013 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0015                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0015 FF                    1     .db 0xFF ;    type of entity default
-   0016                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0016 DE                    1     .db 0xDE ;    position x of entity
-   0017 AD                    2     .db 0xAD ;    position y of entity
-   0018 DE                    3     .db 0xDE ;    width of entity
-   0019 AD                    4     .db 0xAD ;    height y of entity
-   001A DE                    5     .db 0xDE ;    speed x of entity
-   001B AD                    6     .db 0xAD ;    color of entity
-   001C CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   001E                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   001E FF                    1     .db 0xFF ;    type of entity default
-   001F                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   001F DE                    1     .db 0xDE ;    position x of entity
-   0020 AD                    2     .db 0xAD ;    position y of entity
-   0021 DE                    3     .db 0xDE ;    width of entity
-   0022 AD                    4     .db 0xAD ;    height y of entity
-   0023 DE                    5     .db 0xDE ;    speed x of entity
-   0024 AD                    6     .db 0xAD ;    color of entity
-   0025 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0027                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0027 FF                    1     .db 0xFF ;    type of entity default
-   0028                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0028 DE                    1     .db 0xDE ;    position x of entity
-   0029 AD                    2     .db 0xAD ;    position y of entity
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 88.
-Hexadecimal [16-Bits]
-
-
-
-   002A DE                    3     .db 0xDE ;    width of entity
-   002B AD                    4     .db 0xAD ;    height y of entity
-   002C DE                    5     .db 0xDE ;    speed x of entity
-   002D AD                    6     .db 0xAD ;    color of entity
-   002E CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0030                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0030 FF                    1     .db 0xFF ;    type of entity default
-   0031                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0031 DE                    1     .db 0xDE ;    position x of entity
-   0032 AD                    2     .db 0xAD ;    position y of entity
-   0033 DE                    3     .db 0xDE ;    width of entity
-   0034 AD                    4     .db 0xAD ;    height y of entity
-   0035 DE                    5     .db 0xDE ;    speed x of entity
-   0036 AD                    6     .db 0xAD ;    color of entity
-   0037 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0039                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0039 FF                    1     .db 0xFF ;    type of entity default
-   003A                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   003A DE                    1     .db 0xDE ;    position x of entity
-   003B AD                    2     .db 0xAD ;    position y of entity
-   003C DE                    3     .db 0xDE ;    width of entity
-   003D AD                    4     .db 0xAD ;    height y of entity
-   003E DE                    5     .db 0xDE ;    speed x of entity
-   003F AD                    6     .db 0xAD ;    color of entity
-   0040 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0042                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0042 FF                    1     .db 0xFF ;    type of entity default
-   0043                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0043 DE                    1     .db 0xDE ;    position x of entity
-   0044 AD                    2     .db 0xAD ;    position y of entity
-   0045 DE                    3     .db 0xDE ;    width of entity
-   0046 AD                    4     .db 0xAD ;    height y of entity
-   0047 DE                    5     .db 0xDE ;    speed x of entity
-   0048 AD                    6     .db 0xAD ;    color of entity
-   0049 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   004B                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   004B FF                    1     .db 0xFF ;    type of entity default
-   004C                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   004C DE                    1     .db 0xDE ;    position x of entity
-   004D AD                    2     .db 0xAD ;    position y of entity
-   004E DE                    3     .db 0xDE ;    width of entity
-   004F AD                    4     .db 0xAD ;    height y of entity
-   0050 DE                    5     .db 0xDE ;    speed x of entity
-   0051 AD                    6     .db 0xAD ;    color of entity
-   0052 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0054                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0054 FF                    1     .db 0xFF ;    type of entity default
-   0055                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0055 DE                    1     .db 0xDE ;    position x of entity
-   0056 AD                    2     .db 0xAD ;    position y of entity
-   0057 DE                    3     .db 0xDE ;    width of entity
-   0058 AD                    4     .db 0xAD ;    height y of entity
-   0059 DE                    5     .db 0xDE ;    speed x of entity
-   005A AD                    6     .db 0xAD ;    color of entity
-   005B CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0006                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0006 00                    1     .db 0x00 ;    type of entity default
+   0007                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0007 DE                    1     .db 0xDE ;    position x of entity
+   0008 AD                    2     .db 0xAD ;    position y of entity
+   0009 DE                    3     .db 0xDE ;    width of entity
+   000A AD                    4     .db 0xAD ;    height y of entity
+   000B DE                    5     .db 0xDE ;    speed x of entity
+   000C AD                    6     .db 0xAD ;    color of entity
+   000D CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   000F                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   000F 00                    1     .db 0x00 ;    type of entity default
+   0010                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0010 DE                    1     .db 0xDE ;    position x of entity
+   0011 AD                    2     .db 0xAD ;    position y of entity
+   0012 DE                    3     .db 0xDE ;    width of entity
+   0013 AD                    4     .db 0xAD ;    height y of entity
+   0014 DE                    5     .db 0xDE ;    speed x of entity
+   0015 AD                    6     .db 0xAD ;    color of entity
+   0016 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0018                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0018 00                    1     .db 0x00 ;    type of entity default
+   0019                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0019 DE                    1     .db 0xDE ;    position x of entity
+   001A AD                    2     .db 0xAD ;    position y of entity
+   001B DE                    3     .db 0xDE ;    width of entity
+   001C AD                    4     .db 0xAD ;    height y of entity
+   001D DE                    5     .db 0xDE ;    speed x of entity
+   001E AD                    6     .db 0xAD ;    color of entity
+   001F CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0021                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0021 00                    1     .db 0x00 ;    type of entity default
+   0022                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0022 DE                    1     .db 0xDE ;    position x of entity
+   0023 AD                    2     .db 0xAD ;    position y of entity
+   0024 DE                    3     .db 0xDE ;    width of entity
+   0025 AD                    4     .db 0xAD ;    height y of entity
+   0026 DE                    5     .db 0xDE ;    speed x of entity
+   0027 AD                    6     .db 0xAD ;    color of entity
+   0028 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   002A                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   002A 00                    1     .db 0x00 ;    type of entity default
+   002B                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   002B DE                    1     .db 0xDE ;    position x of entity
+   002C AD                    2     .db 0xAD ;    position y of entity
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 89.
 Hexadecimal [16-Bits]
 
 
 
-   005D                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   005D FF                    1     .db 0xFF ;    type of entity default
-   005E                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   005E DE                    1     .db 0xDE ;    position x of entity
-   005F AD                    2     .db 0xAD ;    position y of entity
-   0060 DE                    3     .db 0xDE ;    width of entity
-   0061 AD                    4     .db 0xAD ;    height y of entity
-   0062 DE                    5     .db 0xDE ;    speed x of entity
-   0063 AD                    6     .db 0xAD ;    color of entity
-   0064 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0066                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0066 FF                    1     .db 0xFF ;    type of entity default
-   0067                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0067 DE                    1     .db 0xDE ;    position x of entity
-   0068 AD                    2     .db 0xAD ;    position y of entity
-   0069 DE                    3     .db 0xDE ;    width of entity
-   006A AD                    4     .db 0xAD ;    height y of entity
-   006B DE                    5     .db 0xDE ;    speed x of entity
-   006C AD                    6     .db 0xAD ;    color of entity
-   006D CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   006F                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   006F FF                    1     .db 0xFF ;    type of entity default
-   0070                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0070 DE                    1     .db 0xDE ;    position x of entity
-   0071 AD                    2     .db 0xAD ;    position y of entity
-   0072 DE                    3     .db 0xDE ;    width of entity
-   0073 AD                    4     .db 0xAD ;    height y of entity
-   0074 DE                    5     .db 0xDE ;    speed x of entity
-   0075 AD                    6     .db 0xAD ;    color of entity
-   0076 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0078                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0078 FF                    1     .db 0xFF ;    type of entity default
-   0079                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0079 DE                    1     .db 0xDE ;    position x of entity
-   007A AD                    2     .db 0xAD ;    position y of entity
-   007B DE                    3     .db 0xDE ;    width of entity
-   007C AD                    4     .db 0xAD ;    height y of entity
-   007D DE                    5     .db 0xDE ;    speed x of entity
-   007E AD                    6     .db 0xAD ;    color of entity
-   007F CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0081                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0081 FF                    1     .db 0xFF ;    type of entity default
-   0082                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0082 DE                    1     .db 0xDE ;    position x of entity
-   0083 AD                    2     .db 0xAD ;    position y of entity
-   0084 DE                    3     .db 0xDE ;    width of entity
-   0085 AD                    4     .db 0xAD ;    height y of entity
-   0086 DE                    5     .db 0xDE ;    speed x of entity
-   0087 AD                    6     .db 0xAD ;    color of entity
-   0088 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   008A                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   008A FF                    1     .db 0xFF ;    type of entity default
-   008B                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   008B DE                    1     .db 0xDE ;    position x of entity
-   008C AD                    2     .db 0xAD ;    position y of entity
+   002D DE                    3     .db 0xDE ;    width of entity
+   002E AD                    4     .db 0xAD ;    height y of entity
+   002F DE                    5     .db 0xDE ;    speed x of entity
+   0030 AD                    6     .db 0xAD ;    color of entity
+   0031 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0033                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0033 00                    1     .db 0x00 ;    type of entity default
+   0034                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0034 DE                    1     .db 0xDE ;    position x of entity
+   0035 AD                    2     .db 0xAD ;    position y of entity
+   0036 DE                    3     .db 0xDE ;    width of entity
+   0037 AD                    4     .db 0xAD ;    height y of entity
+   0038 DE                    5     .db 0xDE ;    speed x of entity
+   0039 AD                    6     .db 0xAD ;    color of entity
+   003A CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   003C                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   003C 00                    1     .db 0x00 ;    type of entity default
+   003D                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   003D DE                    1     .db 0xDE ;    position x of entity
+   003E AD                    2     .db 0xAD ;    position y of entity
+   003F DE                    3     .db 0xDE ;    width of entity
+   0040 AD                    4     .db 0xAD ;    height y of entity
+   0041 DE                    5     .db 0xDE ;    speed x of entity
+   0042 AD                    6     .db 0xAD ;    color of entity
+   0043 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0045                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0045 00                    1     .db 0x00 ;    type of entity default
+   0046                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0046 DE                    1     .db 0xDE ;    position x of entity
+   0047 AD                    2     .db 0xAD ;    position y of entity
+   0048 DE                    3     .db 0xDE ;    width of entity
+   0049 AD                    4     .db 0xAD ;    height y of entity
+   004A DE                    5     .db 0xDE ;    speed x of entity
+   004B AD                    6     .db 0xAD ;    color of entity
+   004C CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   004E                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   004E 00                    1     .db 0x00 ;    type of entity default
+   004F                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   004F DE                    1     .db 0xDE ;    position x of entity
+   0050 AD                    2     .db 0xAD ;    position y of entity
+   0051 DE                    3     .db 0xDE ;    width of entity
+   0052 AD                    4     .db 0xAD ;    height y of entity
+   0053 DE                    5     .db 0xDE ;    speed x of entity
+   0054 AD                    6     .db 0xAD ;    color of entity
+   0055 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0057                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0057 00                    1     .db 0x00 ;    type of entity default
+   0058                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0058 DE                    1     .db 0xDE ;    position x of entity
+   0059 AD                    2     .db 0xAD ;    position y of entity
+   005A DE                    3     .db 0xDE ;    width of entity
+   005B AD                    4     .db 0xAD ;    height y of entity
+   005C DE                    5     .db 0xDE ;    speed x of entity
+   005D AD                    6     .db 0xAD ;    color of entity
+   005E CC CC                 7     .dw 0xCCCC; last video memory value to delate later
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 90.
 Hexadecimal [16-Bits]
 
 
 
-   008D DE                    3     .db 0xDE ;    width of entity
-   008E AD                    4     .db 0xAD ;    height y of entity
-   008F DE                    5     .db 0xDE ;    speed x of entity
-   0090 AD                    6     .db 0xAD ;    color of entity
-   0091 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0093                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0093 FF                    1     .db 0xFF ;    type of entity default
-   0094                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0094 DE                    1     .db 0xDE ;    position x of entity
-   0095 AD                    2     .db 0xAD ;    position y of entity
-   0096 DE                    3     .db 0xDE ;    width of entity
-   0097 AD                    4     .db 0xAD ;    height y of entity
-   0098 DE                    5     .db 0xDE ;    speed x of entity
-   0099 AD                    6     .db 0xAD ;    color of entity
-   009A CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   009C                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   009C FF                    1     .db 0xFF ;    type of entity default
-   009D                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   009D DE                    1     .db 0xDE ;    position x of entity
-   009E AD                    2     .db 0xAD ;    position y of entity
-   009F DE                    3     .db 0xDE ;    width of entity
-   00A0 AD                    4     .db 0xAD ;    height y of entity
-   00A1 DE                    5     .db 0xDE ;    speed x of entity
-   00A2 AD                    6     .db 0xAD ;    color of entity
-   00A3 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   00A5                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00A5 FF                    1     .db 0xFF ;    type of entity default
-   00A6                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00A6 DE                    1     .db 0xDE ;    position x of entity
-   00A7 AD                    2     .db 0xAD ;    position y of entity
-   00A8 DE                    3     .db 0xDE ;    width of entity
-   00A9 AD                    4     .db 0xAD ;    height y of entity
-   00AA DE                    5     .db 0xDE ;    speed x of entity
-   00AB AD                    6     .db 0xAD ;    color of entity
-   00AC CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   00AE                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00AE FF                    1     .db 0xFF ;    type of entity default
-   00AF                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00AF DE                    1     .db 0xDE ;    position x of entity
-   00B0 AD                    2     .db 0xAD ;    position y of entity
-   00B1 DE                    3     .db 0xDE ;    width of entity
-   00B2 AD                    4     .db 0xAD ;    height y of entity
-   00B3 DE                    5     .db 0xDE ;    speed x of entity
-   00B4 AD                    6     .db 0xAD ;    color of entity
-   00B5 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   00B7                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00B7 FF                    1     .db 0xFF ;    type of entity default
-   00B8                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00B8 DE                    1     .db 0xDE ;    position x of entity
-   00B9 AD                    2     .db 0xAD ;    position y of entity
-   00BA DE                    3     .db 0xDE ;    width of entity
-   00BB AD                    4     .db 0xAD ;    height y of entity
-   00BC DE                    5     .db 0xDE ;    speed x of entity
-   00BD AD                    6     .db 0xAD ;    color of entity
-   00BE CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0060                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0060 00                    1     .db 0x00 ;    type of entity default
+   0061                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0061 DE                    1     .db 0xDE ;    position x of entity
+   0062 AD                    2     .db 0xAD ;    position y of entity
+   0063 DE                    3     .db 0xDE ;    width of entity
+   0064 AD                    4     .db 0xAD ;    height y of entity
+   0065 DE                    5     .db 0xDE ;    speed x of entity
+   0066 AD                    6     .db 0xAD ;    color of entity
+   0067 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0069                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0069 00                    1     .db 0x00 ;    type of entity default
+   006A                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   006A DE                    1     .db 0xDE ;    position x of entity
+   006B AD                    2     .db 0xAD ;    position y of entity
+   006C DE                    3     .db 0xDE ;    width of entity
+   006D AD                    4     .db 0xAD ;    height y of entity
+   006E DE                    5     .db 0xDE ;    speed x of entity
+   006F AD                    6     .db 0xAD ;    color of entity
+   0070 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0072                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0072 00                    1     .db 0x00 ;    type of entity default
+   0073                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0073 DE                    1     .db 0xDE ;    position x of entity
+   0074 AD                    2     .db 0xAD ;    position y of entity
+   0075 DE                    3     .db 0xDE ;    width of entity
+   0076 AD                    4     .db 0xAD ;    height y of entity
+   0077 DE                    5     .db 0xDE ;    speed x of entity
+   0078 AD                    6     .db 0xAD ;    color of entity
+   0079 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   007B                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   007B 00                    1     .db 0x00 ;    type of entity default
+   007C                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   007C DE                    1     .db 0xDE ;    position x of entity
+   007D AD                    2     .db 0xAD ;    position y of entity
+   007E DE                    3     .db 0xDE ;    width of entity
+   007F AD                    4     .db 0xAD ;    height y of entity
+   0080 DE                    5     .db 0xDE ;    speed x of entity
+   0081 AD                    6     .db 0xAD ;    color of entity
+   0082 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0084                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0084 00                    1     .db 0x00 ;    type of entity default
+   0085                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0085 DE                    1     .db 0xDE ;    position x of entity
+   0086 AD                    2     .db 0xAD ;    position y of entity
+   0087 DE                    3     .db 0xDE ;    width of entity
+   0088 AD                    4     .db 0xAD ;    height y of entity
+   0089 DE                    5     .db 0xDE ;    speed x of entity
+   008A AD                    6     .db 0xAD ;    color of entity
+   008B CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   008D                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   008D 00                    1     .db 0x00 ;    type of entity default
+   008E                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   008E DE                    1     .db 0xDE ;    position x of entity
+   008F AD                    2     .db 0xAD ;    position y of entity
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 91.
 Hexadecimal [16-Bits]
 
 
 
-   00C0                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00C0 FF                    1     .db 0xFF ;    type of entity default
-   00C1                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00C1 DE                    1     .db 0xDE ;    position x of entity
-   00C2 AD                    2     .db 0xAD ;    position y of entity
-   00C3 DE                    3     .db 0xDE ;    width of entity
-   00C4 AD                    4     .db 0xAD ;    height y of entity
-   00C5 DE                    5     .db 0xDE ;    speed x of entity
-   00C6 AD                    6     .db 0xAD ;    color of entity
-   00C7 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   00C9                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00C9 FF                    1     .db 0xFF ;    type of entity default
-   00CA                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00CA DE                    1     .db 0xDE ;    position x of entity
-   00CB AD                    2     .db 0xAD ;    position y of entity
-   00CC DE                    3     .db 0xDE ;    width of entity
-   00CD AD                    4     .db 0xAD ;    height y of entity
-   00CE DE                    5     .db 0xDE ;    speed x of entity
-   00CF AD                    6     .db 0xAD ;    color of entity
-   00D0 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   00D2                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00D2 FF                    1     .db 0xFF ;    type of entity default
-   00D3                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00D3 DE                    1     .db 0xDE ;    position x of entity
-   00D4 AD                    2     .db 0xAD ;    position y of entity
-   00D5 DE                    3     .db 0xDE ;    width of entity
-   00D6 AD                    4     .db 0xAD ;    height y of entity
-   00D7 DE                    5     .db 0xDE ;    speed x of entity
-   00D8 AD                    6     .db 0xAD ;    color of entity
-   00D9 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   00DB                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00DB FF                    1     .db 0xFF ;    type of entity default
-   00DC                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00DC DE                    1     .db 0xDE ;    position x of entity
-   00DD AD                    2     .db 0xAD ;    position y of entity
-   00DE DE                    3     .db 0xDE ;    width of entity
-   00DF AD                    4     .db 0xAD ;    height y of entity
-   00E0 DE                    5     .db 0xDE ;    speed x of entity
-   00E1 AD                    6     .db 0xAD ;    color of entity
-   00E2 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   00E4                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00E4 FF                    1     .db 0xFF ;    type of entity default
-   00E5                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00E5 DE                    1     .db 0xDE ;    position x of entity
-   00E6 AD                    2     .db 0xAD ;    position y of entity
-   00E7 DE                    3     .db 0xDE ;    width of entity
-   00E8 AD                    4     .db 0xAD ;    height y of entity
-   00E9 DE                    5     .db 0xDE ;    speed x of entity
-   00EA AD                    6     .db 0xAD ;    color of entity
-   00EB CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   00ED                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00ED FF                    1     .db 0xFF ;    type of entity default
-   00EE                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00EE DE                    1     .db 0xDE ;    position x of entity
-   00EF AD                    2     .db 0xAD ;    position y of entity
+   0090 DE                    3     .db 0xDE ;    width of entity
+   0091 AD                    4     .db 0xAD ;    height y of entity
+   0092 DE                    5     .db 0xDE ;    speed x of entity
+   0093 AD                    6     .db 0xAD ;    color of entity
+   0094 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0096                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0096 00                    1     .db 0x00 ;    type of entity default
+   0097                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0097 DE                    1     .db 0xDE ;    position x of entity
+   0098 AD                    2     .db 0xAD ;    position y of entity
+   0099 DE                    3     .db 0xDE ;    width of entity
+   009A AD                    4     .db 0xAD ;    height y of entity
+   009B DE                    5     .db 0xDE ;    speed x of entity
+   009C AD                    6     .db 0xAD ;    color of entity
+   009D CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   009F                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   009F 00                    1     .db 0x00 ;    type of entity default
+   00A0                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00A0 DE                    1     .db 0xDE ;    position x of entity
+   00A1 AD                    2     .db 0xAD ;    position y of entity
+   00A2 DE                    3     .db 0xDE ;    width of entity
+   00A3 AD                    4     .db 0xAD ;    height y of entity
+   00A4 DE                    5     .db 0xDE ;    speed x of entity
+   00A5 AD                    6     .db 0xAD ;    color of entity
+   00A6 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   00A8                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00A8 00                    1     .db 0x00 ;    type of entity default
+   00A9                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00A9 DE                    1     .db 0xDE ;    position x of entity
+   00AA AD                    2     .db 0xAD ;    position y of entity
+   00AB DE                    3     .db 0xDE ;    width of entity
+   00AC AD                    4     .db 0xAD ;    height y of entity
+   00AD DE                    5     .db 0xDE ;    speed x of entity
+   00AE AD                    6     .db 0xAD ;    color of entity
+   00AF CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   00B1                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00B1 00                    1     .db 0x00 ;    type of entity default
+   00B2                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00B2 DE                    1     .db 0xDE ;    position x of entity
+   00B3 AD                    2     .db 0xAD ;    position y of entity
+   00B4 DE                    3     .db 0xDE ;    width of entity
+   00B5 AD                    4     .db 0xAD ;    height y of entity
+   00B6 DE                    5     .db 0xDE ;    speed x of entity
+   00B7 AD                    6     .db 0xAD ;    color of entity
+   00B8 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   00BA                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00BA 00                    1     .db 0x00 ;    type of entity default
+   00BB                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00BB DE                    1     .db 0xDE ;    position x of entity
+   00BC AD                    2     .db 0xAD ;    position y of entity
+   00BD DE                    3     .db 0xDE ;    width of entity
+   00BE AD                    4     .db 0xAD ;    height y of entity
+   00BF DE                    5     .db 0xDE ;    speed x of entity
+   00C0 AD                    6     .db 0xAD ;    color of entity
+   00C1 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 92.
 Hexadecimal [16-Bits]
 
 
 
-   00F0 DE                    3     .db 0xDE ;    width of entity
-   00F1 AD                    4     .db 0xAD ;    height y of entity
-   00F2 DE                    5     .db 0xDE ;    speed x of entity
-   00F3 AD                    6     .db 0xAD ;    color of entity
-   00F4 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   00F6                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00F6 FF                    1     .db 0xFF ;    type of entity default
-   00F7                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00F7 DE                    1     .db 0xDE ;    position x of entity
-   00F8 AD                    2     .db 0xAD ;    position y of entity
-   00F9 DE                    3     .db 0xDE ;    width of entity
-   00FA AD                    4     .db 0xAD ;    height y of entity
-   00FB DE                    5     .db 0xDE ;    speed x of entity
-   00FC AD                    6     .db 0xAD ;    color of entity
-   00FD CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   00FF                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   00FF FF                    1     .db 0xFF ;    type of entity default
-   0100                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0100 DE                    1     .db 0xDE ;    position x of entity
-   0101 AD                    2     .db 0xAD ;    position y of entity
-   0102 DE                    3     .db 0xDE ;    width of entity
-   0103 AD                    4     .db 0xAD ;    height y of entity
-   0104 DE                    5     .db 0xDE ;    speed x of entity
-   0105 AD                    6     .db 0xAD ;    color of entity
-   0106 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0108                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0108 FF                    1     .db 0xFF ;    type of entity default
-   0109                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0109 DE                    1     .db 0xDE ;    position x of entity
-   010A AD                    2     .db 0xAD ;    position y of entity
-   010B DE                    3     .db 0xDE ;    width of entity
-   010C AD                    4     .db 0xAD ;    height y of entity
-   010D DE                    5     .db 0xDE ;    speed x of entity
-   010E AD                    6     .db 0xAD ;    color of entity
-   010F CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0111                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0111 FF                    1     .db 0xFF ;    type of entity default
-   0112                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0112 DE                    1     .db 0xDE ;    position x of entity
-   0113 AD                    2     .db 0xAD ;    position y of entity
-   0114 DE                    3     .db 0xDE ;    width of entity
-   0115 AD                    4     .db 0xAD ;    height y of entity
-   0116 DE                    5     .db 0xDE ;    speed x of entity
-   0117 AD                    6     .db 0xAD ;    color of entity
-   0118 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   011A                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   011A FF                    1     .db 0xFF ;    type of entity default
-   011B                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   011B DE                    1     .db 0xDE ;    position x of entity
-   011C AD                    2     .db 0xAD ;    position y of entity
-   011D DE                    3     .db 0xDE ;    width of entity
-   011E AD                    4     .db 0xAD ;    height y of entity
-   011F DE                    5     .db 0xDE ;    speed x of entity
-   0120 AD                    6     .db 0xAD ;    color of entity
-   0121 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   00C3                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00C3 00                    1     .db 0x00 ;    type of entity default
+   00C4                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00C4 DE                    1     .db 0xDE ;    position x of entity
+   00C5 AD                    2     .db 0xAD ;    position y of entity
+   00C6 DE                    3     .db 0xDE ;    width of entity
+   00C7 AD                    4     .db 0xAD ;    height y of entity
+   00C8 DE                    5     .db 0xDE ;    speed x of entity
+   00C9 AD                    6     .db 0xAD ;    color of entity
+   00CA CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   00CC                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00CC 00                    1     .db 0x00 ;    type of entity default
+   00CD                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00CD DE                    1     .db 0xDE ;    position x of entity
+   00CE AD                    2     .db 0xAD ;    position y of entity
+   00CF DE                    3     .db 0xDE ;    width of entity
+   00D0 AD                    4     .db 0xAD ;    height y of entity
+   00D1 DE                    5     .db 0xDE ;    speed x of entity
+   00D2 AD                    6     .db 0xAD ;    color of entity
+   00D3 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   00D5                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00D5 00                    1     .db 0x00 ;    type of entity default
+   00D6                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00D6 DE                    1     .db 0xDE ;    position x of entity
+   00D7 AD                    2     .db 0xAD ;    position y of entity
+   00D8 DE                    3     .db 0xDE ;    width of entity
+   00D9 AD                    4     .db 0xAD ;    height y of entity
+   00DA DE                    5     .db 0xDE ;    speed x of entity
+   00DB AD                    6     .db 0xAD ;    color of entity
+   00DC CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   00DE                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00DE 00                    1     .db 0x00 ;    type of entity default
+   00DF                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00DF DE                    1     .db 0xDE ;    position x of entity
+   00E0 AD                    2     .db 0xAD ;    position y of entity
+   00E1 DE                    3     .db 0xDE ;    width of entity
+   00E2 AD                    4     .db 0xAD ;    height y of entity
+   00E3 DE                    5     .db 0xDE ;    speed x of entity
+   00E4 AD                    6     .db 0xAD ;    color of entity
+   00E5 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   00E7                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00E7 00                    1     .db 0x00 ;    type of entity default
+   00E8                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00E8 DE                    1     .db 0xDE ;    position x of entity
+   00E9 AD                    2     .db 0xAD ;    position y of entity
+   00EA DE                    3     .db 0xDE ;    width of entity
+   00EB AD                    4     .db 0xAD ;    height y of entity
+   00EC DE                    5     .db 0xDE ;    speed x of entity
+   00ED AD                    6     .db 0xAD ;    color of entity
+   00EE CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   00F0                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00F0 00                    1     .db 0x00 ;    type of entity default
+   00F1                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00F1 DE                    1     .db 0xDE ;    position x of entity
+   00F2 AD                    2     .db 0xAD ;    position y of entity
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 93.
 Hexadecimal [16-Bits]
 
 
 
-   0123                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0123 FF                    1     .db 0xFF ;    type of entity default
-   0124                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0124 DE                    1     .db 0xDE ;    position x of entity
-   0125 AD                    2     .db 0xAD ;    position y of entity
-   0126 DE                    3     .db 0xDE ;    width of entity
-   0127 AD                    4     .db 0xAD ;    height y of entity
-   0128 DE                    5     .db 0xDE ;    speed x of entity
-   0129 AD                    6     .db 0xAD ;    color of entity
-   012A CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   012C                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   012C FF                    1     .db 0xFF ;    type of entity default
-   012D                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   012D DE                    1     .db 0xDE ;    position x of entity
-   012E AD                    2     .db 0xAD ;    position y of entity
-   012F DE                    3     .db 0xDE ;    width of entity
-   0130 AD                    4     .db 0xAD ;    height y of entity
-   0131 DE                    5     .db 0xDE ;    speed x of entity
-   0132 AD                    6     .db 0xAD ;    color of entity
-   0133 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0135                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0135 FF                    1     .db 0xFF ;    type of entity default
-   0136                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0136 DE                    1     .db 0xDE ;    position x of entity
-   0137 AD                    2     .db 0xAD ;    position y of entity
-   0138 DE                    3     .db 0xDE ;    width of entity
-   0139 AD                    4     .db 0xAD ;    height y of entity
-   013A DE                    5     .db 0xDE ;    speed x of entity
-   013B AD                    6     .db 0xAD ;    color of entity
-   013C CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   013E                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   013E FF                    1     .db 0xFF ;    type of entity default
-   013F                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   013F DE                    1     .db 0xDE ;    position x of entity
-   0140 AD                    2     .db 0xAD ;    position y of entity
-   0141 DE                    3     .db 0xDE ;    width of entity
-   0142 AD                    4     .db 0xAD ;    height y of entity
-   0143 DE                    5     .db 0xDE ;    speed x of entity
-   0144 AD                    6     .db 0xAD ;    color of entity
-   0145 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0147                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0147 FF                    1     .db 0xFF ;    type of entity default
-   0148                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0148 DE                    1     .db 0xDE ;    position x of entity
-   0149 AD                    2     .db 0xAD ;    position y of entity
-   014A DE                    3     .db 0xDE ;    width of entity
-   014B AD                    4     .db 0xAD ;    height y of entity
-   014C DE                    5     .db 0xDE ;    speed x of entity
-   014D AD                    6     .db 0xAD ;    color of entity
-   014E CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0150                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0150 FF                    1     .db 0xFF ;    type of entity default
-   0151                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0151 DE                    1     .db 0xDE ;    position x of entity
-   0152 AD                    2     .db 0xAD ;    position y of entity
+   00F3 DE                    3     .db 0xDE ;    width of entity
+   00F4 AD                    4     .db 0xAD ;    height y of entity
+   00F5 DE                    5     .db 0xDE ;    speed x of entity
+   00F6 AD                    6     .db 0xAD ;    color of entity
+   00F7 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   00F9                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00F9 00                    1     .db 0x00 ;    type of entity default
+   00FA                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   00FA DE                    1     .db 0xDE ;    position x of entity
+   00FB AD                    2     .db 0xAD ;    position y of entity
+   00FC DE                    3     .db 0xDE ;    width of entity
+   00FD AD                    4     .db 0xAD ;    height y of entity
+   00FE DE                    5     .db 0xDE ;    speed x of entity
+   00FF AD                    6     .db 0xAD ;    color of entity
+   0100 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0102                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0102 00                    1     .db 0x00 ;    type of entity default
+   0103                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0103 DE                    1     .db 0xDE ;    position x of entity
+   0104 AD                    2     .db 0xAD ;    position y of entity
+   0105 DE                    3     .db 0xDE ;    width of entity
+   0106 AD                    4     .db 0xAD ;    height y of entity
+   0107 DE                    5     .db 0xDE ;    speed x of entity
+   0108 AD                    6     .db 0xAD ;    color of entity
+   0109 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   010B                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   010B 00                    1     .db 0x00 ;    type of entity default
+   010C                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   010C DE                    1     .db 0xDE ;    position x of entity
+   010D AD                    2     .db 0xAD ;    position y of entity
+   010E DE                    3     .db 0xDE ;    width of entity
+   010F AD                    4     .db 0xAD ;    height y of entity
+   0110 DE                    5     .db 0xDE ;    speed x of entity
+   0111 AD                    6     .db 0xAD ;    color of entity
+   0112 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0114                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0114 00                    1     .db 0x00 ;    type of entity default
+   0115                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0115 DE                    1     .db 0xDE ;    position x of entity
+   0116 AD                    2     .db 0xAD ;    position y of entity
+   0117 DE                    3     .db 0xDE ;    width of entity
+   0118 AD                    4     .db 0xAD ;    height y of entity
+   0119 DE                    5     .db 0xDE ;    speed x of entity
+   011A AD                    6     .db 0xAD ;    color of entity
+   011B CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   011D                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   011D 00                    1     .db 0x00 ;    type of entity default
+   011E                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   011E DE                    1     .db 0xDE ;    position x of entity
+   011F AD                    2     .db 0xAD ;    position y of entity
+   0120 DE                    3     .db 0xDE ;    width of entity
+   0121 AD                    4     .db 0xAD ;    height y of entity
+   0122 DE                    5     .db 0xDE ;    speed x of entity
+   0123 AD                    6     .db 0xAD ;    color of entity
+   0124 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 94.
 Hexadecimal [16-Bits]
 
 
 
-   0153 DE                    3     .db 0xDE ;    width of entity
-   0154 AD                    4     .db 0xAD ;    height y of entity
-   0155 DE                    5     .db 0xDE ;    speed x of entity
-   0156 AD                    6     .db 0xAD ;    color of entity
-   0157 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0159                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0159 FF                    1     .db 0xFF ;    type of entity default
-   015A                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   015A DE                    1     .db 0xDE ;    position x of entity
-   015B AD                    2     .db 0xAD ;    position y of entity
-   015C DE                    3     .db 0xDE ;    width of entity
-   015D AD                    4     .db 0xAD ;    height y of entity
-   015E DE                    5     .db 0xDE ;    speed x of entity
-   015F AD                    6     .db 0xAD ;    color of entity
-   0160 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-   0162                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0162 FF                    1     .db 0xFF ;    type of entity default
-   0163                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-   0163 DE                    1     .db 0xDE ;    position x of entity
-   0164 AD                    2     .db 0xAD ;    position y of entity
-   0165 DE                    3     .db 0xDE ;    width of entity
-   0166 AD                    4     .db 0xAD ;    height y of entity
-   0167 DE                    5     .db 0xDE ;    speed x of entity
-   0168 AD                    6     .db 0xAD ;    color of entity
-   0169 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
-                             14 
-   016B                      15 E_M_init::
-   016B AF            [ 4]   16     xor a
-   016C 32 00 00      [13]   17     ld (_num_entities), a
-                             18 
-   016F 21 03 00      [10]   19     ld hl, #_entity_array
-   0172 22 01 00      [16]   20     ld (_last_elem_ptr), hl
-   0175 C9            [10]   21 ret
-                             22 
-                             23 
-   0176                      24 E_M_new::
-                             25 ;   Increment number of reserved entities
-   0176 21 00 00      [10]   26     ld hl, #_num_entities
-   0179 34            [11]   27     inc (hl)
-                             28 
-                             29 ;   Increment Array end pointer to point to the next
-                             30 ;   free element in the array
-   017A 2A 01 00      [16]   31     ld hl, (_last_elem_ptr)
-   017D 54            [ 4]   32     ld d, h
-   017E 5D            [ 4]   33     ld e, l
-   017F 01 09 00      [10]   34     ld bc, #sizeof_e
-   0182 09            [11]   35     add hl, bc
-   0183 22 01 00      [16]   36     ld (_last_elem_ptr), hl
-                             37 
-   0186 C9            [10]   38 ret
-                             39 
-                             40 ; INPUT
-                             41 ;   HL; pointer to entity initializer bytes
-   0187                      42 E_M_create::
-   0187 E5            [11]   43     push hl
+   0126                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0126 00                    1     .db 0x00 ;    type of entity default
+   0127                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0127 DE                    1     .db 0xDE ;    position x of entity
+   0128 AD                    2     .db 0xAD ;    position y of entity
+   0129 DE                    3     .db 0xDE ;    width of entity
+   012A AD                    4     .db 0xAD ;    height y of entity
+   012B DE                    5     .db 0xDE ;    speed x of entity
+   012C AD                    6     .db 0xAD ;    color of entity
+   012D CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   012F                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   012F 00                    1     .db 0x00 ;    type of entity default
+   0130                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0130 DE                    1     .db 0xDE ;    position x of entity
+   0131 AD                    2     .db 0xAD ;    position y of entity
+   0132 DE                    3     .db 0xDE ;    width of entity
+   0133 AD                    4     .db 0xAD ;    height y of entity
+   0134 DE                    5     .db 0xDE ;    speed x of entity
+   0135 AD                    6     .db 0xAD ;    color of entity
+   0136 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0138                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0138 00                    1     .db 0x00 ;    type of entity default
+   0139                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0139 DE                    1     .db 0xDE ;    position x of entity
+   013A AD                    2     .db 0xAD ;    position y of entity
+   013B DE                    3     .db 0xDE ;    width of entity
+   013C AD                    4     .db 0xAD ;    height y of entity
+   013D DE                    5     .db 0xDE ;    speed x of entity
+   013E AD                    6     .db 0xAD ;    color of entity
+   013F CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0141                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0141 00                    1     .db 0x00 ;    type of entity default
+   0142                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0142 DE                    1     .db 0xDE ;    position x of entity
+   0143 AD                    2     .db 0xAD ;    position y of entity
+   0144 DE                    3     .db 0xDE ;    width of entity
+   0145 AD                    4     .db 0xAD ;    height y of entity
+   0146 DE                    5     .db 0xDE ;    speed x of entity
+   0147 AD                    6     .db 0xAD ;    color of entity
+   0148 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   014A                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   014A 00                    1     .db 0x00 ;    type of entity default
+   014B                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   014B DE                    1     .db 0xDE ;    position x of entity
+   014C AD                    2     .db 0xAD ;    position y of entity
+   014D DE                    3     .db 0xDE ;    width of entity
+   014E AD                    4     .db 0xAD ;    height y of entity
+   014F DE                    5     .db 0xDE ;    speed x of entity
+   0150 AD                    6     .db 0xAD ;    color of entity
+   0151 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0153                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0153 00                    1     .db 0x00 ;    type of entity default
+   0154                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0154 DE                    1     .db 0xDE ;    position x of entity
+   0155 AD                    2     .db 0xAD ;    position y of entity
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 95.
 Hexadecimal [16-Bits]
 
 
 
+   0156 DE                    3     .db 0xDE ;    width of entity
+   0157 AD                    4     .db 0xAD ;    height y of entity
+   0158 DE                    5     .db 0xDE ;    speed x of entity
+   0159 AD                    6     .db 0xAD ;    color of entity
+   015A CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   015C                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   015C 00                    1     .db 0x00 ;    type of entity default
+   015D                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   015D DE                    1     .db 0xDE ;    position x of entity
+   015E AD                    2     .db 0xAD ;    position y of entity
+   015F DE                    3     .db 0xDE ;    width of entity
+   0160 AD                    4     .db 0xAD ;    height y of entity
+   0161 DE                    5     .db 0xDE ;    speed x of entity
+   0162 AD                    6     .db 0xAD ;    color of entity
+   0163 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   0165                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0165 00                    1     .db 0x00 ;    type of entity default
+   0166                       2     CommonDefine 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+   0166 DE                    1     .db 0xDE ;    position x of entity
+   0167 AD                    2     .db 0xAD ;    position y of entity
+   0168 DE                    3     .db 0xDE ;    width of entity
+   0169 AD                    4     .db 0xAD ;    height y of entity
+   016A DE                    5     .db 0xDE ;    speed x of entity
+   016B AD                    6     .db 0xAD ;    color of entity
+   016C CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+                             14 
+   016E                      15 E_M_init::
+   016E AF            [ 4]   16     xor a
+   016F 32 03 00      [13]   17     ld (_num_entities), a
+                             18 
+   0172 21 06 00      [10]   19     ld hl, #_entity_array
+   0175 22 04 00      [16]   20     ld (_last_elem_ptr), hl
+   0178 C9            [10]   21 ret
+                             22 
+                             23 
+   0179                      24 E_M_new::
+                             25 ;   Increment number of reserved entities
+   0179 21 03 00      [10]   26     ld hl, #_num_entities
+   017C 34            [11]   27     inc (hl)
+                             28 
+                             29 ;   Increment Array end pointer to point to the next
+                             30 ;   free element in the array
+   017D 2A 04 00      [16]   31     ld hl, (_last_elem_ptr)
+   0180 54            [ 4]   32     ld d, h
+   0181 5D            [ 4]   33     ld e, l
+   0182 01 09 00      [10]   34     ld bc, #sizeof_e
+   0185 09            [11]   35     add hl, bc
+   0186 22 04 00      [16]   36     ld (_last_elem_ptr), hl
+                             37 
+   0189 C9            [10]   38 ret
+                             39 
+                             40 ; INPUT
+                             41 ;   HL; pointer to entity initializer bytes
+   018A                      42 E_M_create::
+   018A E5            [11]   43     push hl
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
+Hexadecimal [16-Bits]
+
+
+
                              44     
-   0188 CD 76 01      [17]   45     call E_M_new
+   018B CD 79 01      [17]   45     call E_M_new
                              46 
-   018B                      47     ld__ixh_d
-   018B DD 62                 1    .dw #0x62DD  ;; Opcode for ld ixh, d
-   018D                      48     ld__ixl_e
-   018D DD 6B                 1    .dw #0x6BDD  ;; Opcode for ld ixl, e
+   018E                      47     ld__ixh_d
+   018E DD 62                 1    .dw #0x62DD  ;; Opcode for ld ixh, d
+   0190                      48     ld__ixl_e
+   0190 DD 6B                 1    .dw #0x6BDD  ;; Opcode for ld ixl, e
                              49 
                              50 
-   018F E1            [10]   51     pop hl
-   0190 ED B0         [21]   52     ldir
+   0192 E1            [10]   51     pop hl
+   0193 ED B0         [21]   52     ldir
                              53 
-   0192 C9            [10]   54 ret
+   0195 C9            [10]   54 ret
                              55 
-   0193                      56 E_M_getEntityArray::
-   0193 DD 21 03 00   [14]   57     ld ix, #_entity_array
-   0197 3A 00 00      [13]   58     ld a, (_num_entities)
-   019A C9            [10]   59 ret
+   0196                      56 E_M_getEntityArray::
+   0196 DD 21 06 00   [14]   57     ld ix, #_entity_array
+   019A 3A 03 00      [13]   58     ld a, (_num_entities)
+   019D C9            [10]   59 ret
                              60 
+                             61 
+                             62 
+                             63 ;
+                             64 ;Input: D type that we are looking for
+   019E                      65 E_M_for_all_matching::
+   019E 4F            [ 4]   66     ld c, a
+   019F 7A            [ 4]   67     ld a, d
+   01A0 51            [ 4]   68     ld d, c
+                             69 
+   01A1                      70 _renloop:
+   01A1 32 B1 01      [13]   71     ld (_ent_counter), a
+                             72     ;; erase previous istance
+                             73 
+   01A4 DD 7E 00      [19]   74     ld a, e_t(ix)
+   01A7 A2            [ 4]   75     and d
+   01A8 A2            [ 4]   76     and d
+   01A9 28 02         [12]   77     jr z, cumple
+   01AB 18 03         [12]   78     jr continua
+   01AD                      79     cumple:    
+   01AD CD 00 00      [17]   80         call physics_sys_for_one
+                             81         
+   01B0                      82     continua:
+                             83 
+                     01B1    84 _ent_counter = .+1
+   01B0 3E 00         [ 7]   85     ld  a, #0
+   01B2 3D            [ 4]   86     dec a
+   01B3 C8            [11]   87     ret z
+                             88 
+   01B4 32 B1 01      [13]   89     ld (_ent_counter), a
+   01B7 01 09 00      [10]   90     ld bc, #sizeof_e
+   01BA DD 09         [15]   91     add ix, bc
+   01BC 18 E3         [12]   92     jr _renloop

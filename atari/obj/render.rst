@@ -4504,64 +4504,64 @@ Hexadecimal [16-Bits]
                      C000     8 screen_start = 0xC000
                               9 
                              10 
-   421B                      11 rendersys_init::
+   423C                      11 rendersys_init::
                              12     ;ld  c, #0
                              13     ;call cpct_setVideoMode_asm
                              14     ;ld  hl, #_pal_main
                              15     ;ld  de, #16
                              16     ;call cpct_setPalette_asm
                              17     ;cpctm_setBorder_asm HW_WHITE
-   421B C9            [10]   18 ret
+   423C C9            [10]   18 ret
                              19 
                              20 
                              21 
-   421C                      22 rendersys_update::
-   421C CD 20 42      [17]   23     call render_entities
-   421F C9            [10]   24 ret
+   423D                      22 rendersys_update::
+   423D CD 41 42      [17]   23     call render_entities
+   4240 C9            [10]   24 ret
                              25 
                              26 
                              27 
-   4220                      28 render_entities::
-   4220                      29 _renloop:
+   4241                      28 render_entities::
+   4241                      29 _renloop:
                              30 
-   4220 32 53 42      [13]   31     ld (_ent_counter), a
+   4241 32 74 42      [13]   31     ld (_ent_counter), a
                              32     ;; erase previous istance
                              33 
-   4223 DD 5E 07      [19]   34     ld e, e_lastVP_l(ix)
-   4226 DD 56 08      [19]   35     ld d, e_lastVP_h(ix)
-   4229 AF            [ 4]   36     xor a
-   422A DD 4E 03      [19]   37     ld c, e_w(ix)
-   422D DD 46 04      [19]   38     ld b, e_h(ix)
-   4230 CD 9D 42      [17]   39     call cpct_drawSolidBox_asm
+   4244 DD 5E 07      [19]   34     ld e, e_lastVP_l(ix)
+   4247 DD 56 08      [19]   35     ld d, e_lastVP_h(ix)
+   424A AF            [ 4]   36     xor a
+   424B DD 4E 03      [19]   37     ld c, e_w(ix)
+   424E DD 46 04      [19]   38     ld b, e_h(ix)
+   4251 CD BE 42      [17]   39     call cpct_drawSolidBox_asm
                              40 
                              41     ;; calculate new VP
-   4233 11 00 C0      [10]   42     ld de, #screen_start
-   4236 DD 4E 01      [19]   43     ld c, e_x(ix)
-   4239 DD 46 02      [19]   44     ld b, e_y(ix)
-   423C CD 41 43      [17]   45     call cpct_getScreenPtr_asm
+   4254 11 00 C0      [10]   42     ld de, #screen_start
+   4257 DD 4E 01      [19]   43     ld c, e_x(ix)
+   425A DD 46 02      [19]   44     ld b, e_y(ix)
+   425D CD 62 43      [17]   45     call cpct_getScreenPtr_asm
                              46 
                              47     ; store VP as last
-   423F DD 75 07      [19]   48     ld e_lastVP_l(ix), l
-   4242 DD 74 08      [19]   49     ld e_lastVP_h(ix), h
+   4260 DD 75 07      [19]   48     ld e_lastVP_l(ix), l
+   4263 DD 74 08      [19]   49     ld e_lastVP_h(ix), h
                              50 
                              51 
-   4245 EB            [ 4]   52     ex  de, hl
-   4246 DD 7E 06      [19]   53     ld a, e_c(ix)  ;; Color
-   4249 DD 4E 03      [19]   54     ld c, e_w(ix) ;; width
-   424C DD 46 04      [19]   55     ld b, e_h(ix) ;; height
-   424F CD 9D 42      [17]   56     call cpct_drawSolidBox_asm
+   4266 EB            [ 4]   52     ex  de, hl
+   4267 DD 7E 06      [19]   53     ld a, e_c(ix)  ;; Color
+   426A DD 4E 03      [19]   54     ld c, e_w(ix) ;; width
+   426D DD 46 04      [19]   55     ld b, e_h(ix) ;; height
+   4270 CD BE 42      [17]   56     call cpct_drawSolidBox_asm
                              57 
                      0038    58 _ent_counter = .+1
-   4252 3E 00         [ 7]   59     ld  a, #0
-   4254 3D            [ 4]   60     dec a
-   4255 C8            [11]   61     ret z
+   4273 3E 00         [ 7]   59     ld  a, #0
+   4275 3D            [ 4]   60     dec a
+   4276 C8            [11]   61     ret z
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 88.
 Hexadecimal [16-Bits]
 
 
 
                              62 
-   4256 32 53 42      [13]   63     ld (_ent_counter), a
-   4259 01 09 00      [10]   64     ld bc, #sizeof_e
-   425C DD 09         [15]   65     add ix, bc
-   425E 18 C0         [12]   66     jr _renloop
+   4277 32 74 42      [13]   63     ld (_ent_counter), a
+   427A 01 09 00      [10]   64     ld bc, #sizeof_e
+   427D DD 09         [15]   65     add ix, bc
+   427F 18 C0         [12]   66     jr _renloop

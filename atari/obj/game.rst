@@ -4520,51 +4520,51 @@ Hexadecimal [16-Bits]
                               8 
                               9 
                              10 
-   419B                      11 DefineEnemyEntity enemy, 20, 20 , 4, 8, -1, 0xFF
+   41C1                      11 DefineEnemyEntity enemy, 20, 20 , 4, 8, -1, 0xFF
    0000                       1 enemy::
-   419B 01                    2     .db 0x01 ;    type of entity is enemy
+   41C1 01                    2     .db 0x01 ;    type of entity is enemy
    0001                       3     CommonDefine 20, 20, 4, 8, -1, 0xFF
-   419C 14                    1     .db 20 ;    position x of entity
-   419D 14                    2     .db 20 ;    position y of entity
-   419E 04                    3     .db 4 ;    width of entity
-   419F 08                    4     .db 8 ;    height y of entity
-   41A0 FF                    5     .db -1 ;    speed x of entity
-   41A1 FF                    6     .db 0xFF ;    color of entity
-   41A2 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   41C2 14                    1     .db 20 ;    position x of entity
+   41C3 14                    2     .db 20 ;    position y of entity
+   41C4 04                    3     .db 4 ;    width of entity
+   41C5 08                    4     .db 8 ;    height y of entity
+   41C6 FF                    5     .db -1 ;    speed x of entity
+   41C7 FF                    6     .db 0xFF ;    color of entity
+   41C8 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
                              12 
-   41A4                      13 DefinePlayerEntity player, 20, 180 , 2, 8, -1, 0x0F
+   41CA                      13 DefinePlayerEntity player, 20, 180 , 2, 8, -1, 0x0F
    0009                       1 player::
-   41A4 02                    2     .db 0x02 ;    type of entity is enemy
+   41CA 02                    2     .db 0x02 ;    type of entity is enemy
    000A                       3     CommonDefine 20, 180, 2, 8, -1, 0x0F
-   41A5 14                    1     .db 20 ;    position x of entity
-   41A6 B4                    2     .db 180 ;    position y of entity
-   41A7 02                    3     .db 2 ;    width of entity
-   41A8 08                    4     .db 8 ;    height y of entity
-   41A9 FF                    5     .db -1 ;    speed x of entity
-   41AA 0F                    6     .db 0x0F ;    color of entity
-   41AB CC CC                 7     .dw 0xCCCC; last video memory value to delate later
+   41CB 14                    1     .db 20 ;    position x of entity
+   41CC B4                    2     .db 180 ;    position y of entity
+   41CD 02                    3     .db 2 ;    width of entity
+   41CE 08                    4     .db 8 ;    height y of entity
+   41CF FF                    5     .db -1 ;    speed x of entity
+   41D0 0F                    6     .db 0x0F ;    color of entity
+   41D1 CC CC                 7     .dw 0xCCCC; last video memory value to delate later
                              14 
                              15 
-   41AD                      16 man_game_init::
-   41AD CD 6B 41      [17]   17     call E_M_init
+   41D3                      16 man_game_init::
+   41D3 CD 71 41      [17]   17     call E_M_init
                              18 
-   41B0 CD 1B 42      [17]   19     call rendersys_init
-   41B3 CD ED 41      [17]   20     call physics_sys_init
+   41D6 CD 3C 42      [17]   19     call rendersys_init
+   41D9 CD 16 42      [17]   20     call physics_sys_init
                              21 
-   41B6 21 A4 41      [10]   22     ld hl, #player
-   41B9 CD C3 41      [17]   23     call man_game_entity_creator
-   41BC 21 9B 41      [10]   24     ld hl, #enemy
-   41BF CD C3 41      [17]   25     call man_game_entity_creator
+   41DC 21 CA 41      [10]   22     ld hl, #player
+   41DF CD E9 41      [17]   23     call man_game_entity_creator
+   41E2 21 C1 41      [10]   24     ld hl, #enemy
+   41E5 CD E9 41      [17]   25     call man_game_entity_creator
                              26 
                              27 
                              28 
-   41C2 C9            [10]   29 ret
+   41E8 C9            [10]   29 ret
                              30 
                              31 ;;INPUT:HL: Puntero al tipo de entidad que se quiera crear
                              32 
-   41C3                      33 man_game_entity_creator::
-   41C3 CD 87 41      [17]   34     call E_M_create
-   41C6 C9            [10]   35 ret
+   41E9                      33 man_game_entity_creator::
+   41E9 CD 8D 41      [17]   34     call E_M_create
+   41EC C9            [10]   35 ret
                              36 
                              37 
                              38 
@@ -4577,16 +4577,16 @@ Hexadecimal [16-Bits]
 
                              41 
                              42 
-   41C7                      43 man_game_update::
+   41ED                      43 man_game_update::
                              44  
                              45    ;; Init system
-   41C7 CD 93 41      [17]   46     call E_M_getEntityArray
-   41CA CD EE 41      [17]   47    call physics_sys_update
-   41CD C9            [10]   48    ret
+   41ED CD 99 41      [17]   46     call E_M_getEntityArray
+   41F0 CD 17 42      [17]   47    call physics_sys_update
+   41F3 C9            [10]   48    ret
                              49 
                              50 
                              51 
-   41CE                      52 man_game_render::
-   41CE CD 93 41      [17]   53     call E_M_getEntityArray
-   41D1 CD 1C 42      [17]   54     call rendersys_update
-   41D4 C9            [10]   55 ret
+   41F4                      52 man_game_render::
+   41F4 CD 99 41      [17]   53     call E_M_getEntityArray
+   41F7 CD 3D 42      [17]   54     call rendersys_update
+   41FA C9            [10]   55 ret

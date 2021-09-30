@@ -4510,26 +4510,26 @@ Hexadecimal [16-Bits]
                              10 
                              11 
                              12 
-   41D5                      13 _main::
-   41D5 CD 68 42      [17]   14    call cpct_disableFirmware_asm
-   41D8 CD AD 41      [17]   15    call man_game_init
+   41FB                      13 _main::
+   41FB CD 89 42      [17]   14    call cpct_disableFirmware_asm
+   41FE CD D3 41      [17]   15    call man_game_init
                              16 
-   41DB                      17 loop:
+   4201                      17 loop:
                              18 ;   call esperar
-   41DB CD C7 41      [17]   19    call man_game_update
+   4201 CD ED 41      [17]   19    call man_game_update
                              20 
-   41DE CD 60 42      [17]   21    call cpct_waitVSYNC_asm
-   41E1 CD CE 41      [17]   22    call man_game_render
+   4204 CD 81 42      [17]   21    call cpct_waitVSYNC_asm
+   4207 CD F4 41      [17]   22    call man_game_render
                              23 
-   41E4 18 F5         [12]   24    jr    loop
+   420A 18 F5         [12]   24    jr    loop
                              25 
                              26 
-   41E6                      27 esperar::
+   420C                      27 esperar::
                              28 
-   41E6 1E FF         [ 7]   29    ld e, #0xFF
-   41E8                      30    espera:
-   41E8 76            [ 4]   31       halt
-   41E9 1D            [ 4]   32       dec e
-   41EA 20 FC         [12]   33    jr nz, espera   
+   420C 1E FF         [ 7]   29    ld e, #0xFF
+   420E                      30    espera:
+   420E 76            [ 4]   31       halt
+   420F 1D            [ 4]   32       dec e
+   4210 20 FC         [12]   33    jr nz, espera   
                              34 
-   41EC C9            [10]   35 ret
+   4212 C9            [10]   35 ret

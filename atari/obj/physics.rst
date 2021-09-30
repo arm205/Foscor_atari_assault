@@ -13,60 +13,73 @@ Hexadecimal [16-Bits]
                               7 .globl E_M_getEntityArray
                               8 .globl E_M_init
                               9 .globl E_M_new
-                             10 
+                             10 .globl E_M_for_all_matching
                              11 
                              12 
-                             13 ; ENTITY DEFINITION MACRO
-                             14 .macro CommonDefine _x, _y, _w, _h, _vx, _c
-                             15     .db _x ;    position x of entity
-                             16     .db _y ;    position y of entity
-                             17     .db _w ;    width of entity
-                             18     .db _h ;    height y of entity
-                             19     .db _vx ;    speed x of entity
-                             20     .db _c ;    color of entity
-                             21     .dw 0xCCCC; last video memory value to delate later
-                             22 .endm
-                             23 
-                             24 .macro DefineDefaultEntity _x, _y, _w, _h, _vx, _c
-                             25     .db 0xFF ;    type of entity default
-                             26     CommonDefine _x, _y, _w, _h, _vx, _c
-                             27 .endm
-                             28 
-                             29 .macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _c
-                             30 _name::
-                             31     .db 0x01 ;    type of entity is enemy
-                             32     CommonDefine _x, _y, _w, _h, _vx, _c
-                             33 .endm
-                             34 
-                             35 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _c
-                             36 _name::
-                             37     .db 0x02 ;    type of entity is enemy
-                             38     CommonDefine _x, _y, _w, _h, _vx, _c
-                             39 .endm
-                             40 
-                             41 
-                     0000    42 e_t = 0
-                     0001    43 e_x = 1
-                     0002    44 e_y = 2
-                     0003    45 e_w = 3
-                     0004    46 e_h = 4
-                     0005    47 e_vx = 5
-                     0006    48 e_c = 6
-                     0007    49 e_lastVP_l = 7
-                     0008    50 e_lastVP_h = 8
-                     0009    51 sizeof_e = 9
-                             52 
-                             53 .macro DefineEntityArray _name, _N
-                             54 _name::
+                             13 
+                             14 ; ENTITY DEFINITION MACRO
+                             15 .macro CommonDefine _x, _y, _w, _h, _vx, _c
+                             16     .db _x ;    position x of entity
+                             17     .db _y ;    position y of entity
+                             18     .db _w ;    width of entity
+                             19     .db _h ;    height y of entity
+                             20     .db _vx ;    speed x of entity
+                             21     .db _c ;    color of entity
+                             22     .dw 0xCCCC; last video memory value to delate later
+                             23 .endm
+                             24 
+                             25 
+                             26 .macro DefineDefaultEntity _x, _y, _w, _h, _vx, _c
+                             27     .db 0x00 ;    type of entity default
+                             28     CommonDefine _x, _y, _w, _h, _vx, _c
+                             29 .endm
+                             30 
+                             31 .macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _c
+                             32 _name::
+                             33     .db 0x03 ;    type of entity is enemy
+                             34     CommonDefine _x, _y, _w, _h, _vx, _c
+                             35 .endm
+                             36 
+                             37 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _c
+                             38 _name::
+                             39     .db 0x05 ;    type of entity is player
+                             40     CommonDefine _x, _y, _w, _h, _vx, _c
+                             41 .endm
+                             42 
+                             43 
+                     0000    44 e_t = 0
+                     0001    45 e_x = 1
+                     0002    46 e_y = 2
+                     0003    47 e_w = 3
+                     0004    48 e_h = 4
+                     0005    49 e_vx = 5
+                     0006    50 e_c = 6
+                     0007    51 e_lastVP_l = 7
+                     0008    52 e_lastVP_h = 8
+                     0009    53 sizeof_e = 9
+                             54 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-                             55     .rept _N
-                             56         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-                             57     .endm
-                             58 .endm
+                             55 .macro DefineEntityArray _name, _N
+                             56 _name::
+                             57     .rept _N
+                             58         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+                             59     .endm
+                             60 .endm
+                             61 
+                             62 
+                             63 
+                             64 
+                             65 ;;; Usando los bits  para definir signatures luego
+                             66 ;; 00000001 para lo que sea para renderizar
+   4213 01                   67 t_render: .db 0x01
+                             68 ;; 00000010 para las entidades que usen IA
+   4214 02                   69 t_ia: .db 0x02
+                             70 ;; 00000100 para las entidades con input (player)
+   4215 04                   71 t_input: .db 0x04
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
@@ -4486,44 +4499,41 @@ Hexadecimal [16-Bits]
                      0050     8 screen_width = 80
                      00C8     9 screen_height = 200
                              10 
-   41ED                      11 physics_sys_init::
-   41ED C9            [10]   12 ret
+   4216                      11 physics_sys_init::
+   4216 C9            [10]   12 ret
                              13 
-                             14 ;
-                             15 ;Entrada: IX puntero al inicio del array, A numero de entidades creadas en array
-                             16 
-                             17 
-                             18 ;
-                             19 ;Modifica: CD, IX, DE
-   41EE                      20 physics_sys_update::
-   41EE                      21 _renloop:
-   41EE 32 0E 42      [13]   22     ld (_ent_counter), a
-                             23     ;; erase previous istance
-   41F1                      24 recorre:
-   41F1 3E 50         [ 7]   25     ld a, #screen_width
-   41F3 DD 96 03      [19]   26     sub e_w(ix)
-   41F6 4F            [ 4]   27     ld  c, a
-                             28 
-   41F7 DD 7E 01      [19]   29     ld a, e_x(ix)
-   41FA DD 86 05      [19]   30     add e_vx(ix)
-   41FD B9            [ 4]   31     cp  c
-   41FE 30 05         [12]   32     jr nc, invalid_x
-                             33 
-   4200                      34     id_x:
-   4200 DD 77 01      [19]   35         ld e_x(ix), a
-   4203 18 08         [12]   36         jr  endif_x
-   4205                      37     invalid_x:
-   4205 DD 7E 05      [19]   38         ld  a, e_vx(ix)
-   4208 ED 44         [ 8]   39         neg
-   420A DD 77 05      [19]   40         ld  e_vx(ix), a
-   420D                      41 endif_x:
-                             42 
-                     0021    43 _ent_counter = .+1
-   420D 3E 00         [ 7]   44     ld  a, #0
-   420F 3D            [ 4]   45     dec a
-   4210 C8            [11]   46     ret z
+   4217                      14 physics_sys_update::
+   4217 57            [ 4]   15     ld d, a
+   4218 3A 14 42      [13]   16     ld a, (t_ia)
+   421B CD A1 41      [17]   17     call E_M_for_all_matching
+   421E C9            [10]   18 ret
+                             19 
+                             20 
+                             21 ;
+                             22 ;Entrada: IX puntero al inicio del array, A numero de entidades creadas en array
+                             23 
+                             24 
+                             25 ;
+                             26 ;Modifica: CD, A
+   421F                      27 physics_sys_for_one::
+   421F                      28 recorre:
+   421F 3E 50         [ 7]   29     ld a, #screen_width
+   4221 DD 96 03      [19]   30     sub e_w(ix)
+   4224 4F            [ 4]   31     ld  c, a
+                             32 
+   4225 DD 7E 01      [19]   33     ld a, e_x(ix)
+   4228 DD 86 05      [19]   34     add e_vx(ix)
+   422B B9            [ 4]   35     cp  c
+   422C 30 05         [12]   36     jr nc, invalid_x
+                             37 
+   422E                      38     id_x:
+   422E DD 77 01      [19]   39         ld e_x(ix), a
+   4231 18 08         [12]   40         jr  endif_x
+   4233                      41     invalid_x:
+   4233 DD 7E 05      [19]   42         ld  a, e_vx(ix)
+   4236 ED 44         [ 8]   43         neg
+   4238 DD 77 05      [19]   44         ld  e_vx(ix), a
+   423B                      45 endif_x:
+                             46 
                              47 
-   4211 32 0E 42      [13]   48     ld (_ent_counter), a
-   4214 01 09 00      [10]   49     ld bc, #sizeof_e
-   4217 DD 09         [15]   50     add ix, bc
-   4219 18 D3         [12]   51     jr _renloop
+   423B C9            [10]   48 ret

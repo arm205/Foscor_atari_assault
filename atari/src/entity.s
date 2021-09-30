@@ -58,3 +58,35 @@ E_M_getEntityArray::
     ld a, (_num_entities)
 ret
 
+
+
+;
+;Input: D type that we are looking for
+E_M_for_all_matching::
+    ld c, a
+    ld a, d
+    ld d, c
+
+_renloop:
+    ld (_ent_counter), a
+    ;; erase previous istance
+; para mover todo lo que tenga a 1 el bit de ia
+    ld a, e_t(ix)
+    and d
+    and d
+    jr z, cumple
+    jr continua
+    cumple:    
+        call physics_sys_for_one
+        
+    continua:
+
+_ent_counter = .+1
+    ld  a, #0
+    dec a
+    ret z
+
+    ld (_ent_counter), a
+    ld bc, #sizeof_e
+    add ix, bc
+    jr _renloop

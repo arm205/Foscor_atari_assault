@@ -7,6 +7,7 @@
 .globl E_M_getEntityArray
 .globl E_M_init
 .globl E_M_new
+.globl E_M_for_all_matching
 
 
 
@@ -21,20 +22,21 @@
     .dw 0xCCCC; last video memory value to delate later
 .endm
 
+
 .macro DefineDefaultEntity _x, _y, _w, _h, _vx, _c
-    .db 0xF0 ;    type of entity default
+    .db 0x00 ;    type of entity default
     CommonDefine _x, _y, _w, _h, _vx, _c
 .endm
 
 .macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _c
 _name::
-    .db 0x01 ;    type of entity is enemy
+    .db 0x03 ;    type of entity is enemy
     CommonDefine _x, _y, _w, _h, _vx, _c
 .endm
 
 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _c
 _name::
-    .db 0x02 ;    type of entity is player
+    .db 0x05 ;    type of entity is player
     CommonDefine _x, _y, _w, _h, _vx, _c
 .endm
 
@@ -56,3 +58,14 @@ _name::
         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
     .endm
 .endm
+
+
+
+
+;;; Usando los bits  para definir signatures luego
+;; 00000001 para lo que sea para renderizar
+t_render: .db 0x01
+;; 00000010 para las entidades que usen IA
+t_ia: .db 0x02
+;; 00000100 para las entidades con input (player)
+t_input: .db 0x04

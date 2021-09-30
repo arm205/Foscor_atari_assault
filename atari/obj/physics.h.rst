@@ -9,3 +9,4 @@ Hexadecimal [16-Bits]
                               4 
                               5 .globl physics_sys_init
                               6 .globl physics_sys_update
+                              7 .globl physics_sys_for_one

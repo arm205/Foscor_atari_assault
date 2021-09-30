@@ -4,16 +4,18 @@ Hexadecimal [16-Bits]
 Symbol Table
 
     .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
-    .__.H$L.=  0000 L   |     E_M_crea   **** GX  |     E_M_getE   **** GX
-    E_M_init   **** GX  |     E_M_new    **** GX  |     e_c     =  0006 
-    e_h     =  0004     |     e_lastVP=  0008     |     e_lastVP=  0007 
-    e_t     =  0000     |     e_vx    =  0005     |     e_w     =  0003 
-    e_x     =  0001     |     e_y     =  0002     |     sizeof_e=  0009 
+    .__.H$L.=  0000 L   |     E_M_crea   **** GX  |     E_M_for_   **** GX
+    E_M_getE   **** GX  |     E_M_init   **** GX  |     E_M_new    **** GX
+    e_c     =  0006     |     e_h     =  0004     |     e_lastVP=  0008 
+    e_lastVP=  0007     |     e_t     =  0000     |     e_vx    =  0005 
+    e_w     =  0003     |     e_x     =  0001     |     e_y     =  0002 
+    sizeof_e=  0009     |   0 t_ia       0001 R   |   0 t_input    0002 R
+  0 t_render   0000 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size    0   flags    0
+   0 _CODE      size    3   flags    0
 
