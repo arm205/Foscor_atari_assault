@@ -12,7 +12,7 @@
 
 
 ; ENTITY DEFINITION MACRO
-.macro CommonDefine _x, _y, _w, _h, _vx, _vy, _c
+.macro CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
     .db _x ;    position x of entity
     .db _y ;    position y of entity
     .db _w ;    width of entity
@@ -20,31 +20,49 @@
     .db _vx ;    speed x of entity
     .db _vy ;    speed x of entity
     .db _c ;    color of entity
+    .db _b;     byte that we use for setting a special behavior to an entity (asi podemos tener dos cosas del mismo tipo que se comporten distinto)
+    .db _dest_c;     Counter of frames for de entity to be destructed
     .dw 0xCCCC; last video memory value to delate later
 .endm
 
 
-.macro DefineDefaultEntity _x, _y, _w, _h, _vx, _vy, _c
+.macro DefineDefaultEntity _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
     .db 0x00 ;    type of entity default
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
 
-.macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _vy, _c
+
+.macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 _name::
     t_enemy:: .db 0x03 ;    type of entity is enemy
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
 
-.macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c
+.macro DefineEnemy2Entity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+_name::
+    .db 0x03 ;    type of entity is enemy
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+.endm
+
+
+.macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 _name::
     t_player:: .db 0x05 ;    type of entity is player
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
 
-.macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c
+
+.macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 _name::
     t_caja:: .db 0x09 ;    type of entity is breakable box
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+.endm
+
+
+.macro DefineBalaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+_name::
+    t_bala:: .db 0x01 ;    type of entity is bullet
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
 
 
@@ -56,14 +74,16 @@ e_h = 4
 e_vx = 5
 e_vy = 6
 e_c = 7
-e_lastVP_l = 8
-e_lastVP_h = 9
-sizeof_e = 10
+e_be = 8
+e_count = 9
+e_lastVP_l = 10
+e_lastVP_h = 11
+sizeof_e = 12
 
 .macro DefineEntityArray _name, _N
 _name::
     .rept _N
-        DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xAA
+        DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xAA
     .endm
 .endm
 
@@ -77,6 +97,7 @@ t_render: .db 0x01
 t_ia: .db 0x02
 ;; 00000100 para las entidades con input (player)
 t_input: .db 0x04
+
 
 
 

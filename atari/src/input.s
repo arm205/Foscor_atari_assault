@@ -1,6 +1,7 @@
 .include "cpct_func.h.s"
 .include "entity.h.s"
 .include "cpctelera.h.s"
+.include "game.h.s"
 
 input_init::
 ret
@@ -46,5 +47,14 @@ Q_NotPressed:
 A_Pressed:
     ld e_vy(ix), #4
 A_NotPressed:
+
+
+    ld hl, #Key_Space
+    call cpct_isKeyPressed_asm
+    jr z, Space_NotPressed
+Space_Pressed:
+    call man_game_create_bala
+Space_NotPressed:
+
 
 ret
