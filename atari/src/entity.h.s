@@ -31,13 +31,19 @@
 
 .macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _vy, _c
 _name::
-    .db 0x03 ;    type of entity is enemy
+    t_enemy:: .db 0x03 ;    type of entity is enemy
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c
 .endm
 
 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c
 _name::
-    .db 0x05 ;    type of entity is player
+    t_player:: .db 0x05 ;    type of entity is player
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c
+.endm
+
+.macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c
+_name::
+    t_caja:: .db 0x09 ;    type of entity is breakable box
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c
 .endm
 
@@ -71,3 +77,8 @@ t_render: .db 0x01
 t_ia: .db 0x02
 ;; 00000100 para las entidades con input (player)
 t_input: .db 0x04
+
+
+
+
+

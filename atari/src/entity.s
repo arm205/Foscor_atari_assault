@@ -6,8 +6,9 @@
 .include "entity.h.s"
 .include "physics.h.s"
 .include "input.h.s"
+.include "ia.h.s"
 
-max_entities == 2
+max_entities == 20
 
 _num_entities:: .db 0
 _last_elem_ptr:: .dw _entity_array
@@ -75,21 +76,21 @@ _renloop:
     ;; erase previous istance
 ; para mover todo lo que tenga a 1 el bit de ia
     ld a, e_t(ix)
-    and d
-    and d
-    jr nz, cumple
+    xor d
+    jr z, cumple
     jr continua
     cumple:    
-        ld a, (t_ia)
+        ld a, (t_enemy)
         xor d
-        jr z, fisicas
-        jr no_fis
-        fisicas:
-         call physics_sys_for_one
-         jr continua
+        jr z, con_ia
+        jr no_ia
+        con_ia:
+            call ia_update_one_entity
+            call physics_sys_for_one
+            jr continua
 
-        no_fis:
-            ld a, (t_input)
+        no_ia:
+            ld a, (t_player)
             xor d
             jr z, control
             jr continua

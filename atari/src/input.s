@@ -8,7 +8,7 @@ ret
 
 input_update::
     ld d, a
-    ld a, (t_input)
+    ld a, (t_player)
     call E_M_for_all_matching
 ret
 

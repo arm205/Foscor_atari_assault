@@ -4,6 +4,7 @@
 .include "render.h.s"
 .include "physics.h.s"
 .include "input.h.s"
+.include "ia.h.s"
 
 
 
@@ -12,6 +13,8 @@
 DefineEnemyEntity enemy, 20, 20 , 4, 8, -1, 0, 0xFF
 
 DefinePlayerEntity player, 20, 180 , 2, 8, -1, 0, 0x0F
+
+DefineCajaEntity caja, 40, 100 , 2, 8, 0, 0, 0xF0
 
 
 man_game_init::
@@ -24,6 +27,8 @@ man_game_init::
     ld hl, #player
     call man_game_entity_creator
     ld hl, #enemy
+    call man_game_entity_creator
+    ld hl, #caja
     call man_game_entity_creator
 
 
@@ -49,6 +54,8 @@ man_game_update::
    call physics_sys_update
     call E_M_getEntityArray
    call input_update
+    call E_M_getEntityArray
+   call ia_update
    ret
 
 

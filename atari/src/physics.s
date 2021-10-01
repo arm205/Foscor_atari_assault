@@ -12,9 +12,6 @@ physics_sys_init::
 ret
 
 physics_sys_update::
-    ld d, a
-    ld a, (t_ia)
-    call E_M_for_all_matching
 ret
 
 
@@ -38,9 +35,6 @@ physics_sys_for_one::
         ld e_x(ix), a
         jr  endif_x
     invalid_x:
-        ld  a, e_vx(ix)
-        neg
-        ld  e_vx(ix), a
 endif_x:
 
     ld a, #screen_height
