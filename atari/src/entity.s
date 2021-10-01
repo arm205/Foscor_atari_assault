@@ -95,7 +95,10 @@ _renloop:
             jr continua
                 control:
                 push de
+;; Con esto modifico la velocidad del player dependiendo de la tecla pulsada
                 call input_update_one
+;; Lo de antes solo cambia la velocidad, esto es para añadirsela a la posicion
+                call physics_sys_for_one
                 pop de
                 jr continua
             

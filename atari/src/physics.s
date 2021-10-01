@@ -25,7 +25,6 @@ ret
 ;
 ;Modifica: CD, A
 physics_sys_for_one::
-recorre:
     ld a, #screen_width
     sub e_w(ix)
     ld  c, a
@@ -43,6 +42,25 @@ recorre:
         neg
         ld  e_vx(ix), a
 endif_x:
+
+    ld a, #screen_height
+    sub e_h(ix)
+    ld  c, a
+
+    ld a, e_y(ix)
+    add e_vy(ix)
+    cp  c
+    jr nc, invalid_y
+
+    id_y:
+        ld e_y(ix), a
+        jr  endif_y
+    invalid_y:
+        ld  a, e_vy(ix)
+        neg
+        ld  e_vy(ix), a
+endif_y:
+
 
 
 ret

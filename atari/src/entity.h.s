@@ -12,32 +12,33 @@
 
 
 ; ENTITY DEFINITION MACRO
-.macro CommonDefine _x, _y, _w, _h, _vx, _c
+.macro CommonDefine _x, _y, _w, _h, _vx, _vy, _c
     .db _x ;    position x of entity
     .db _y ;    position y of entity
     .db _w ;    width of entity
     .db _h ;    height y of entity
     .db _vx ;    speed x of entity
+    .db _vy ;    speed x of entity
     .db _c ;    color of entity
     .dw 0xCCCC; last video memory value to delate later
 .endm
 
 
-.macro DefineDefaultEntity _x, _y, _w, _h, _vx, _c
+.macro DefineDefaultEntity _x, _y, _w, _h, _vx, _vy, _c
     .db 0x00 ;    type of entity default
-    CommonDefine _x, _y, _w, _h, _vx, _c
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c
 .endm
 
-.macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _c
+.macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _vy, _c
 _name::
     .db 0x03 ;    type of entity is enemy
-    CommonDefine _x, _y, _w, _h, _vx, _c
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c
 .endm
 
-.macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _c
+.macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c
 _name::
     .db 0x05 ;    type of entity is player
-    CommonDefine _x, _y, _w, _h, _vx, _c
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c
 .endm
 
 
@@ -47,15 +48,16 @@ e_y = 2
 e_w = 3
 e_h = 4
 e_vx = 5
-e_c = 6
-e_lastVP_l = 7
-e_lastVP_h = 8
-sizeof_e = 9
+e_vy = 6
+e_c = 7
+e_lastVP_l = 8
+e_lastVP_h = 9
+sizeof_e = 10
 
 .macro DefineEntityArray _name, _N
 _name::
     .rept _N
-        DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+        DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xAA
     .endm
 .endm
 

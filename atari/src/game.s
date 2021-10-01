@@ -9,9 +9,9 @@
 
 
 
-DefineEnemyEntity enemy, 20, 20 , 4, 8, -1, 0xFF
+DefineEnemyEntity enemy, 20, 20 , 4, 8, -1, 0, 0xFF
 
-DefinePlayerEntity player, 20, 180 , 2, 8, -1, 0x0F
+DefinePlayerEntity player, 20, 180 , 2, 8, -1, 0, 0x0F
 
 
 man_game_init::
