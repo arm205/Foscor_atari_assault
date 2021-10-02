@@ -98,6 +98,8 @@ t_ia: .db 0x02
 ;; 00000100 para las entidades con input (player)
 t_input: .db 0x04
 
+t_invalid: .db 0x80
+
 
 
 

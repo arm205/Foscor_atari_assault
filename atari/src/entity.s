@@ -73,6 +73,15 @@ E_M_for_all_matching::
 
 _renloop:
     ld (_ent_counter), a
+
+    ld a, e_t(ix)
+    ld c, a
+    ld a, e
+    ld e, c
+    ld a, (t_invalid)
+    and e
+    jr nz, invalid_entity
+
     ;; erase previous istance
 ; para mover todo lo que tenga a 1 el bit de ia
     ld a, e_t(ix)
@@ -110,7 +119,11 @@ _ent_counter = .+1
     dec a
     ret z
 
+
+
     ld (_ent_counter), a
+
+    invalid_entity:
     ld bc, #sizeof_e
     add ix, bc
     jr _renloop

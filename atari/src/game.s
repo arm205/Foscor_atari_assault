@@ -75,6 +75,7 @@ crear:
     call man_game_entity_creator
     ld a, (player_shot)
     add #1
+    ld (player_shot), a
 ret
 
 
