@@ -18,7 +18,7 @@ DefinePlayerEntity player, 20, 180, 2, 8, -1, 0, 0x0F, 0, 0
 
 DefineCajaEntity caja, 40, 100, 2, 8, 0, 0, 0xF0, 0, 0
 
-DefineBalaEntity bala, 30, 100, 1, 1, 0, 0, 0xF0, 0, 0
+DefineBalaEntity bala, 30, 100, 1, 1, 0, 0, 0xF0, 0, 3
 
 player_shot: .db 0;
 
@@ -65,7 +65,7 @@ crear:
     add e_w(ix)
     ld (hl), a
 ; me voy al valor de y y se lo copio
-    add hl, de
+    inc hl
     ld a, e_y(ix)
     add #4
     ld (hl), a

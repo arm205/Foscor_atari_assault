@@ -28,57 +28,64 @@
 
 .macro DefineDefaultEntity _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
     .db 0x00 ;    type of entity default
+    .db 0x00 ;      components of entity default
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
 
 
 .macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 _name::
-    t_enemy:: .db 0x03 ;    type of entity is enemy
+    t_enemy:: .db 0x02 ;    type of entity is enemy
+    cmp_enemy:: .db 0x0B   ;components that enemy has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
 
 .macro DefineEnemy2Entity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 _name::
-    .db 0x03 ;    type of entity is enemy
+    .db 0x02 ;    type of entity is enemy
+    .db 0x0B    ;components that enemy has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
 
 
 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 _name::
-    t_player:: .db 0x05 ;    type of entity is player
+    t_player:: .db  0x01;    type of entity is player
+    cmp_player:: .db 0x0D   ;components that player has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
 
 
 .macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 _name::
-    t_caja:: .db 0x09 ;    type of entity is breakable box
+    t_caja:: .db 0x03 ;    type of entity is breakable box
+    cmp_caja:: .db 0x09   ;components that box has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
 
 
 .macro DefineBalaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 _name::
-    t_bala:: .db 0x01 ;    type of entity is bullet
+    t_bala:: .db 0x04 ;    type of entity is bullet
+    cmp_bala:: .db 0x09   ;components that bullet has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
 
 
 e_t = 0
-e_x = 1
-e_y = 2
-e_w = 3
-e_h = 4
-e_vx = 5
-e_vy = 6
-e_c = 7
-e_be = 8
-e_count = 9
-e_lastVP_l = 10
-e_lastVP_h = 11
-sizeof_e = 12
+e_cmp = 1
+e_x = 2
+e_y = 3
+e_w = 4
+e_h = 5
+e_vx = 6
+e_vy = 7
+e_c = 8
+e_be = 9
+e_count = 10
+e_lastVP_l = 11
+e_lastVP_h = 12
+sizeof_e = 13
 
 .macro DefineEntityArray _name, _N
 _name::
@@ -88,17 +95,23 @@ _name::
 .endm
 
 
-
+;; Componentes de las entidades
 
 ;;; Usando los bits  para definir signatures luego
 ;; 00000001 para lo que sea para renderizar
-t_render: .db 0x01
+cmp_render: .db 0x01
 ;; 00000010 para las entidades que usen IA
-t_ia: .db 0x02
+cmp_ia: .db 0x02
 ;; 00000100 para las entidades con input (player)
-t_input: .db 0x04
+cmp_input: .db 0x04
+;;  entidades con colisiones
+cmp_collider: .db 0x08
 
-t_invalid: .db 0x80
+
+;; Tipos de las entidades
+t_default: .db 0x00
+
+t_dead: .db 0x80
 
 
 

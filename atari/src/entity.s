@@ -78,18 +78,18 @@ _renloop:
     ld c, a
     ld a, e
     ld e, c
-    ld a, (t_invalid)
+    ld a, (t_default)
     and e
     jr nz, invalid_entity
 
     ;; erase previous istance
 ; para mover todo lo que tenga a 1 el bit de ia
-    ld a, e_t(ix)
-    xor d
-    jr z, cumple
+    ld a, e_cmp(ix)
+    and d
+    jr nz, cumple
     jr continua
     cumple:    
-        ld a, (t_enemy)
+        ld a, (cmp_ia)
         xor d
         jr z, con_ia
         jr no_ia
@@ -99,7 +99,7 @@ _renloop:
             jr continua
 
         no_ia:
-            ld a, (t_player)
+            ld a, (cmp_input)
             xor d
             jr z, control
             jr continua

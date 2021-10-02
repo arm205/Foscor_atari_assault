@@ -59,7 +59,7 @@ ret
 
 ia_update::
     ld d, a
-    ld a, (t_enemy)
+    ld a, (cmp_ia)
     call E_M_for_all_matching
 
 ret
