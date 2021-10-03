@@ -8,6 +8,7 @@
 .globl E_M_init
 .globl E_M_new
 .globl E_M_for_all_matching
+.globl E_M_destroy_entity
 
 
 
@@ -67,7 +68,7 @@ _name::
 .macro DefineBalaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 _name::
     t_bala:: .db 0x04 ;    type of entity is bullet
-    cmp_bala:: .db 0x09   ;components that bullet has
+    cmp_bala:: .db 0x0D   ;components that bullet has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
 

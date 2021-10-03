@@ -7,6 +7,7 @@
 .include "physics.h.s"
 .include "input.h.s"
 .include "ia.h.s"
+.include "render.h.s"
 
 max_entities == 20
 
@@ -127,3 +128,18 @@ _ent_counter = .+1
     ld bc, #sizeof_e
     add ix, bc
     jr _renloop
+
+
+
+E_M_destroy_entity::
+    ld__hl_ix
+
+    pop de
+    call render_delete_entity
+    push de
+
+    ld__hl_ix
+    ld (hl), #0x00
+    ld hl, #_num_entities
+    dec (hl)
+ret

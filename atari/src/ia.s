@@ -18,7 +18,7 @@ not_enemy:
     jr z, is_bala
 
 is_bala:
-    call ia_for_bala
+    call ia_auto_destroy
     jr acabado
 
 
@@ -49,8 +49,16 @@ ia_for_enemy:
     no_cambia:
 ret
 
-ia_for_bala:
 
+ia_auto_destroy::
+    ld a, e_count(ix)
+    dec a
+    jr nz, no_destruir
+
+     ;   call man_game_destroy_entity
+
+no_destruir: 
+   ld e_count(ix), a
 ret
 
 

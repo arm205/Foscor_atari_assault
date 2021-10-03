@@ -30,13 +30,7 @@ _renloop:
 
     ld (_ent_counter), a
     ;; erase previous istance
-
-    ld e, e_lastVP_l(ix)
-    ld d, e_lastVP_h(ix)
-    xor a
-    ld c, e_w(ix)
-    ld b, e_h(ix)
-    call cpct_drawSolidBox_asm
+    call render_delete_entity
 
     ;; calculate new VP
     ld de, #screen_start
@@ -64,3 +58,23 @@ _ent_counter = .+1
     ld bc, #sizeof_e
     add ix, bc
     jr _renloop
+
+
+render_delete_entity::
+    ld e, e_lastVP_l(ix)
+    ld d, e_lastVP_h(ix)
+    xor a
+    ld c, e_w(ix)
+    ld b, e_h(ix)
+    call cpct_drawSolidBox_asm
+ret
+
+
+render_delete_static_entity::
+    ld e, e_x(ix)
+    ld d, e_y(ix)
+    xor a
+    ld c, e_w(ix)
+    ld b, e_h(ix)
+    call cpct_drawSolidBox_asm
+ret
