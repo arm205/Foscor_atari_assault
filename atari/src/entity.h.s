@@ -59,7 +59,7 @@ _name::
 
 .macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 _name::
-    t_caja:: .db 0x03 ;    type of entity is breakable box
+    t_caja:: .db 0x04 ;    type of entity is breakable box
     cmp_caja:: .db 0x09   ;components that box has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
@@ -67,7 +67,7 @@ _name::
 
 .macro DefineBalaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 _name::
-    t_bala:: .db 0x04 ;    type of entity is bullet
+    t_bala:: .db 0x08 ;    type of entity is bullet
     cmp_bala:: .db 0x0D   ;components that bullet has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 .endm
