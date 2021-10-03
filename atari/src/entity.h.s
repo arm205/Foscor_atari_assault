@@ -31,6 +31,7 @@
     .db 0x00 ;    type of entity default
     .db 0x00 ;      components of entity default
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+    .db 0x00
 .endm
 
 
@@ -39,6 +40,7 @@ _name::
     t_enemy:: .db 0x02 ;    type of entity is enemy
     cmp_enemy:: .db 0x0B   ;components that enemy has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+    enemy_col:: .db 0x00
 .endm
 
 .macro DefineEnemy2Entity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
@@ -46,6 +48,7 @@ _name::
     .db 0x02 ;    type of entity is enemy
     .db 0x0B    ;components that enemy has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+    .db 0x00
 .endm
 
 
@@ -54,6 +57,7 @@ _name::
     t_player:: .db  0x01;    type of entity is player
     cmp_player:: .db 0x0D   ;components that player has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+    player_col:: .db 0x06
 .endm
 
 
@@ -62,6 +66,7 @@ _name::
     t_caja:: .db 0x04 ;    type of entity is breakable box
     cmp_caja:: .db 0x09   ;components that box has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+    caja_col:: .db 0x08
 .endm
 
 
@@ -70,6 +75,7 @@ _name::
     t_bala:: .db 0x08 ;    type of entity is bullet
     cmp_bala:: .db 0x0D   ;components that bullet has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+    bala_col:: .db 0x00
 .endm
 
 
@@ -86,7 +92,8 @@ e_be = 9
 e_count = 10
 e_lastVP_l = 11
 e_lastVP_h = 12
-sizeof_e = 13
+e_col = 13
+sizeof_e = 14
 
 .macro DefineEntityArray _name, _N
 _name::
