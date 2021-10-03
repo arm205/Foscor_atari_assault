@@ -131,15 +131,85 @@ _ent_counter = .+1
 
 
 
-E_M_destroy_entity::
-    ld__hl_ix
+;E_M_for_all_pairs_matching::
+    ld c, a
+    ld a, d
+    ld d, c
 
-    pop de
-    call render_delete_entity
-    push de
+    ;intercambio A y D
 
-    ld__hl_ix
-    ld (hl), #0x00
-    ld hl, #_num_entities
-    dec (hl)
-ret
+    _renloop_pairs:
+        ld (_ent_counter), a
+
+        ld a, e_t(ix)
+        ld c, a
+        ld a, e
+        ld e, c
+        ld a, (t_default)
+        and e
+        jr nz, invalid_entity_pairs
+
+        ;; erase previous istance
+        ; para mover todo lo que tenga a 1 el bit de ia
+        ld a, e_cmp(ix)
+        and d
+        ld__hl_ix
+        jr nz, cumple_pairs
+        jr continua_pairs
+        cumple_pairs:    
+            ; significa que este elemento cumple que es colisionable
+            ; A partir de aqui se busca el siguiente elemento colisionable para luego ver el tipo de colision entre la parejas
+            ; hl apuntara a las siguientes entidades
+            ld bc, #sizeof_e
+            add ix, bc
+            ld (_ent_counter), a
+            dec a
+            second_loop_pairs:
+                ld (_ent_counter_2), a
+
+                ld a, e_t(ix)
+                ld c, a
+                ld a, e
+                ld e, c
+                ld a, (t_default)
+                and e
+                jr nz, invalid_entity_2_pairs
+
+                ld a, e_cmp(ix)
+                and d
+                jr nz, cumple2_pairs
+                jr continua2_pairs
+                  cumple2_pairs:  
+
+
+
+            continua2_pairs:
+                _ent_counter_2 = .+1
+                ld  a, #0
+                dec a
+                jr z, continua_pairs
+
+                ld (_ent_counter_2), a
+
+            invalid_entity_2_pairs:
+                ld bc, #sizeof_e
+                add ix, bc
+                jr second_loop_pairs
+                    
+    continua_pairs:
+    ld__ix_hl
+
+    _ent_counter = .+1
+    ld  a, #0
+    dec a
+    ret z
+
+    ld (_ent_counter), a
+
+    invalid_entity_pairs:
+    ld bc, #sizeof_e
+    add ix, bc
+    jr _renloop_pairs
+
+
+

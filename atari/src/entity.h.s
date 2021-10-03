@@ -8,8 +8,7 @@
 .globl E_M_init
 .globl E_M_new
 .globl E_M_for_all_matching
-.globl E_M_destroy_entity
-
+;.globl E_M_for_all_pairs_matching
 
 
 ; ENTITY DEFINITION MACRO
