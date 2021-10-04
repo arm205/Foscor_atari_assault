@@ -5,6 +5,7 @@
 .include "physics.h.s"
 .include "input.h.s"
 .include "ia.h.s"
+.include "collider.h.s"
 
 
 
@@ -63,6 +64,8 @@ man_game_update::
    call input_update
     call E_M_getEntityArray
    call ia_update
+   call E_M_getEntityArray
+   call collider_update
    ret
 
 
