@@ -158,7 +158,7 @@ E_M_for_all_pairs_matching::
            ; hl apuntara a las siguientes entidades
             ld bc, #sizeof_e
             add ix, bc
-            ld (_ent_counter2), a
+            ld a, (_ent_counter2)
             dec a
             second_loop_pairs:
                ld (_ent_counter_2), a

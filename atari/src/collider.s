@@ -1,8 +1,6 @@
 .include "entity.h.s"
 .include "cpctelera.h.s"
 
-x_ban:: .db 0
-y_ban:: .db 0
 
 
 collider_update::
@@ -20,10 +18,12 @@ collider_one_pair::
     ld b, a
     ld a, e_t(ix)
     and e_col(iy)
-    and b
+    or b
     jr z, no_colisionan
+
         call check_collision
         jr c, no_colisionan
+            cpctm_setBorder_asm HW_WHITE
 
             call collider_check_type_iy
             call collider_check_type_ix
@@ -33,6 +33,8 @@ no_colisionan:
 ret
 
 
+x_ban:: .db 0x00
+y_ban:: .db 0x00
 check_collision::
 
 ;COLISIONES CON EL EJE X
@@ -51,27 +53,27 @@ check_collision::
     ret c
 
 
+
 ;COLISIONES CON EL EJE Y
-; if (e_y(iy)+e_h(iy)-e_y(ix) < 0) No_col
+; if (e_x(iy)+e_w(iy)-e_x(ix) < 0) No_col
     ld a, e_y(iy)
     add e_h(iy)
     sub e_y(ix)
     ret c
 
 
-; if (e_y(ix)+e_h(ix)-e_y(iy) < 0) No_col
+; if (e_x(ix)+e_w(ix)-e_x(iy) < 0) No_col
 
     ld a, e_y(ix)
     add e_h(ix)
     sub e_y(iy)
     ret c
-
-
 ret
 
 
 
 collider_check_type_iy::
+
     ld a, e_t(iy)
     ld b, a
     ld a, (t_player)
@@ -94,13 +96,15 @@ collider_check_type_iy::
             ret
 
         pl_caja:
+
+            cpctm_setBorder_asm HW_WHITE
         for_x:
             ld a, e_vx(iy)
-            and #0
+            or #0
             jr z, cero_x
 
             ld a, (x_ban)
-            and #0
+            and a
             jr z, new_x_ban
                 ld b, a
                 ld a, e_vx(iy)
@@ -121,7 +125,7 @@ collider_check_type_iy::
 
         for_y:
             ld a, e_vy(iy)
-            and #0
+            or #0
             jr z, cero_y
 
             ld a, (y_ban)
