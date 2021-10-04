@@ -52,65 +52,67 @@ A_Pressed:
     ld e_vy(ix), #4
 A_NotPressed:
 
-    ld e, e_t(ix)
-    ld a, (t_bala)
-    xor e
-    jr nz, no_bala
-
+;    ld e, e_t(ix)
+;    ld a, (t_bala)
+;    xor e
+;    jr nz, no_bala
+;
     ld hl, #Key_Space
     call cpct_isKeyPressed_asm
     jr z, Space_NotPressed
 Space_Pressed:
-    call input_move_bala
+    ld e_be(ix), #1
+;    call input_move_bala
+    
 Space_NotPressed:
-call counter_for_bala
-no_bala:
+;call counter_for_bala
+;no_bala:
 
 ret
 
 
-input_move_bala::
-    ld a, (bala_moved)
-    xor #0
-    jr nz, movida
-    ld e_vx(ix), #2
-movida:
-    inc a
-    ld (bala_moved), a
+;input_move_bala::
+;    ld a, (bala_moved)
+;    xor #0
+;    jr nz, movida
+;    ld e_vx(ix), #2
+;movida:
+;    inc a
+;    ld (bala_moved), a
+;
+;
+;ret
 
 
-ret
-
-
-counter_for_bala::
-ld a, (bala_moved)
-    xor #0
-    jr z, no_descontar
-
-        ld a, (bala_counter)
-        dec a
-        xor #0
-        jr nz, not_yet
-        move_back:
-            call move_bala_back
-    not_yet:
-        ld (bala_counter), a
-
-no_descontar:
-
-ret
-
-move_bala_back::
-    ld a, e_vx(ix)
-    dec a
-    dec a
-    ld e_vx(ix), a
-
-    ld a, #1
-    ld (bala_counter), a
-
-    ld a, #0
-    ld (bala_moved), a
-
-
-ret
+;counter_for_bala::
+;ld a, (bala_moved)
+;    xor #0
+;    jr z, no_descontar
+;
+;        ld a, (bala_counter)
+;        dec a
+;        xor #0
+;        jr nz, not_yet
+;        move_back:
+;            call move_bala_back
+;    not_yet:
+;        ld (bala_counter), a
+;
+;no_descontar:
+;
+;ret
+;
+;move_bala_back::
+;    ld a, e_vx(ix)
+;    dec a
+;    dec a
+;    ld e_vx(ix), a
+;
+;    ld a, #1
+;    ld (bala_counter), a
+;
+;    ld a, #0
+;    ld (bala_moved), a
+;
+;
+;ret

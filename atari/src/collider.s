@@ -82,7 +82,7 @@ collider_check_type_iy::
 
         ld a, e_col(iy)
         and e_t(ix)
-        jr z, pair_not_col
+        ret z
 
         ld a, e_t(ix)
         ld b, a
@@ -96,8 +96,19 @@ collider_check_type_iy::
             ret
 
         pl_caja:
+        ; Compruebo si tiene el behavior de romper caja
 
-            cpctm_setBorder_asm HW_WHITE
+        ld a, e_be(iy)
+        xor #1
+        jr nz, for_x
+        ;tiene el behavior asi que la rompe
+        ld a, #0
+        ld e_c(ix), a
+        ld e_be(iy), a
+        ret
+
+
+; No tiene el behavior asi que colisiona
         for_x:
             ld a, e_vx(iy)
             or #0
@@ -111,25 +122,29 @@ collider_check_type_iy::
                 xor b
                 jr z, cero_x
                 move_x:
+                
                     ld a, #0
                     ld (x_ban), a
-                    ret
+                    jr for_y
+                    
 
             new_x_ban:
                 ld a, e_vx(iy)
                 ld (x_ban), a
 
+
+
             cero_x:
                 ld a, #0
                 ld e_vx(iy), a
-
         for_y:
+
             ld a, e_vy(iy)
             or #0
             jr z, cero_y
 
             ld a, (y_ban)
-            and #0
+            and a
             jr z, new_y_ban
                 ld b, a
                 ld a, e_vy(iy)
@@ -147,28 +162,30 @@ collider_check_type_iy::
             cero_y:
                 ld a, #0
                 ld e_vy(iy), a
+                ret
 
 
-no_player:    
-    ld a, e_t(iy)
-    ld b, a
-    ld a, (t_enemy)
-    xor b
-    jr nz, no_enemy
+no_player:  
+;   DEJO ESTO POR SI EN UN FUTURO TENEMOS OTRAS ENTIDADES QUE COLISIONEN  
+;    ld a, e_t(iy)
+;    ld b, a
+;    ld a, (t_enemy)
+;    xor b
+;    jr nz, no_enemy
 
-no_enemy:   
-    ld a, e_t(iy)
-    ld b, a
-    ld a, (t_caja)
-    xor b
-    jr nz, no_caja
-
-no_caja:    
-    ld a, e_t(iy)
-    ld b, a
-    ld a, (t_bala)
-    xor b
-    ret z
+;no_enemy:   
+;    ld a, e_t(iy)
+;    ld b, a
+;    ld a, (t_caja)
+;    xor b
+;    jr nz, no_caja
+;
+;no_caja:    
+;    ld a, e_t(iy)
+;    ld b, a
+;    ld a, (t_bala)
+;    xor b
+;    ret z
 
 
 pair_not_col:

@@ -19,7 +19,7 @@ DefinePlayerEntity player, 20, 180, 2, 8, -1, 0, 0x0F, 0, 0
 
 DefineCajaEntity caja, 40, 100, 2, 8, 0, 0, 0xF0, 0, 0
 
-DefineBalaEntity bala, 20, 180, 2, 8, 0, 0, 0xF0, 0, 2
+;DefineBalaEntity bala, 20, 180, 2, 8, 0, 0, 0xF0, 0, 2
 
 
 man_game_init::
@@ -29,15 +29,15 @@ man_game_init::
     call physics_sys_init
     call input_init
 
-    ld hl, #player
-    call man_game_entity_creator
     ld hl, #enemy
     call man_game_entity_creator
     ld hl, #enemy2
     call man_game_entity_creator
     ld hl, #caja
+;    call man_game_entity_creator
+;    ld hl, #bala
     call man_game_entity_creator
-    ld hl, #bala
+    ld hl, #player
     call man_game_entity_creator
 
 
@@ -59,13 +59,13 @@ man_game_update::
  
    ;; Init system
     call E_M_getEntityArray
-   call physics_sys_update
-    call E_M_getEntityArray
    call input_update
     call E_M_getEntityArray
    call ia_update
    call E_M_getEntityArray
    call collider_update
+    call E_M_getEntityArray
+   call physics_sys_update
    ret
 
 

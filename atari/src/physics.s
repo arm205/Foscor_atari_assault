@@ -12,6 +12,9 @@ physics_sys_init::
 ret
 
 physics_sys_update::
+    ld d, a
+    ld a, (cmp_render)
+    call E_M_for_all_matching
 ret
 
 

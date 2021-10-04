@@ -97,19 +97,27 @@ _renloop:
         jr no_ia
         con_ia:
             call ia_update_one_entity
-            call physics_sys_for_one
             jr continua
 
         no_ia:
             ld a, (cmp_input)
             xor d
             jr z, control
-            jr continua
+            jr mover_cosas
                 control:
                 push de
 ;; Con esto modifico la velocidad del player dependiendo de la tecla pulsada
                 call input_update_one
-;; Lo de antes solo cambia la velocidad, esto es para añadirsela a la posicion
+                pop de
+                jr continua
+        mover_cosas:
+            ld a, (cmp_render)
+            xor d
+            jr z, render
+            jr continua
+                render:
+                push de
+;; Con esto modifico la velocidad del player dependiendo de la tecla pulsada
                 call physics_sys_for_one
                 pop de
                 jr continua
