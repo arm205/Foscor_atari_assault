@@ -20,6 +20,7 @@ DefinePlayerEntity player, 20, 180, 2, 8, -1, 0, 0x0F, 0
 DefineCajaEntity caja, 40, 100, 2, 8, 0, 0, 0xF0, 0
 
 ;DefineBalaEntity bala, 20, 180, 2, 8, 0, 0, 0xF0, 0, 2
+final_text: .asciz "GAME OVER"
 
 
 man_game_init::
@@ -75,4 +76,16 @@ man_game_render::
     call rendersys_update
 ret
 
+man_game_end::
+call E_M_init
+call cpctm_clearScreen_asm #0
+
+ld de, #0xC000
+ld c, #35
+ld b, #100
+call cpct_getScreenPtr_asm
+ld iy, #final_text
+call cpct_drawStringM0_asm
+
+ret
 

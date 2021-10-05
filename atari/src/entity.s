@@ -16,6 +16,9 @@ _num_entities:: .db 0
 _last_elem_ptr:: .dw _entity_array
 DefineEntityArray _entity_array, max_entities
 
+; Input
+; Desc: Pone a 0 el numero de entidades e inicializa el array de entidades
+; Modifies: A, HL
 E_M_init::
     xor a
     ld (_num_entities), a
@@ -25,6 +28,9 @@ E_M_init::
 ret
 
 
+; Input
+; Desc: Aumenta en 1 el num_entity, almacena en DE la direccion de Last_pointer y last_pointer lo mueve una entidad de distancia
+; Modifies: HL, DE, BC
 E_M_new::
 ;   Increment number of reserved entities
     ld hl, #_num_entities
@@ -41,8 +47,9 @@ E_M_new::
 
 ret
 
-; INPUT
-;   HL; pointer to entity initializer bytes
+; Input: HL; pointer to entity initializer bytes
+; Desc: 
+; Modifies: IX, HL, BC, DE
 E_M_create::
     push hl
     

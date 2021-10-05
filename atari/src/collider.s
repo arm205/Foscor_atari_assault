@@ -1,6 +1,7 @@
 .include "entity.h.s"
 .include "cpctelera.h.s"
 .include "collider.h.s"
+.include "game.h.s"
 
 
 
@@ -209,6 +210,7 @@ ld a, e_t(ix)
             ;; Aqui tendriamos que matar al jugador
             ld a, #0x00 
             ld e_c(ix), a
+            call man_game_end
             ret
 
 
