@@ -4855,7 +4855,7 @@ Hexadecimal [16-Bits]
    423D                     125                 render:
    423D D5            [11]  126                 push de
                             127 ;; Con esto modifico la velocidad del player dependiendo de la tecla pulsada
-   423E CD 1D 44      [17]  128                 call physics_sys_for_one
+   423E CD 3A 44      [17]  128                 call physics_sys_for_one
    4241 D1            [10]  129                 pop de
    4242 18 00         [12]  130                 jr continua
                             131             

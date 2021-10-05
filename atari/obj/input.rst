@@ -4598,23 +4598,23 @@ Hexadecimal [16-Bits]
                              21 ;MODIFICA: AF, BC, DE, HL
    43C2                      22 input_update_one::
    43C2 DD 36 06 00   [19]   23     ld e_vx(ix), #0
-                             24 
-   43C6 DD 36 07 00   [19]   25     ld e_vy(ix), #0
-                             26 
-   43CA CD BA 44      [17]   27     call cpct_scanKeyboard_f_asm
-                             28 
-   43CD 21 04 04      [10]   29     ld hl, #Key_O
-   43D0 CD AE 44      [17]   30     call cpct_isKeyPressed_asm
-   43D3 28 04         [12]   31     jr z, O_NotPressed
-   43D5                      32 O_Pressed:
-   43D5 DD 36 06 FF   [19]   33     ld e_vx(ix), #-1
-   43D9                      34 O_NotPressed:
-   43D9 21 03 08      [10]   35     ld hl, #Key_P
-   43DC CD AE 44      [17]   36     call cpct_isKeyPressed_asm
-   43DF 28 04         [12]   37     jr z, P_NotPressed
-   43E1                      38 P_Pressed:
-   43E1 DD 36 06 01   [19]   39     ld e_vx(ix), #1
-   43E5                      40 P_NotPressed:
+   43C6 DD 36 07 00   [19]   24     ld e_vy(ix), #0
+                             25     
+   43CA CD D7 44      [17]   26     call cpct_scanKeyboard_f_asm
+                             27 
+   43CD CD FA 43      [17]   28     call A_Pressed
+   43D0 21 04 04      [10]   29     ld hl, #Key_O
+   43D3 CD CB 44      [17]   30     call cpct_isKeyPressed_asm
+   43D6 28 04         [12]   31     jr z, O_NotPressed
+   43D8                      32 O_Pressed:
+   43D8 DD 36 06 FF   [19]   33     ld e_vx(ix), #-1
+   43DC                      34 O_NotPressed:
+   43DC 21 03 08      [10]   35     ld hl, #Key_P
+   43DF CD CB 44      [17]   36     call cpct_isKeyPressed_asm
+   43E2 28 04         [12]   37     jr z, P_NotPressed
+   43E4                      38 P_Pressed:
+   43E4 DD 36 06 01   [19]   39     ld e_vx(ix), #1
+   43E8                      40 P_NotPressed:
                              41 
                              42 
                              43 ;    ld e, e_t(ix)
@@ -4622,16 +4622,16 @@ Hexadecimal [16-Bits]
                              45 ;    xor e
                              46 ;    jr nz, no_bala
                              47 ;
-   43E5 21 05 80      [10]   48     ld hl, #Key_Space
-   43E8 CD AE 44      [17]   49     call cpct_isKeyPressed_asm
-   43EB 28 05         [12]   50     jr z, Space_NotPressed
-   43ED                      51 Space_Pressed:
-   43ED DD 36 09 01   [19]   52     ld e_be(ix), #1
-   43F1 C9            [10]   53     ret
+   43E8 21 05 80      [10]   48     ld hl, #Key_Space
+   43EB CD CB 44      [17]   49     call cpct_isKeyPressed_asm
+   43EE 28 05         [12]   50     jr z, Space_NotPressed
+   43F0                      51 Space_Pressed:
+   43F0 DD 36 09 01   [19]   52     ld e_be(ix), #1
+   43F4 C9            [10]   53     ret
                              54 ;    call input_move_bala
                              55     
-   43F2                      56 Space_NotPressed:
-   43F2 DD 36 09 00   [19]   57     ld e_be(ix), #0
+   43F5                      56 Space_NotPressed:
+   43F5 DD 36 09 00   [19]   57     ld e_be(ix), #0
                              58 ;call counter_for_bala
                              59 ;no_bala:
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 89.
@@ -4640,51 +4640,69 @@ Hexadecimal [16-Bits]
 
 
                              60 
-   43F6 C9            [10]   61 ret
+   43F9 C9            [10]   61 ret
                              62 
-                             63 
-                             64 ;input_move_bala::
-                             65 ;    ld a, (bala_moved)
-                             66 ;    xor #0
-                             67 ;    jr nz, movida
-                             68 ;    ld e_vx(ix), #2
-                             69 ;movida:
-                             70 ;    inc a
-                             71 ;    ld (bala_moved), a
-                             72 ;
-                             73 ;
-                             74 ;ret
+   43FA                      63 A_Pressed:
+   43FA 21 08 20      [10]   64     ld hl, #Key_A
+   43FD CD CB 44      [17]   65     call cpct_isKeyPressed_asm
+   4400 28 09         [12]   66     jr z, A_NotPressed
+   4402 DD 36 03 BD   [19]   67     ld e_y(ix), #189
+   4406 DD 36 05 07   [19]   68     ld e_h(ix), #7
+   440A C9            [10]   69 ret
+                             70 
+   440B                      71 A_NotPressed:
+   440B DD 36 03 B4   [19]   72     ld e_y(ix), #180
+   440F DD 36 05 10   [19]   73     ld e_h(ix), #16
+   4413 C9            [10]   74 ret
                              75 
-                             76 
-                             77 ;counter_for_bala::
-                             78 ;ld a, (bala_moved)
-                             79 ;    xor #0
-                             80 ;    jr z, no_descontar
-                             81 ;
-                             82 ;        ld a, (bala_counter)
-                             83 ;        dec a
-                             84 ;        xor #0
-                             85 ;        jr nz, not_yet
-                             86 ;        move_back:
-                             87 ;            call move_bala_back
-                             88 ;    not_yet:
-                             89 ;        ld (bala_counter), a
-                             90 ;
-                             91 ;no_descontar:
-                             92 ;
-                             93 ;ret
-                             94 ;
-                             95 ;move_bala_back::
-                             96 ;    ld a, e_vx(ix)
-                             97 ;    dec a
-                             98 ;    dec a
-                             99 ;    ld e_vx(ix), a
-                            100 ;
-                            101 ;    ld a, #1
-                            102 ;    ld (bala_counter), a
-                            103 ;
-                            104 ;    ld a, #0
-                            105 ;    ld (bala_moved), a
+                             76 ;input_move_bala::
+                             77 ;    ld a, (bala_moved)
+                             78 ;    xor #0
+                             79 ;    jr nz, movida
+                             80 ;    ld e_vx(ix), #2
+                             81 ;movida:
+                             82 ;    inc a
+                             83 ;    ld (bala_moved), a
+                             84 ;
+                             85 ;
+                             86 ;ret
+                             87 
+                             88 
+                             89 ;counter_for_bala::
+                             90 ;ld a, (bala_moved)
+                             91 ;    xor #0
+                             92 ;    jr z, no_descontar
+                             93 ;
+                             94 ;        ld a, (bala_counter)
+                             95 ;        dec a
+                             96 ;        xor #0
+                             97 ;        jr nz, not_yet
+                             98 ;        move_back:
+                             99 ;            call move_bala_back
+                            100 ;    not_yet:
+                            101 ;        ld (bala_counter), a
+                            102 ;
+                            103 ;no_descontar:
+                            104 ;
+                            105 ;ret
                             106 ;
-                            107 ;
-                            108 ;ret
+                            107 ;move_bala_back::
+                            108 ;    ld a, e_vx(ix)
+                            109 ;    dec a
+                            110 ;    dec a
+                            111 ;    ld e_vx(ix), a
+                            112 ;
+                            113 ;    ld a, #1
+                            114 ;    ld (bala_counter), a
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 90.
+Hexadecimal [16-Bits]
+
+
+
+                            115 ;
+                            116 ;    ld a, #0
+                            117 ;    ld (bala_moved), a
+                            118 ;
+                            119 ;
+                            120 ;ret
+                            121 

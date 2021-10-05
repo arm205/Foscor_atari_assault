@@ -10,15 +10,15 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  .__.ABS.                           cpct_random
      00000000  l__DATA                         
      00000006  max_entities                       cpct_keyboard
-     000006D4  l__CODE                         
+     000006F1  l__CODE                         
      00004000  s__CODE                         
-     000046D4  s__DATA                         
+     000046F1  s__DATA                         
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    000006D4 =        1748. bytes (REL,CON)
+_CODE                               00004000    000006F1 =        1777. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -59,47 +59,47 @@ _CODE                               00004000    000006D4 =        1748. bytes (R
      000043B9  input_init                         cpct_keyboard
      000043BA  input_update                       cpct_keyboard
      000043C2  input_update_one                   cpct_keyboard
-     000043FD  _main                              cpct_keyboard
-     00004414  physics_sys_init                   cpct_keyboard
-     00004415  physics_sys_update                 cpct_keyboard
-     0000441D  physics_sys_for_one                cpct_keyboard
-     00004454  rendersys_init                     cpct_keyboard
-     00004455  rendersys_update                   cpct_keyboard
-     00004459  render_entities                    cpct_keyboard
-     0000448C  render_delete_entity               cpct_keyboard
-     0000449D  render_delete_static_entity        cpct_keyboard
-     000044AE  _cpct_isKeyPressed                 cpct_keyboard
-     000044AE  cpct_isKeyPressed_asm              cpct_keyboard
-     000044BA  _cpct_scanKeyboard_f               cpct_keyboard
-     000044BA  cpct_scanKeyboard_f_asm            cpct_keyboard
+     0000441A  _main                              cpct_keyboard
+     00004431  physics_sys_init                   cpct_keyboard
+     00004432  physics_sys_update                 cpct_keyboard
+     0000443A  physics_sys_for_one                cpct_keyboard
+     00004471  rendersys_init                     cpct_keyboard
+     00004472  rendersys_update                   cpct_keyboard
+     00004476  render_entities                    cpct_keyboard
+     000044A9  render_delete_entity               cpct_keyboard
+     000044BA  render_delete_static_entity        cpct_keyboard
+     000044CB  _cpct_isKeyPressed                 cpct_keyboard
+     000044CB  cpct_isKeyPressed_asm              cpct_keyboard
+     000044D7  _cpct_scanKeyboard_f               cpct_keyboard
+     000044D7  cpct_scanKeyboard_f_asm            cpct_keyboard
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    000006D4 =        1748. bytes (REL,CON)
+_CODE                               00004000    000006F1 =        1777. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004524  cpct_drawStringM0_asm              cpct_strings
-     0000454A  cpct_drawCharM0_inner_asm          cpct_strings
-     000045AA  dc_2pxtableM0                      cpct_strings
-     000045AE  _cpct_keyboardStatusBuffer         cpct_keyboard
-     000045B8  _cpct_waitVSYNC                    cpct_video
-     000045B8  cpct_waitVSYNC_asm                 cpct_video
-     000045C0  _cpct_disableFirmware              cpct_firmware
-     000045C0  _cpct_removeInterruptHandler       cpct_firmware
-     000045C0  cpct_disableFirmware_asm           cpct_firmware
-     000045C0  cpct_removeInterruptHandler_asm    cpct_firmware
-     000045D0  _cpct_getRandom_mxor_u8            cpct_random
-     000045D0  cpct_getRandom_mxor_u8_asm         cpct_random
-     000045D1  cpct_randomIdx_mxor_u8             cpct_random
-     000045F5  cpct_drawSolidBox_asm              cpct_sprites
-     00004698  _cpct_mode_rom_status              cpct_firmware
-     00004699  cpct_getScreenPtr_asm              cpct_video
-     000046AD  _cpct_mxor32_seed                  cpct_random
-     000046B1  _cpct_nextRandom_mxor_u32          cpct_random
-     000046B1  cpct_nextRandom_mxor_u32_asm       cpct_random
+     00004541  cpct_drawStringM0_asm              cpct_strings
+     00004567  cpct_drawCharM0_inner_asm          cpct_strings
+     000045C7  dc_2pxtableM0                      cpct_strings
+     000045CB  _cpct_keyboardStatusBuffer         cpct_keyboard
+     000045D5  _cpct_waitVSYNC                    cpct_video
+     000045D5  cpct_waitVSYNC_asm                 cpct_video
+     000045DD  _cpct_disableFirmware              cpct_firmware
+     000045DD  _cpct_removeInterruptHandler       cpct_firmware
+     000045DD  cpct_disableFirmware_asm           cpct_firmware
+     000045DD  cpct_removeInterruptHandler_asm    cpct_firmware
+     000045ED  _cpct_getRandom_mxor_u8            cpct_random
+     000045ED  cpct_getRandom_mxor_u8_asm         cpct_random
+     000045EE  cpct_randomIdx_mxor_u8             cpct_random
+     00004612  cpct_drawSolidBox_asm              cpct_sprites
+     000046B5  _cpct_mode_rom_status              cpct_firmware
+     000046B6  cpct_getScreenPtr_asm              cpct_video
+     000046CA  _cpct_mxor32_seed                  cpct_random
+     000046CE  _cpct_nextRandom_mxor_u32          cpct_random
+     000046CE  cpct_nextRandom_mxor_u32_asm       cpct_random
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 
 Files Linked                              [ module(s) ]
@@ -127,31 +127,31 @@ obj/render.rel                            [ cpct_keyboard ]
 
 Libraries Linked                          [ object file ]
 
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_isKeyPressed.rel ]
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_scanKeyboard_f.rel ]
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_drawStringM0_asmbindings.re ]
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_drawCharM0_inner.rel ]
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ keyboard.rel ]
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_waitVSYNC.rel ]
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_removeInterruptHandler.rel ]
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_getRandom_mxor_u8.rel ]
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_drawSolidBox_asmbindings.re ]
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpc_mode_rom_status.rel ]
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_getScreenPtr_asmbindings.re ]
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_mxor32_seed.rel ]
-/home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+/home/miguel/Documentos/CPCetelera/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_nextRandom_mxor_u32.rel ]
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 5.

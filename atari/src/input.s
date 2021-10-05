@@ -23,11 +23,9 @@ input_update_one::
     ld e_vx(ix), #0
     ld e_vy(ix), #0
     
-
-
     call cpct_scanKeyboard_f_asm
-    call A_Pressed
 
+    call A_Pressed
     ld hl, #Key_O
     call cpct_isKeyPressed_asm
     jr z, O_NotPressed
@@ -71,9 +69,7 @@ A_Pressed:
 ret
 
 A_NotPressed:
-;;    ld hl, #Key_A
-;;    call cpct_isKeyPressed_asm
-        ld e_y(ix), #180
+    ld e_y(ix), #180
     ld e_h(ix), #16
 ret
 

@@ -4550,24 +4550,24 @@ Hexadecimal [16-Bits]
                             104 
                             105 ;;; Usando los bits  para definir signatures luego
                             106 ;; 00000001 para lo que sea para renderizar
-   43F7 01                  107 cmp_render: .db 0x01
+   4414 01                  107 cmp_render: .db 0x01
                             108 ;; 00000010 para las entidades que usen IA
-   43F8 02                  109 cmp_ia: .db 0x02
+   4415 02                  109 cmp_ia: .db 0x02
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 87.
 Hexadecimal [16-Bits]
 
 
 
                             110 ;; 00000100 para las entidades con input (player)
-   43F9 04                  111 cmp_input: .db 0x04
+   4416 04                  111 cmp_input: .db 0x04
                             112 ;;  entidades con colisiones
-   43FA 08                  113 cmp_collider: .db 0x08
+   4417 08                  113 cmp_collider: .db 0x08
                             114 
                             115 
                             116 ;; Tipos de las entidades
-   43FB 00                  117 t_default: .db 0x00
+   4418 00                  117 t_default: .db 0x00
                             118 
-   43FC 80                  119 t_dead: .db 0x80
+   4419 80                  119 t_dead: .db 0x80
                             120 
                             121 
                             122 
@@ -4599,16 +4599,16 @@ Hexadecimal [16-Bits]
                              10 
                              11 
                              12 
-   43FD                      13 _main::
-   43FD CD C0 45      [17]   14    call cpct_disableFirmware_asm
-   4400 CD 04 43      [17]   15    call man_game_init
+   441A                      13 _main::
+   441A CD DD 45      [17]   14    call cpct_disableFirmware_asm
+   441D CD 04 43      [17]   15    call man_game_init
                              16 
-   4403                      17 loop:
+   4420                      17 loop:
                              18 ;   call esperar
-   4403 CD 2D 43      [17]   19    call man_game_update
+   4420 CD 2D 43      [17]   19    call man_game_update
                              20 
-   4406 CD B8 45      [17]   21    call cpct_waitVSYNC_asm
-   4409 CD 46 43      [17]   22    call man_game_render
+   4423 CD D5 45      [17]   21    call cpct_waitVSYNC_asm
+   4426 CD 46 43      [17]   22    call man_game_render
                              23 
-   440C 18 F5         [12]   24    jr    loop
+   4429 18 F5         [12]   24    jr    loop
                              25 

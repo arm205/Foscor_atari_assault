@@ -4710,8 +4710,8 @@ Hexadecimal [16-Bits]
    4304                      28 man_game_init::
    4304 CD CF 41      [17]   29     call E_M_init
                              30 
-   4307 CD 54 44      [17]   31     call rendersys_init
-   430A CD 14 44      [17]   32     call physics_sys_init
+   4307 CD 71 44      [17]   31     call rendersys_init
+   430A CD 31 44      [17]   32     call physics_sys_init
    430D CD B9 43      [17]   33     call input_init
                              34 
    4310 21 C6 42      [10]   35     ld hl, #enemy
@@ -4757,14 +4757,14 @@ Hexadecimal [16-Bits]
    4339 CD F7 41      [17]   70    call E_M_getEntityArray
    433C CD 0E 40      [17]   71    call collider_update
    433F CD F7 41      [17]   72     call E_M_getEntityArray
-   4342 CD 15 44      [17]   73    call physics_sys_update
+   4342 CD 32 44      [17]   73    call physics_sys_update
    4345 C9            [10]   74    ret
                              75 
                              76 
                              77 
    4346                      78 man_game_render::
    4346 CD F7 41      [17]   79     call E_M_getEntityArray
-   4349 CD 55 44      [17]   80     call rendersys_update
+   4349 CD 72 44      [17]   80     call rendersys_update
    434C C9            [10]   81 ret
                              82 
    434D                      83 man_game_end::
@@ -4779,8 +4779,8 @@ Hexadecimal [16-Bits]
    435D 11 00 C0      [10]   87 ld de, #0xC000
    4360 0E 14         [ 7]   88 ld c, #20
    4362 06 5C         [ 7]   89 ld b, #92
-   4364 CD 99 46      [17]   90 call cpct_getScreenPtr_asm
+   4364 CD B6 46      [17]   90 call cpct_getScreenPtr_asm
    4367 FD 21 FA 42   [14]   91 ld iy, #final_text
-   436B CD 24 45      [17]   92 call cpct_drawStringM0_asm
+   436B CD 41 45      [17]   92 call cpct_drawStringM0_asm
                              93 
    436E 18 FE         [12]   94 jr .

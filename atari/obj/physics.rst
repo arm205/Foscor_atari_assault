@@ -115,24 +115,24 @@ Hexadecimal [16-Bits]
                             104 
                             105 ;;; Usando los bits  para definir signatures luego
                             106 ;; 00000001 para lo que sea para renderizar
-   440E 01                  107 cmp_render: .db 0x01
+   442B 01                  107 cmp_render: .db 0x01
                             108 ;; 00000010 para las entidades que usen IA
-   440F 02                  109 cmp_ia: .db 0x02
+   442C 02                  109 cmp_ia: .db 0x02
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 
 
                             110 ;; 00000100 para las entidades con input (player)
-   4410 04                  111 cmp_input: .db 0x04
+   442D 04                  111 cmp_input: .db 0x04
                             112 ;;  entidades con colisiones
-   4411 08                  113 cmp_collider: .db 0x08
+   442E 08                  113 cmp_collider: .db 0x08
                             114 
                             115 
                             116 ;; Tipos de las entidades
-   4412 00                  117 t_default: .db 0x00
+   442F 00                  117 t_default: .db 0x00
                             118 
-   4413 80                  119 t_dead: .db 0x80
+   4430 80                  119 t_dead: .db 0x80
                             120 
                             121 
                             122 
@@ -4558,14 +4558,14 @@ Hexadecimal [16-Bits]
                      0050     8 screen_width = 80
                      00C8     9 screen_height = 200
                              10 
-   4414                      11 physics_sys_init::
-   4414 C9            [10]   12 ret
+   4431                      11 physics_sys_init::
+   4431 C9            [10]   12 ret
                              13 
-   4415                      14 physics_sys_update::
-   4415 57            [ 4]   15     ld d, a
-   4416 3A 0E 44      [13]   16     ld a, (cmp_render)
-   4419 CD FF 41      [17]   17     call E_M_for_all_matching
-   441C C9            [10]   18 ret
+   4432                      14 physics_sys_update::
+   4432 57            [ 4]   15     ld d, a
+   4433 3A 2B 44      [13]   16     ld a, (cmp_render)
+   4436 CD FF 41      [17]   17     call E_M_for_all_matching
+   4439 C9            [10]   18 ret
                              19 
                              20 
                              21 ;
@@ -4574,45 +4574,45 @@ Hexadecimal [16-Bits]
                              24 
                              25 ;
                              26 ;Modifica: CD, A
-   441D                      27 physics_sys_for_one::
-   441D 3E 50         [ 7]   28     ld a, #screen_width
-   441F DD 96 04      [19]   29     sub e_w(ix)
-   4422 4F            [ 4]   30     ld  c, a
+   443A                      27 physics_sys_for_one::
+   443A 3E 50         [ 7]   28     ld a, #screen_width
+   443C DD 96 04      [19]   29     sub e_w(ix)
+   443F 4F            [ 4]   30     ld  c, a
                              31 
-   4423 DD 7E 02      [19]   32     ld a, e_x(ix)
-   4426 DD 86 06      [19]   33     add e_vx(ix)
-   4429 B9            [ 4]   34     cp  c
-   442A 30 05         [12]   35     jr nc, invalid_x
+   4440 DD 7E 02      [19]   32     ld a, e_x(ix)
+   4443 DD 86 06      [19]   33     add e_vx(ix)
+   4446 B9            [ 4]   34     cp  c
+   4447 30 05         [12]   35     jr nc, invalid_x
                              36 
-   442C                      37     id_x:
-   442C DD 77 02      [19]   38         ld e_x(ix), a
-   442F 18 00         [12]   39         jr  endif_x
-   4431                      40     invalid_x:
-   4431                      41 endif_x:
+   4449                      37     id_x:
+   4449 DD 77 02      [19]   38         ld e_x(ix), a
+   444C 18 00         [12]   39         jr  endif_x
+   444E                      40     invalid_x:
+   444E                      41 endif_x:
                              42 
-   4431 3E C8         [ 7]   43     ld a, #screen_height
-   4433 DD 96 05      [19]   44     sub e_h(ix)
-   4436 4F            [ 4]   45     ld  c, a
+   444E 3E C8         [ 7]   43     ld a, #screen_height
+   4450 DD 96 05      [19]   44     sub e_h(ix)
+   4453 4F            [ 4]   45     ld  c, a
                              46 
-   4437 DD 7E 03      [19]   47     ld a, e_y(ix)
-   443A DD 86 07      [19]   48     add e_vy(ix)
-   443D B9            [ 4]   49     cp  c
-   443E 30 05         [12]   50     jr nc, invalid_y
+   4454 DD 7E 03      [19]   47     ld a, e_y(ix)
+   4457 DD 86 07      [19]   48     add e_vy(ix)
+   445A B9            [ 4]   49     cp  c
+   445B 30 05         [12]   50     jr nc, invalid_y
                              51 
-   4440                      52     id_y:
-   4440 DD 77 03      [19]   53         ld e_y(ix), a
-   4443 18 08         [12]   54         jr  endif_y
-   4445                      55     invalid_y:
-   4445 DD 7E 07      [19]   56         ld  a, e_vy(ix)
-   4448 ED 44         [ 8]   57         neg
+   445D                      52     id_y:
+   445D DD 77 03      [19]   53         ld e_y(ix), a
+   4460 18 08         [12]   54         jr  endif_y
+   4462                      55     invalid_y:
+   4462 DD 7E 07      [19]   56         ld  a, e_vy(ix)
+   4465 ED 44         [ 8]   57         neg
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 87.
 Hexadecimal [16-Bits]
 
 
 
-   444A DD 77 07      [19]   58         ld  e_vy(ix), a
-   444D                      59 endif_y:
+   4467 DD 77 07      [19]   58         ld  e_vy(ix), a
+   446A                      59 endif_y:
                              60 
                              61 
                              62 
-   444D C9            [10]   63 ret
+   446A C9            [10]   63 ret
