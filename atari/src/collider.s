@@ -191,7 +191,7 @@ ret
 
 collider_check_type_ix::
 
-ld a, e_t(ix)
+    ld a, e_t(ix)
     ld b, a
     ld a, (t_player)
     xor b
@@ -212,10 +212,18 @@ ld a, e_t(ix)
             xor #1
             jr nz, en_mata
             ;tiene el behavior asi que la rompe
-            ld a, #0
-            ld e_c(iy), a
-            ld e_t(iy), a
-            ld e_be(ix), a
+            ld a, e_be(iy)
+            or  #0x0
+            jr nz, reiniciar_der
+
+            reiniciar_izq:
+            ld e_x(iy), #0
+            ;;ld e_be(ix), #0
+            ret
+
+            reiniciar_der:
+            ld e_x(iy), #0x46
+            ;;ld e_be(ix), #0
             ret 
 
             ;; Aqui tendriamos que matar al jugador

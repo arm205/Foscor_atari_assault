@@ -37,6 +37,13 @@ ia_for_enemy:
     ld  c, a
 
     ld a, e_x(ix)
+    jr nz, no_mover_der
+    mover_der:
+        add e_vx(ix)
+        ld e_x(ix), a
+    no_mover_der:
+
+    ld a, e_x(ix)
     add e_vx(ix)
     cp  c
     jr nc, cambia_vx

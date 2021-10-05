@@ -1,0 +1,27 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     E_M_crea   **** GX  |     E_M_for_   **** GX
+    E_M_for_   **** GX  |     E_M_getE   **** GX  |     E_M_init   **** GX
+    E_M_new    **** GX  |   0 acabado    0013 R   |   0 cambia_v   0030 R
+  0 cmp_coll   0003 R   |   0 cmp_ia     0001 R   |   0 cmp_inpu   0002 R
+  0 cmp_rend   0000 R   |     e_be    =  0009     |     e_c     =  0008 
+    e_cmp   =  0001     |     e_col   =  000C     |     e_h     =  0005 
+    e_lastVP=  000B     |     e_lastVP=  000A     |     e_t     =  0000 
+    e_vx    =  0006     |     e_vy    =  0007     |     e_w     =  0004 
+    e_x     =  0002     |     e_y     =  0003     |   0 ia_for_e   0014 R
+  0 ia_updat   0039 GR  |   0 ia_updat   0006 GR  |   0 is_enemy   0010 R
+  0 mover_de   001F R   |   0 no_cambi   0038 R   |   0 no_mover   0025 R
+    screen_h=  00C8     |     screen_w=  0050     |     sizeof_e=  000D 
+  0 t_dead     0005 R   |   0 t_defaul   0004 R   |     t_enemy    **** GX
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size   41   flags    0
+
