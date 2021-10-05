@@ -9,12 +9,12 @@ screen_start = 0xC000
 
 
 rendersys_init::
-    ;ld  c, #0
-    ;call cpct_setVideoMode_asm
-    ;ld  hl, #_pal_main
-    ;ld  de, #16
-    ;call cpct_setPalette_asm
-    ;cpctm_setBorder_asm HW_WHITE
+    ld  c, #0
+    call cpct_setVideoMode_asm
+    ;;ld  hl, #_pal_main
+    ;;ld  de, #16
+    ;;call cpct_setPalette_asm
+    ;;cpctm_setBorder_asm HW_WHITE
 ret
 
 
