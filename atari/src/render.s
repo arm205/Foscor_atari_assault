@@ -32,7 +32,7 @@ _render_Entity:: ;;importante: actualizar con la posibilidad de abrir sprites.
     ld de, #0xC000
     ld b, e_y(ix) ;;pos_y
     ld c, e_x(ix) ;;pos_x
-
+º
     call cpct_getScreenPtr_asm ;;entidad que comenzara a dibujarse en la pos (x,y)
 
     ld e_lastVP_l(ix), l
