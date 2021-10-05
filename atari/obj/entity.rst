@@ -4477,99 +4477,69 @@ Hexadecimal [16-Bits]
                              41     enemy_col:: .db 0x00
                              42 .endm
                              43 
-                             44 .macro DefineEnemy2Entity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-                             45 _name::
-                             46     .db 0x02 ;    type of entity is enemy
-                             47     .db 0x0B    ;components that enemy has
-                             48     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-                             49     .db 0x00
-                             50 .endm
-                             51 
-                             52 
-                             53 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-                             54 _name::
+                             44 
+                             45 
+                             46 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
+                             47 _name::
+                             48     t_player:: .db  0x01;    type of entity is player
+                             49     cmp_player:: .db 0x0D   ;components that player has
+                             50     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
+                             51     player_col:: .db 0x06
+                             52 .endm
+                             53 
+                             54 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 86.
 Hexadecimal [16-Bits]
 
 
 
-                             55     t_player:: .db  0x01;    type of entity is player
-                             56     cmp_player:: .db 0x0D   ;components that player has
-                             57     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-                             58     player_col:: .db 0x06
-                             59 .endm
-                             60 
-                             61 
-                             62 .macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-                             63 _name::
-                             64     t_caja:: .db 0x04 ;    type of entity is breakable box
-                             65     cmp_caja:: .db 0x09   ;components that box has
-                             66     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-                             67     caja_col:: .db 0x01
-                             68 .endm
+                     0000    55 e_t = 0
+                     0001    56 e_cmp = 1
+                     0002    57 e_x = 2
+                     0003    58 e_y = 3
+                     0004    59 e_w = 4
+                     0005    60 e_h = 5
+                     0006    61 e_vx = 6
+                     0007    62 e_vy = 7
+                     0008    63 e_c = 8
+                     0009    64 e_be = 9
+                     000A    65 e_lastVP_l = 10
+                     000B    66 e_lastVP_h = 11
+                     000C    67 e_col = 12
+                     000D    68 sizeof_e = 13
                              69 
-                             70 
-                             71 ;.macro DefineBalaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-                             72 ;_name::
-                             73 ;    t_bala:: .db 0x08 ;    type of entity is bullet
-                             74 ;    cmp_bala:: .db 0x0D   ;components that bullet has
-                             75 ;    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-                             76 ;    bala_col:: .db 0x00
-                             77 ;.endm
-                             78 ;
+                             70 .macro DefineEntityArray _name, _N
+                             71 _name::
+                             72     .rept _N
+                             73         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+                             74     .endm
+                             75 .endm
+                             76 
+                             77 
+                             78 ;; Componentes de las entidades
                              79 
-                     0000    80 e_t = 0
-                     0001    81 e_cmp = 1
-                     0002    82 e_x = 2
-                     0003    83 e_y = 3
-                     0004    84 e_w = 4
-                     0005    85 e_h = 5
-                     0006    86 e_vx = 6
-                     0007    87 e_vy = 7
-                     0008    88 e_c = 8
-                     0009    89 e_be = 9
-                     000A    90 e_lastVP_l = 10
-                     000B    91 e_lastVP_h = 11
-                     000C    92 e_col = 12
-                     000D    93 sizeof_e = 13
-                             94 
-                             95 .macro DefineEntityArray _name, _N
-                             96 _name::
-                             97     .rept _N
-                             98         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-                             99     .endm
-                            100 .endm
-                            101 
-                            102 
-                            103 ;; Componentes de las entidades
-                            104 
-                            105 ;;; Usando los bits  para definir signatures luego
-                            106 ;; 00000001 para lo que sea para renderizar
-   415D 01                  107 cmp_render: .db 0x01
-                            108 ;; 00000010 para las entidades que usen IA
-   415E 02                  109 cmp_ia: .db 0x02
+                             80 ;;; Usando los bits  para definir signatures luego
+                             81 ;; 00000001 para lo que sea para renderizar
+   415D 01                   82 cmp_render: .db 0x01
+                             83 ;; 00000010 para las entidades que usen IA
+   415E 02                   84 cmp_ia: .db 0x02
+                             85 ;; 00000100 para las entidades con input (player)
+   415F 04                   86 cmp_input: .db 0x04
+                             87 ;;  entidades con colisiones
+   4160 08                   88 cmp_collider: .db 0x08
+                             89 
+                             90 
+                             91 ;; Tipos de las entidades
+   4161 00                   92 t_default: .db 0x00
+                             93 
+   4162 80                   94 t_dead: .db 0x80
+                             95 
+                             96 
+                             97 
+                             98 
+                             99 
+                            100 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 87.
-Hexadecimal [16-Bits]
-
-
-
-                            110 ;; 00000100 para las entidades con input (player)
-   415F 04                  111 cmp_input: .db 0x04
-                            112 ;;  entidades con colisiones
-   4160 08                  113 cmp_collider: .db 0x08
-                            114 
-                            115 
-                            116 ;; Tipos de las entidades
-   4161 00                  117 t_default: .db 0x00
-                            118 
-   4162 80                  119 t_dead: .db 0x80
-                            120 
-                            121 
-                            122 
-                            123 
-                            124 
-                            125 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 88.
 Hexadecimal [16-Bits]
 
 
@@ -4582,7 +4552,7 @@ Hexadecimal [16-Bits]
                               5 .globl physics_sys_init
                               6 .globl physics_sys_update
                               7 .globl physics_sys_for_one
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 89.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 88.
 Hexadecimal [16-Bits]
 
 
@@ -4591,7 +4561,7 @@ Hexadecimal [16-Bits]
                               1 .globl input_update_one
                               2 .globl input_update
                               3 .globl input_init
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 90.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 89.
 Hexadecimal [16-Bits]
 
 
@@ -4599,7 +4569,7 @@ Hexadecimal [16-Bits]
                               9 .include "ia.h.s"
                               1 .globl ia_update
                               2 .globl ia_update_one_entity
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 91.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 90.
 Hexadecimal [16-Bits]
 
 
@@ -4612,7 +4582,7 @@ Hexadecimal [16-Bits]
                               5 .globl rendersys_update
                               6 .globl render_delete_entity
                               7 .globl render_delete_static_entity
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 92.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 91.
 Hexadecimal [16-Bits]
 
 
@@ -4629,7 +4599,7 @@ Hexadecimal [16-Bits]
                               9 
    4165 00                   10 x_ban_2: .db 0x00
    4166 00                   11 y_ban_2: .db 0x00
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 93.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 92.
 Hexadecimal [16-Bits]
 
 
@@ -4689,7 +4659,7 @@ Hexadecimal [16-Bits]
    0034                       1         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
    4191 00                    1     .db 0x00 ;    type of entity default
    4192 00                    2     .db 0x00 ;      components of entity default
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 94.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 93.
 Hexadecimal [16-Bits]
 
 
@@ -4749,7 +4719,7 @@ Hexadecimal [16-Bits]
                              31 ; Input
                              32 ; Desc: Aumenta en 1 el num_entity, almacena en DE la direccion de Last_pointer y last_pointer lo mueve una entidad de distancia
                              33 ; Modifies: HL, DE, BC
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 95.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 94.
 Hexadecimal [16-Bits]
 
 
@@ -4809,7 +4779,7 @@ Hexadecimal [16-Bits]
    41EB 32 2E 42      [13]   84     ld (_ent_counter), a
                              85 
    41EE DD 7E 00      [19]   86     ld a, e_t(ix)
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 95.
 Hexadecimal [16-Bits]
 
 
@@ -4833,7 +4803,7 @@ Hexadecimal [16-Bits]
    4206 28 02         [12]  103         jr z, con_ia
    4208 18 05         [12]  104         jr no_ia
    420A                     105         con_ia:
-   420A CD 5F 43      [17]  106             call ia_update_one_entity
+   420A CD 36 43      [17]  106             call ia_update_one_entity
    420D 18 1E         [12]  107             jr continua
                             108 
    420F                     109         no_ia:
@@ -4844,7 +4814,7 @@ Hexadecimal [16-Bits]
    4217                     114                 control:
    4217 D5            [11]  115                 push de
                             116 ;; Con esto modifico la velocidad del player dependiendo de la tecla pulsada
-   4218 CD A0 43      [17]  117                 call input_update_one
+   4218 CD 77 43      [17]  117                 call input_update_one
    421B D1            [10]  118                 pop de
    421C 18 0F         [12]  119                 jr continua
    421E                     120         mover_cosas:
@@ -4855,7 +4825,7 @@ Hexadecimal [16-Bits]
    4226                     125                 render:
    4226 D5            [11]  126                 push de
                             127 ;; Con esto modifico la velocidad del player dependiendo de la tecla pulsada
-   4227 CD 0E 44      [17]  128                 call physics_sys_for_one
+   4227 CD E5 43      [17]  128                 call physics_sys_for_one
    422A D1            [10]  129                 pop de
    422B 18 00         [12]  130                 jr continua
                             131             
@@ -4869,7 +4839,7 @@ Hexadecimal [16-Bits]
                             139 
                             140 
    4231 32 2E 42      [13]  141     ld (_ent_counter), a
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 96.
 Hexadecimal [16-Bits]
 
 
@@ -4881,98 +4851,99 @@ Hexadecimal [16-Bits]
    4239 18 B0         [12]  146     jr _renloop
                             147 
                             148 
-   423B                     149 E_M_for_all_pairs_matching::
-   423B 4F            [ 4]  150     ld c, a
-   423C 7A            [ 4]  151     ld a, d
-   423D 51            [ 4]  152     ld d, c
-                            153    ;intercambio A y D;
-   423E                     154     _renloop_pairs:
-   423E 32 98 42      [13]  155         ld (_ent_counter2), a
-   4241 DD 7E 00      [19]  156         ld a, e_t(ix)
-   4244 4F            [ 4]  157         ld c, a
-   4245 7B            [ 4]  158         ld a, e
-   4246 59            [ 4]  159         ld e, c
-   4247 3A 61 41      [13]  160         ld a, (t_default)
-   424A A3            [ 4]  161         and e
-   424B 20 51         [12]  162         jr nz, invalid_entity_pairs
-                            163        ;; erase previous istance
-                            164        ; para mover todo lo que tenga a 1 el bit de ia
-   424D DD 7E 01      [19]  165         ld a, e_cmp(ix)
-   4250 A2            [ 4]  166         and d
-   00F4                     167         ld__iy_ix
+                            149 ;;INPUT
+                            150 ;;  A: Bit de signo (Si algo es colisionable)
+                            151 ;;  D: Numero de entidades
+                            152 
+   423B                     153 E_M_for_all_pairs_matching::
+                            154     ;Intercambio A y D;
+   423B 4F            [ 4]  155     ld c, a
+   423C 7A            [ 4]  156     ld a, d
+   423D 51            [ 4]  157     ld d, c
+                            158 
+   423E                     159     _renloop_pairs:
+   423E 32 95 42      [13]  160         ld (_ent_counter2), a
+   4241 DD 5E 00      [19]  161         ld e, e_t(ix)                   ;;E esta el tipo de la enidad
+   4244 3A 61 41      [13]  162         ld a, (t_default)               ;;A tipo default
+   4247 A3            [ 4]  163         and e                           ;;Detectar si es el tipo de la entidad es default
+                            164 
+   4248 20 51         [12]  165         jr nz, invalid_entity_pairs     ;;Si la entidad es invalida salta a la siguiente
+                            166 
+   424A DD 7E 01      [19]  167         ld a, e_cmp(ix)                 ;;Cargar en A los componentes
+   424D A2            [ 4]  168         and d                           ;;Comparar con el bit de signo
+   00F1                     169         ld__iy_ix                       ;;Cargar en IY lo que hay en IX
                               1    ;; LD IY, IX
                               2    ;;------------
-   00F4                       3    ld__a_ixl
-   4251 DD 7D                 1    .dw #0x7DDD  ;; Opcode for ld a, ixl
-   00F6                       4    ld__iyl_a
-   4253 FD 6F                 1    .dw #0x6FFD  ;; Opcode for ld iyl, a
-   00F8                       5    ld__a_ixh
-   4255 DD 7C                 1    .dw #0x7CDD  ;; Opcode for ld a, ixh
-   00FA                       6    ld__iyh_a
-   4257 FD 67                 1    .dw #0x67FD  ;; Opcode for ld iyh, a
+   00F1                       3    ld__a_ixl
+   424E DD 7D                 1    .dw #0x7DDD  ;; Opcode for ld a, ixl
+   00F3                       4    ld__iyl_a
+   4250 FD 6F                 1    .dw #0x6FFD  ;; Opcode for ld iyl, a
+   00F5                       5    ld__a_ixh
+   4252 DD 7C                 1    .dw #0x7CDD  ;; Opcode for ld a, ixh
+   00F7                       6    ld__iyh_a
+   4254 FD 67                 1    .dw #0x67FD  ;; Opcode for ld iyh, a
                               7    ;;------------
-   4259 20 02         [12]  168         jr nz, cumple_pairs
-   425B 18 32         [12]  169         jr continua_pairs
-   425D                     170         cumple_pairs:    
-                            171            ; significa que este elemento cumple que es colisionable
-                            172            ; A partir de aqui se busca el siguiente elemento colisionable para luego ver el tipo de colision entre la parejas
-                            173            ; hl apuntara a las siguientes entidades
-   425D 01 0D 00      [10]  174             ld bc, #sizeof_e
-   4260 DD 09         [15]  175             add ix, bc
-   4262 3A 98 42      [13]  176             ld a, (_ent_counter2)
-   4265 3D            [ 4]  177             dec a
-   4266                     178             second_loop_pairs:
-   4266 32 81 42      [13]  179                ld (_ent_counter_2), a
-   4269 DD 7E 00      [19]  180                 ld a, e_t(ix)
-   426C 4F            [ 4]  181                 ld c, a
-   426D 7B            [ 4]  182                 ld a, e
-   426E 59            [ 4]  183                 ld e, c
-   426F 3A 61 41      [13]  184                 ld a, (t_default)
-   4272 A3            [ 4]  185                 and e
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 98.
+   4256 20 02         [12]  170         jr nz, cumple_pairs             
+   4258 18 32         [12]  171         jr continua_pairs
+   425A                     172         cumple_pairs:    
+                            173            ; significa que este elemento cumple que es colisionable
+                            174            ; A partir de aqui se busca el siguiente elemento colisionable para luego ver el tipo de colision entre la parejas
+   425A 01 0D 00      [10]  175             ld bc, #sizeof_e
+   425D DD 09         [15]  176             add ix, bc
+   425F 3A 95 42      [13]  177             ld a, (_ent_counter2)
+   4262 3D            [ 4]  178             dec a
+   4263                     179             second_loop_pairs:
+   4263 32 7E 42      [13]  180                ld (_ent_counter_2), a
+   4266 DD 7E 00      [19]  181                 ld a, e_t(ix)
+   4269 4F            [ 4]  182                 ld c, a
+   426A 7B            [ 4]  183                 ld a, e
+   426B 59            [ 4]  184                 ld e, c
+   426C 3A 61 41      [13]  185                 ld a, (t_default)
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-   4273 20 13         [12]  186                 jr nz, invalid_entity_2_pairs
-   4275 DD 7E 01      [19]  187                 ld a, e_cmp(ix)
-   4278 A2            [ 4]  188                 and d
-   4279 20 02         [12]  189                 jr nz, cumple2_pairs
-   427B 18 03         [12]  190                 jr continua2_pairs
-   427D                     191                   cumple2_pairs:  
-   427D CD 16 40      [17]  192                   call collider_one_pair
-   4280                     193             continua2_pairs:
-                     0124   194                 _ent_counter_2 = .+1
-   4280 3E 00         [ 7]  195                 ld  a, #0
-   4282 3D            [ 4]  196                 dec a
-   4283 28 0A         [12]  197                 jr z, continua_pairs
-   4285 32 81 42      [13]  198                 ld (_ent_counter_2), a
-   4288                     199             invalid_entity_2_pairs:
-   4288 01 0D 00      [10]  200                 ld bc, #sizeof_e
-   428B DD 09         [15]  201                 add ix, bc
-   428D 18 D7         [12]  202                 jr second_loop_pairs
-                            203                    
-   428F                     204     continua_pairs:
-   0132                     205     ld__ix_iy
+   426F A3            [ 4]  186                 and e
+   4270 20 13         [12]  187                 jr nz, invalid_entity_2_pairs
+   4272 DD 7E 01      [19]  188                 ld a, e_cmp(ix)
+   4275 A2            [ 4]  189                 and d
+   4276 20 02         [12]  190                 jr nz, cumple2_pairs
+   4278 18 03         [12]  191                 jr continua2_pairs
+   427A                     192                   cumple2_pairs:  
+   427A CD 16 40      [17]  193                   call collider_one_pair
+   427D                     194             continua2_pairs:
+                     0121   195                 _ent_counter_2 = .+1
+   427D 3E 00         [ 7]  196                 ld  a, #0
+   427F 3D            [ 4]  197                 dec a
+   4280 28 0A         [12]  198                 jr z, continua_pairs
+   4282 32 7E 42      [13]  199                 ld (_ent_counter_2), a
+   4285                     200             invalid_entity_2_pairs:
+   4285 01 0D 00      [10]  201                 ld bc, #sizeof_e
+   4288 DD 09         [15]  202                 add ix, bc
+   428A 18 D7         [12]  203                 jr second_loop_pairs
+                            204                    
+   428C                     205     continua_pairs:
+   012F                     206     ld__ix_iy
                               1    ;; LD IX, IY
                               2    ;;------------
-   0132                       3    ld__a_iyl
-   428F FD 7D                 1    .dw #0x7DFD  ;; Opcode for ld a, iyl
-   0134                       4    ld__ixl_a
-   4291 DD 6F                 1    .dw #0x6FDD  ;; Opcode for ld ixl, a
-   0136                       5    ld__a_iyh
-   4293 FD 7C                 1    .dw #0x7CFD  ;; Opcode for ld a, iyh
-   0138                       6    ld__ixh_a
-   4295 DD 67                 1    .dw #0x67DD  ;; Opcode for ld ixh, a
+   012F                       3    ld__a_iyl
+   428C FD 7D                 1    .dw #0x7DFD  ;; Opcode for ld a, iyl
+   0131                       4    ld__ixl_a
+   428E DD 6F                 1    .dw #0x6FDD  ;; Opcode for ld ixl, a
+   0133                       5    ld__a_iyh
+   4290 FD 7C                 1    .dw #0x7CFD  ;; Opcode for ld a, iyh
+   0135                       6    ld__ixh_a
+   4292 DD 67                 1    .dw #0x67DD  ;; Opcode for ld ixh, a
                               7    ;;------------
-                     013B   206     _ent_counter2 = .+1
-   4297 3E 00         [ 7]  207     ld  a, #0
-   4299 3D            [ 4]  208    dec a
-   429A C8            [11]  209    ret z
-                            210 
-   429B 32 98 42      [13]  211    ld (_ent_counter2), a;
-   429E                     212    invalid_entity_pairs:
-   429E 01 0D 00      [10]  213    ld bc, #sizeof_e
-   42A1 DD 09         [15]  214    add ix, bc
-   42A3 18 99         [12]  215    jr _renloop_pairs;
-                            216 
+                     0138   207     _ent_counter2 = .+1
+   4294 3E 00         [ 7]  208     ld  a, #0
+   4296 3D            [ 4]  209    dec a
+   4297 C8            [11]  210    ret z
+                            211 
+   4298 32 95 42      [13]  212    ld (_ent_counter2), a;
+   429B                     213    invalid_entity_pairs:
+   429B 01 0D 00      [10]  214    ld bc, #sizeof_e
+   429E DD 09         [15]  215    add ix, bc
+   42A0 18 9C         [12]  216    jr _renloop_pairs;
+                            217 

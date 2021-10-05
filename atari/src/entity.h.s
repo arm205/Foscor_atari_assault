@@ -41,13 +41,6 @@ _name::
     enemy_col:: .db 0x00
 .endm
 
-.macro DefineEnemy2Entity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-_name::
-    .db 0x02 ;    type of entity is enemy
-    .db 0x0B    ;components that enemy has
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-    .db 0x00
-.endm
 
 
 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
@@ -58,24 +51,6 @@ _name::
     player_col:: .db 0x06
 .endm
 
-
-.macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-_name::
-    t_caja:: .db 0x04 ;    type of entity is breakable box
-    cmp_caja:: .db 0x09   ;components that box has
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-    caja_col:: .db 0x01
-.endm
-
-
-;.macro DefineBalaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-;_name::
-;    t_bala:: .db 0x08 ;    type of entity is bullet
-;    cmp_bala:: .db 0x0D   ;components that bullet has
-;    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-;    bala_col:: .db 0x00
-;.endm
-;
 
 e_t = 0
 e_cmp = 1

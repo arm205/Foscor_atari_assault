@@ -4469,99 +4469,69 @@ Hexadecimal [16-Bits]
                              41     enemy_col:: .db 0x00
                              42 .endm
                              43 
-                             44 .macro DefineEnemy2Entity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-                             45 _name::
-                             46     .db 0x02 ;    type of entity is enemy
-                             47     .db 0x0B    ;components that enemy has
-                             48     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-                             49     .db 0x00
-                             50 .endm
-                             51 
-                             52 
-                             53 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-                             54 _name::
+                             44 
+                             45 
+                             46 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
+                             47 _name::
+                             48     t_player:: .db  0x01;    type of entity is player
+                             49     cmp_player:: .db 0x0D   ;components that player has
+                             50     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
+                             51     player_col:: .db 0x06
+                             52 .endm
+                             53 
+                             54 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 85.
 Hexadecimal [16-Bits]
 
 
 
-                             55     t_player:: .db  0x01;    type of entity is player
-                             56     cmp_player:: .db 0x0D   ;components that player has
-                             57     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-                             58     player_col:: .db 0x06
-                             59 .endm
-                             60 
-                             61 
-                             62 .macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-                             63 _name::
-                             64     t_caja:: .db 0x04 ;    type of entity is breakable box
-                             65     cmp_caja:: .db 0x09   ;components that box has
-                             66     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-                             67     caja_col:: .db 0x01
-                             68 .endm
+                     0000    55 e_t = 0
+                     0001    56 e_cmp = 1
+                     0002    57 e_x = 2
+                     0003    58 e_y = 3
+                     0004    59 e_w = 4
+                     0005    60 e_h = 5
+                     0006    61 e_vx = 6
+                     0007    62 e_vy = 7
+                     0008    63 e_c = 8
+                     0009    64 e_be = 9
+                     000A    65 e_lastVP_l = 10
+                     000B    66 e_lastVP_h = 11
+                     000C    67 e_col = 12
+                     000D    68 sizeof_e = 13
                              69 
-                             70 
-                             71 ;.macro DefineBalaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-                             72 ;_name::
-                             73 ;    t_bala:: .db 0x08 ;    type of entity is bullet
-                             74 ;    cmp_bala:: .db 0x0D   ;components that bullet has
-                             75 ;    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-                             76 ;    bala_col:: .db 0x00
-                             77 ;.endm
-                             78 ;
+                             70 .macro DefineEntityArray _name, _N
+                             71 _name::
+                             72     .rept _N
+                             73         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+                             74     .endm
+                             75 .endm
+                             76 
+                             77 
+                             78 ;; Componentes de las entidades
                              79 
-                     0000    80 e_t = 0
-                     0001    81 e_cmp = 1
-                     0002    82 e_x = 2
-                     0003    83 e_y = 3
-                     0004    84 e_w = 4
-                     0005    85 e_h = 5
-                     0006    86 e_vx = 6
-                     0007    87 e_vy = 7
-                     0008    88 e_c = 8
-                     0009    89 e_be = 9
-                     000A    90 e_lastVP_l = 10
-                     000B    91 e_lastVP_h = 11
-                     000C    92 e_col = 12
-                     000D    93 sizeof_e = 13
-                             94 
-                             95 .macro DefineEntityArray _name, _N
-                             96 _name::
-                             97     .rept _N
-                             98         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-                             99     .endm
-                            100 .endm
-                            101 
-                            102 
-                            103 ;; Componentes de las entidades
-                            104 
-                            105 ;;; Usando los bits  para definir signatures luego
-                            106 ;; 00000001 para lo que sea para renderizar
-   0000 01                  107 cmp_render: .db 0x01
-                            108 ;; 00000010 para las entidades que usen IA
-   0001 02                  109 cmp_ia: .db 0x02
+                             80 ;;; Usando los bits  para definir signatures luego
+                             81 ;; 00000001 para lo que sea para renderizar
+   0000 01                   82 cmp_render: .db 0x01
+                             83 ;; 00000010 para las entidades que usen IA
+   0001 02                   84 cmp_ia: .db 0x02
+                             85 ;; 00000100 para las entidades con input (player)
+   0002 04                   86 cmp_input: .db 0x04
+                             87 ;;  entidades con colisiones
+   0003 08                   88 cmp_collider: .db 0x08
+                             89 
+                             90 
+                             91 ;; Tipos de las entidades
+   0004 00                   92 t_default: .db 0x00
+                             93 
+   0005 80                   94 t_dead: .db 0x80
+                             95 
+                             96 
+                             97 
+                             98 
+                             99 
+                            100 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 86.
-Hexadecimal [16-Bits]
-
-
-
-                            110 ;; 00000100 para las entidades con input (player)
-   0002 04                  111 cmp_input: .db 0x04
-                            112 ;;  entidades con colisiones
-   0003 08                  113 cmp_collider: .db 0x08
-                            114 
-                            115 
-                            116 ;; Tipos de las entidades
-   0004 00                  117 t_default: .db 0x00
-                            118 
-   0005 80                  119 t_dead: .db 0x80
-                            120 
-                            121 
-                            122 
-                            123 
-                            124 
-                            125 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 87.
 Hexadecimal [16-Bits]
 
 
@@ -4574,7 +4544,7 @@ Hexadecimal [16-Bits]
                               5 .globl rendersys_update
                               6 .globl render_delete_entity
                               7 .globl render_delete_static_entity
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 88.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 87.
 Hexadecimal [16-Bits]
 
 
@@ -4587,7 +4557,7 @@ Hexadecimal [16-Bits]
                               5 .globl physics_sys_init
                               6 .globl physics_sys_update
                               7 .globl physics_sys_for_one
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 89.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 88.
 Hexadecimal [16-Bits]
 
 
@@ -4596,7 +4566,7 @@ Hexadecimal [16-Bits]
                               1 .globl input_update_one
                               2 .globl input_update
                               3 .globl input_init
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 90.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 89.
 Hexadecimal [16-Bits]
 
 
@@ -4604,7 +4574,7 @@ Hexadecimal [16-Bits]
                               7 .include "ia.h.s"
                               1 .globl ia_update
                               2 .globl ia_update_one_entity
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 91.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 90.
 Hexadecimal [16-Bits]
 
 
@@ -4621,7 +4591,7 @@ Hexadecimal [16-Bits]
                               9 
    0008 00                   10 x_ban_2: .db 0x00
    0009 00                   11 y_ban_2: .db 0x00
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 92.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 91.
 Hexadecimal [16-Bits]
 
 
@@ -4629,15 +4599,13 @@ Hexadecimal [16-Bits]
                               9 
                              10 
                              11 
-                             12 ;                   _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-                             13 
-   000A                      14 DefineEnemyEntity enemy, 20, 20, 4, 8, -1, 0, 0xFF, 1
+   000A                      12 DefineEnemyEntity enemy, 20, 60, 4, 8, -1, 0, 0xFF, 1
    000A                       1 enemy::
    000A 02                    2     t_enemy:: .db 0x02 ;    type of entity is enemy
    000B 0B                    3     cmp_enemy:: .db 0x0B   ;components that enemy has
-   000C                       4     CommonDefine 20, 20, 4, 8, -1, 0, 0xFF, 1
+   000C                       4     CommonDefine 20, 60, 4, 8, -1, 0, 0xFF, 1
    000C 14                    1     .db 20 ;    position x of entity
-   000D 14                    2     .db 20 ;    position y of entity
+   000D 3C                    2     .db 60 ;    position y of entity
    000E 04                    3     .db 4 ;    width of entity
    000F 08                    4     .db 8 ;    height y of entity
    0010 FF                    5     .db -1 ;    speed x of entity
@@ -4646,138 +4614,95 @@ Hexadecimal [16-Bits]
    0013 01                    8     .db 1;     byte that we use for setting a special behavior to an entity (asi podemos tener dos cosas del mismo tipo que se comporten distinto)
    0014 CC CC                 9     .dw 0xCCCC; last video memory value to delate later
    0016 00                    5     enemy_col:: .db 0x00
-                             15 
-   0017                      16 DefineEnemy2Entity enemy2, 20, 40, 4, 8, -1, 0, 0xFF, 2
-   0017                       1 enemy2::
-   0017 02                    2     .db 0x02 ;    type of entity is enemy
-   0018 0B                    3     .db 0x0B    ;components that enemy has
-   0019                       4     CommonDefine 20, 40, 4, 8, -1, 0, 0xFF, 2
+                             13 
+   0017                      14 DefinePlayerEntity player, 20, 180, 2, 8, -1, 0, 0x0F, 0
+   0017                       1 player::
+   0017 01                    2     t_player:: .db  0x01;    type of entity is player
+   0018 0D                    3     cmp_player:: .db 0x0D   ;components that player has
+   0019                       4     CommonDefine 20, 180, 2, 8, -1, 0, 0x0F, 0
    0019 14                    1     .db 20 ;    position x of entity
-   001A 28                    2     .db 40 ;    position y of entity
-   001B 04                    3     .db 4 ;    width of entity
+   001A B4                    2     .db 180 ;    position y of entity
+   001B 02                    3     .db 2 ;    width of entity
    001C 08                    4     .db 8 ;    height y of entity
    001D FF                    5     .db -1 ;    speed x of entity
    001E 00                    6     .db 0 ;    speed x of entity
-   001F FF                    7     .db 0xFF ;    color of entity
-   0020 02                    8     .db 2;     byte that we use for setting a special behavior to an entity (asi podemos tener dos cosas del mismo tipo que se comporten distinto)
+   001F 0F                    7     .db 0x0F ;    color of entity
+   0020 00                    8     .db 0;     byte that we use for setting a special behavior to an entity (asi podemos tener dos cosas del mismo tipo que se comporten distinto)
    0021 CC CC                 9     .dw 0xCCCC; last video memory value to delate later
-   0023 00                    5     .db 0x00
+   0023 06                    5     player_col:: .db 0x06
+                             15 
+   0024 47 41 4D 45 20 4F    16 final_text: .asciz "GAME OVER"
+        56 45 52 00
                              17 
-   0024                      18 DefinePlayerEntity player, 20, 180, 2, 8, -1, 0, 0x0F, 0
-   0024                       1 player::
-   0024 01                    2     t_player:: .db  0x01;    type of entity is player
-   0025 0D                    3     cmp_player:: .db 0x0D   ;components that player has
-   0026                       4     CommonDefine 20, 180, 2, 8, -1, 0, 0x0F, 0
-   0026 14                    1     .db 20 ;    position x of entity
-   0027 B4                    2     .db 180 ;    position y of entity
-   0028 02                    3     .db 2 ;    width of entity
-   0029 08                    4     .db 8 ;    height y of entity
-   002A FF                    5     .db -1 ;    speed x of entity
-   002B 00                    6     .db 0 ;    speed x of entity
-   002C 0F                    7     .db 0x0F ;    color of entity
-   002D 00                    8     .db 0;     byte that we use for setting a special behavior to an entity (asi podemos tener dos cosas del mismo tipo que se comporten distinto)
-   002E CC CC                 9     .dw 0xCCCC; last video memory value to delate later
-   0030 06                    5     player_col:: .db 0x06
-                             19 
-   0031                      20 DefineCajaEntity caja, 40, 100, 2, 8, 0, 0, 0xF0, 0
-   0031                       1 caja::
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 93.
+                             18 
+   002E                      19 man_game_init::
+   002E CD 00 00      [17]   20     call E_M_init
+                             21 
+   0031 CD 00 00      [17]   22     call rendersys_init
+   0034 CD 00 00      [17]   23     call physics_sys_init
+   0037 CD 00 00      [17]   24     call input_init
+                             25 
+   003A 21 0A 00      [10]   26     ld hl, #enemy
+   003D CD 47 00      [17]   27     call man_game_entity_creator
+                             28 
+   0040 21 17 00      [10]   29     ld hl, #player
+   0043 CD 47 00      [17]   30     call man_game_entity_creator
+                             31 
+                             32 
+                             33 
+   0046 C9            [10]   34 ret
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 92.
 Hexadecimal [16-Bits]
 
 
 
-   0031 04                    2     t_caja:: .db 0x04 ;    type of entity is breakable box
-   0032 09                    3     cmp_caja:: .db 0x09   ;components that box has
-   0033                       4     CommonDefine 40, 100, 2, 8, 0, 0, 0xF0, 0
-   0033 28                    1     .db 40 ;    position x of entity
-   0034 64                    2     .db 100 ;    position y of entity
-   0035 02                    3     .db 2 ;    width of entity
-   0036 08                    4     .db 8 ;    height y of entity
-   0037 00                    5     .db 0 ;    speed x of entity
-   0038 00                    6     .db 0 ;    speed x of entity
-   0039 F0                    7     .db 0xF0 ;    color of entity
-   003A 00                    8     .db 0;     byte that we use for setting a special behavior to an entity (asi podemos tener dos cosas del mismo tipo que se comporten distinto)
-   003B CC CC                 9     .dw 0xCCCC; last video memory value to delate later
-   003D 01                    5     caja_col:: .db 0x01
-                             21 
-                             22 ;DefineBalaEntity bala, 20, 180, 2, 8, 0, 0, 0xF0, 0, 2
-   003E 47 41 4D 45 20 4F    23 final_text: .asciz "GAME OVER"
-        56 45 52 00
-                             24 
-                             25 
-   0048                      26 man_game_init::
-   0048 CD 00 00      [17]   27     call E_M_init
-                             28 
-   004B CD 00 00      [17]   29     call rendersys_init
-   004E CD 00 00      [17]   30     call physics_sys_init
-   0051 CD 00 00      [17]   31     call input_init
-                             32 
-   0054 21 0A 00      [10]   33     ld hl, #enemy
-   0057 CD 6D 00      [17]   34     call man_game_entity_creator
-   005A 21 17 00      [10]   35     ld hl, #enemy2
-   005D CD 6D 00      [17]   36     call man_game_entity_creator
-   0060 21 31 00      [10]   37     ld hl, #caja
-                             38 ;    call man_game_entity_creator
-                             39 ;    ld hl, #bala
-   0063 CD 6D 00      [17]   40     call man_game_entity_creator
-   0066 21 24 00      [10]   41     ld hl, #player
-   0069 CD 6D 00      [17]   42     call man_game_entity_creator
+                             35 
+                             36 ;;INPUT:HL: Puntero al tipo de entidad que se quiera crear
+                             37 
+   0047                      38 man_game_entity_creator::
+   0047 CD 00 00      [17]   39     call E_M_create
+   004A C9            [10]   40 ret
+                             41 
+                             42 
                              43 
                              44 
                              45 
-   006C C9            [10]   46 ret
-                             47 
-                             48 ;;INPUT:HL: Puntero al tipo de entidad que se quiera crear
-                             49 
-   006D                      50 man_game_entity_creator::
-   006D CD 00 00      [17]   51     call E_M_create
-   0070 C9            [10]   52 ret
-                             53 
-                             54 
-                             55 
-                             56 
-                             57 
-                             58 
-   0071                      59 man_game_update::
-                             60  
-                             61    ;; Init system
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 94.
-Hexadecimal [16-Bits]
-
-
-
-   0071 CD 00 00      [17]   62     call E_M_getEntityArray
-   0074 CD 00 00      [17]   63    call input_update
-   0077 CD 00 00      [17]   64     call E_M_getEntityArray
-   007A CD 00 00      [17]   65    call ia_update
-   007D CD 00 00      [17]   66    call E_M_getEntityArray
-   0080 CD 00 00      [17]   67    call collider_update
-   0083 CD 00 00      [17]   68     call E_M_getEntityArray
-   0086 CD 00 00      [17]   69    call physics_sys_update
-   0089 C9            [10]   70    ret
-                             71 
-                             72 
-                             73 
-   008A                      74 man_game_render::
-   008A CD 00 00      [17]   75     call E_M_getEntityArray
-   008D CD 00 00      [17]   76     call rendersys_update
-   0090 C9            [10]   77 ret
-                             78 
-   0091                      79 man_game_end::
-   0091 CD 00 00      [17]   80 call E_M_init
-   0094                      81 cpctm_clearScreen_asm #0
-   0094 21 00 C0      [10]    1    ld    hl, #0xC000    ;; [3] HL Points to Start of Video Memory
-   0097 11 01 C0      [10]    2    ld    de, #0xC001    ;; [3] DE Points to the next byte
-   009A 01 00 40      [10]    3    ld    bc, #0x4000    ;; [3] BC = 16384 bytes to be copied
-   009D 36 00         [10]    4    ld   (hl), ##0      ;; [3] First Byte = given Colour
-   009F ED B0         [21]    5    ldir                 ;; [98297] Perform the copy
-                             82 
-   00A1 11 00 C0      [10]   83 ld de, #0xC000
-   00A4 0E 14         [ 7]   84 ld c, #20
-   00A6 06 5C         [ 7]   85 ld b, #92
-   00A8 CD 00 00      [17]   86 call cpct_getScreenPtr_asm
-   00AB FD 21 3E 00   [14]   87 ld iy, #final_text
-   00AF CD 00 00      [17]   88 call cpct_drawStringM0_asm
-                             89 
-   00B2 18 FE         [12]   90 jr .
-                             91 
+                             46 
+   004B                      47 man_game_update::
+                             48  
+                             49    ;; Init system
+   004B CD 00 00      [17]   50     call E_M_getEntityArray
+   004E CD 00 00      [17]   51    call input_update
+   0051 CD 00 00      [17]   52     call E_M_getEntityArray
+   0054 CD 00 00      [17]   53    call ia_update
+   0057 CD 00 00      [17]   54    call E_M_getEntityArray
+   005A CD 00 00      [17]   55    call collider_update
+   005D CD 00 00      [17]   56     call E_M_getEntityArray
+   0060 CD 00 00      [17]   57    call physics_sys_update
+   0063 C9            [10]   58    ret
+                             59 
+                             60 
+                             61 
+   0064                      62 man_game_render::
+   0064 CD 00 00      [17]   63     call E_M_getEntityArray
+   0067 CD 00 00      [17]   64     call rendersys_update
+   006A C9            [10]   65 ret
+                             66 
+   006B                      67 man_game_end::
+   006B CD 00 00      [17]   68 call E_M_init
+   006E                      69 cpctm_clearScreen_asm #0
+   006E 21 00 C0      [10]    1    ld    hl, #0xC000    ;; [3] HL Points to Start of Video Memory
+   0071 11 01 C0      [10]    2    ld    de, #0xC001    ;; [3] DE Points to the next byte
+   0074 01 00 40      [10]    3    ld    bc, #0x4000    ;; [3] BC = 16384 bytes to be copied
+   0077 36 00         [10]    4    ld   (hl), ##0      ;; [3] First Byte = given Colour
+   0079 ED B0         [21]    5    ldir                 ;; [98297] Perform the copy
+                             70 
+   007B 11 00 C0      [10]   71 ld de, #0xC000
+   007E 0E 14         [ 7]   72 ld c, #20
+   0080 06 5C         [ 7]   73 ld b, #92
+   0082 CD 00 00      [17]   74 call cpct_getScreenPtr_asm
+   0085 FD 21 24 00   [14]   75 ld iy, #final_text
+   0089 CD 00 00      [17]   76 call cpct_drawStringM0_asm
+                             77 
+   008C 18 FE         [12]   78 jr .
+                             79 

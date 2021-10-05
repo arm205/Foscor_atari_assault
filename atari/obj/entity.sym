@@ -56,8 +56,8 @@ Symbol Table
     Key_U   =  0405     |     Key_V   =  8006     |     Key_W   =  0807 
     Key_X   =  8007     |     Key_Y   =  0805     |     Key_Z   =  8008 
     PAL_INKR=  0040     |     PAL_PENR=  0000     |     PPI_PORT=  00F5 
-    _cpct_ge   **** GX  |   0 _ent_cou=  00D1 R   |   0 _ent_cou=  013B R
-  0 _ent_cou=  0124 R   |   0 _entity_   000D GR  |   0 _last_el   000B GR
+    _cpct_ge   **** GX  |   0 _ent_cou=  00D1 R   |   0 _ent_cou=  0138 R
+  0 _ent_cou=  0121 R   |   0 _entity_   000D GR  |   0 _last_el   000B GR
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
@@ -66,25 +66,25 @@ Symbol Table
   0 _num_ent   000A GR  |   0 _renloop   008E R   |   0 _renloop   00E1 R
   0 cmp_coll   0003 R   |   0 cmp_ia     0001 R   |   0 cmp_inpu   0002 R
   0 cmp_rend   0000 R   |     collider   **** GX  |     collider   **** GX
-  0 con_ia     00AD R   |   0 continua   00D0 R   |   0 continua   0123 R
-  0 continua   0132 R   |   0 control    00BA R   |     cpct_dis   **** GX
+  0 con_ia     00AD R   |   0 continua   00D0 R   |   0 continua   0120 R
+  0 continua   012F R   |   0 control    00BA R   |     cpct_dis   **** GX
     cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_isK   **** GX
     cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
     cpct_pag=  0030     |     cpct_sca   **** GX  |     cpct_wai   **** GX
-  0 cumple     00A5 R   |   0 cumple2_   0120 R   |   0 cumple_p   0100 R
+  0 cumple     00A5 R   |   0 cumple2_   011D R   |   0 cumple_p   00FD R
     e_be    =  0009     |     e_c     =  0008     |     e_cmp   =  0001 
     e_col   =  000C     |     e_h     =  0005     |     e_lastVP=  000B 
     e_lastVP=  000A     |     e_t     =  0000     |     e_vx    =  0006 
     e_vy    =  0007     |     e_w     =  0004     |     e_x     =  0002 
     e_y     =  0003     |     ia_updat   **** GX  |     ia_updat   **** GX
     input_in   **** GX  |     input_up   **** GX  |     input_up   **** GX
-  0 invalid_   00D7 R   |   0 invalid_   012B R   |   0 invalid_   0141 R
+  0 invalid_   00D7 R   |   0 invalid_   0128 R   |   0 invalid_   013E R
     max_enti=  0006 G   |   0 mover_co   00C1 R   |   0 no_ia      00B2 R
     opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
     opc_LD_D=  0016     |     physics_   **** GX  |     physics_   **** GX
     physics_   **** GX  |   0 render     00C9 R   |     render_d   **** GX
     render_d   **** GX  |     rendersy   **** GX  |     rendersy   **** GX
-  0 second_l   0109 R   |     sizeof_e=  000D     |   0 t_dead     0005 R
+  0 second_l   0106 R   |     sizeof_e=  000D     |   0 t_dead     0005 R
   0 t_defaul   0004 R   |   0 x_ban      0006 R   |   0 x_ban_2    0008 R
   0 y_ban      0007 R   |   0 y_ban_2    0009 R
 
@@ -93,5 +93,5 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size  148   flags    0
+   0 _CODE      size  145   flags    0
 

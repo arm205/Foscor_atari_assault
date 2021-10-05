@@ -4477,99 +4477,69 @@ Hexadecimal [16-Bits]
                              41     enemy_col:: .db 0x00
                              42 .endm
                              43 
-                             44 .macro DefineEnemy2Entity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-                             45 _name::
-                             46     .db 0x02 ;    type of entity is enemy
-                             47     .db 0x0B    ;components that enemy has
-                             48     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-                             49     .db 0x00
-                             50 .endm
-                             51 
-                             52 
-                             53 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-                             54 _name::
+                             44 
+                             45 
+                             46 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
+                             47 _name::
+                             48     t_player:: .db  0x01;    type of entity is player
+                             49     cmp_player:: .db 0x0D   ;components that player has
+                             50     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
+                             51     player_col:: .db 0x06
+                             52 .endm
+                             53 
+                             54 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 86.
 Hexadecimal [16-Bits]
 
 
 
-                             55     t_player:: .db  0x01;    type of entity is player
-                             56     cmp_player:: .db 0x0D   ;components that player has
-                             57     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-                             58     player_col:: .db 0x06
-                             59 .endm
-                             60 
-                             61 
-                             62 .macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-                             63 _name::
-                             64     t_caja:: .db 0x04 ;    type of entity is breakable box
-                             65     cmp_caja:: .db 0x09   ;components that box has
-                             66     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-                             67     caja_col:: .db 0x01
-                             68 .endm
+                     0000    55 e_t = 0
+                     0001    56 e_cmp = 1
+                     0002    57 e_x = 2
+                     0003    58 e_y = 3
+                     0004    59 e_w = 4
+                     0005    60 e_h = 5
+                     0006    61 e_vx = 6
+                     0007    62 e_vy = 7
+                     0008    63 e_c = 8
+                     0009    64 e_be = 9
+                     000A    65 e_lastVP_l = 10
+                     000B    66 e_lastVP_h = 11
+                     000C    67 e_col = 12
+                     000D    68 sizeof_e = 13
                              69 
-                             70 
-                             71 ;.macro DefineBalaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-                             72 ;_name::
-                             73 ;    t_bala:: .db 0x08 ;    type of entity is bullet
-                             74 ;    cmp_bala:: .db 0x0D   ;components that bullet has
-                             75 ;    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-                             76 ;    bala_col:: .db 0x00
-                             77 ;.endm
-                             78 ;
+                             70 .macro DefineEntityArray _name, _N
+                             71 _name::
+                             72     .rept _N
+                             73         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+                             74     .endm
+                             75 .endm
+                             76 
+                             77 
+                             78 ;; Componentes de las entidades
                              79 
-                     0000    80 e_t = 0
-                     0001    81 e_cmp = 1
-                     0002    82 e_x = 2
-                     0003    83 e_y = 3
-                     0004    84 e_w = 4
-                     0005    85 e_h = 5
-                     0006    86 e_vx = 6
-                     0007    87 e_vy = 7
-                     0008    88 e_c = 8
-                     0009    89 e_be = 9
-                     000A    90 e_lastVP_l = 10
-                     000B    91 e_lastVP_h = 11
-                     000C    92 e_col = 12
-                     000D    93 sizeof_e = 13
-                             94 
-                             95 .macro DefineEntityArray _name, _N
-                             96 _name::
-                             97     .rept _N
-                             98         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-                             99     .endm
-                            100 .endm
-                            101 
-                            102 
-                            103 ;; Componentes de las entidades
-                            104 
-                            105 ;;; Usando los bits  para definir signatures luego
-                            106 ;; 00000001 para lo que sea para renderizar
-   443F 01                  107 cmp_render: .db 0x01
-                            108 ;; 00000010 para las entidades que usen IA
-   4440 02                  109 cmp_ia: .db 0x02
+                             80 ;;; Usando los bits  para definir signatures luego
+                             81 ;; 00000001 para lo que sea para renderizar
+   4416 01                   82 cmp_render: .db 0x01
+                             83 ;; 00000010 para las entidades que usen IA
+   4417 02                   84 cmp_ia: .db 0x02
+                             85 ;; 00000100 para las entidades con input (player)
+   4418 04                   86 cmp_input: .db 0x04
+                             87 ;;  entidades con colisiones
+   4419 08                   88 cmp_collider: .db 0x08
+                             89 
+                             90 
+                             91 ;; Tipos de las entidades
+   441A 00                   92 t_default: .db 0x00
+                             93 
+   441B 80                   94 t_dead: .db 0x80
+                             95 
+                             96 
+                             97 
+                             98 
+                             99 
+                            100 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 87.
-Hexadecimal [16-Bits]
-
-
-
-                            110 ;; 00000100 para las entidades con input (player)
-   4441 04                  111 cmp_input: .db 0x04
-                            112 ;;  entidades con colisiones
-   4442 08                  113 cmp_collider: .db 0x08
-                            114 
-                            115 
-                            116 ;; Tipos de las entidades
-   4443 00                  117 t_default: .db 0x00
-                            118 
-   4444 80                  119 t_dead: .db 0x80
-                            120 
-                            121 
-                            122 
-                            123 
-                            124 
-                            125 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 88.
 Hexadecimal [16-Bits]
 
 
@@ -4578,78 +4548,78 @@ Hexadecimal [16-Bits]
                      C000     8 screen_start = 0xC000
                               9 
                              10 
-   4445                      11 rendersys_init::
+   441C                      11 rendersys_init::
                              12     ;ld  c, #0
                              13     ;call cpct_setVideoMode_asm
                              14     ;ld  hl, #_pal_main
                              15     ;ld  de, #16
                              16     ;call cpct_setPalette_asm
                              17     ;cpctm_setBorder_asm HW_WHITE
-   4445 C9            [10]   18 ret
+   441C C9            [10]   18 ret
                              19 
                              20 
                              21 
-   4446                      22 rendersys_update::
-   4446 CD 4A 44      [17]   23     call render_entities
-   4449 C9            [10]   24 ret
+   441D                      22 rendersys_update::
+   441D CD 21 44      [17]   23     call render_entities
+   4420 C9            [10]   24 ret
                              25 
                              26 
                              27 
-   444A                      28 render_entities::
-   444A                      29 _renloop:
+   4421                      28 render_entities::
+   4421                      29 _renloop:
                              30 
-   444A 32 70 44      [13]   31     ld (_ent_counter), a
+   4421 32 47 44      [13]   31     ld (_ent_counter), a
                              32     ;; erase previous istance
-   444D CD 7D 44      [17]   33     call render_delete_entity
+   4424 CD 54 44      [17]   33     call render_delete_entity
                              34 
                              35     ;; calculate new VP
-   4450 11 00 C0      [10]   36     ld de, #screen_start
-   4453 DD 4E 02      [19]   37     ld c, e_x(ix)
-   4456 DD 46 03      [19]   38     ld b, e_y(ix)
-   4459 CD 8A 46      [17]   39     call cpct_getScreenPtr_asm
+   4427 11 00 C0      [10]   36     ld de, #screen_start
+   442A DD 4E 02      [19]   37     ld c, e_x(ix)
+   442D DD 46 03      [19]   38     ld b, e_y(ix)
+   4430 CD 61 46      [17]   39     call cpct_getScreenPtr_asm
                              40 
                              41     ; store VP as last
-   445C DD 75 0A      [19]   42     ld e_lastVP_l(ix), l
-   445F DD 74 0B      [19]   43     ld e_lastVP_h(ix), h
+   4433 DD 75 0A      [19]   42     ld e_lastVP_l(ix), l
+   4436 DD 74 0B      [19]   43     ld e_lastVP_h(ix), h
                              44 
                              45 
-   4462 EB            [ 4]   46     ex  de, hl
-   4463 DD 7E 08      [19]   47     ld a, e_c(ix)  ;; Color
-   4466 DD 4E 04      [19]   48     ld c, e_w(ix) ;; width
-   4469 DD 46 05      [19]   49     ld b, e_h(ix) ;; height
-   446C CD E6 45      [17]   50     call cpct_drawSolidBox_asm
+   4439 EB            [ 4]   46     ex  de, hl
+   443A DD 7E 08      [19]   47     ld a, e_c(ix)  ;; Color
+   443D DD 4E 04      [19]   48     ld c, e_w(ix) ;; width
+   4440 DD 46 05      [19]   49     ld b, e_h(ix) ;; height
+   4443 CD BD 45      [17]   50     call cpct_drawSolidBox_asm
                              51 
                      0031    52 _ent_counter = .+1
-   446F 3E 00         [ 7]   53     ld  a, #0
-   4471 3D            [ 4]   54     dec a
-   4472 C8            [11]   55     ret z
+   4446 3E 00         [ 7]   53     ld  a, #0
+   4448 3D            [ 4]   54     dec a
+   4449 C8            [11]   55     ret z
                              56 
-   4473 32 70 44      [13]   57     ld (_ent_counter), a
-   4476 01 0D 00      [10]   58     ld bc, #sizeof_e
-   4479 DD 09         [15]   59     add ix, bc
-   447B 18 CD         [12]   60     jr _renloop
+   444A 32 47 44      [13]   57     ld (_ent_counter), a
+   444D 01 0D 00      [10]   58     ld bc, #sizeof_e
+   4450 DD 09         [15]   59     add ix, bc
+   4452 18 CD         [12]   60     jr _renloop
                              61 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 89.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 88.
 Hexadecimal [16-Bits]
 
 
 
                              62 
-   447D                      63 render_delete_entity::
-   447D DD 5E 0A      [19]   64     ld e, e_lastVP_l(ix)
-   4480 DD 56 0B      [19]   65     ld d, e_lastVP_h(ix)
-   4483 AF            [ 4]   66     xor a
-   4484 DD 4E 04      [19]   67     ld c, e_w(ix)
-   4487 DD 46 05      [19]   68     ld b, e_h(ix)
-   448A CD E6 45      [17]   69     call cpct_drawSolidBox_asm
-   448D C9            [10]   70 ret
+   4454                      63 render_delete_entity::
+   4454 DD 5E 0A      [19]   64     ld e, e_lastVP_l(ix)
+   4457 DD 56 0B      [19]   65     ld d, e_lastVP_h(ix)
+   445A AF            [ 4]   66     xor a
+   445B DD 4E 04      [19]   67     ld c, e_w(ix)
+   445E DD 46 05      [19]   68     ld b, e_h(ix)
+   4461 CD BD 45      [17]   69     call cpct_drawSolidBox_asm
+   4464 C9            [10]   70 ret
                              71 
                              72 
-   448E                      73 render_delete_static_entity::
-   448E DD 5E 02      [19]   74     ld e, e_x(ix)
-   4491 DD 56 03      [19]   75     ld d, e_y(ix)
-   4494 AF            [ 4]   76     xor a
-   4495 DD 4E 04      [19]   77     ld c, e_w(ix)
-   4498 DD 46 05      [19]   78     ld b, e_h(ix)
-   449B CD E6 45      [17]   79     call cpct_drawSolidBox_asm
-   449E C9            [10]   80 ret
+   4465                      73 render_delete_static_entity::
+   4465 DD 5E 02      [19]   74     ld e, e_x(ix)
+   4468 DD 56 03      [19]   75     ld d, e_y(ix)
+   446B AF            [ 4]   76     xor a
+   446C DD 4E 04      [19]   77     ld c, e_w(ix)
+   446F DD 46 05      [19]   78     ld b, e_h(ix)
+   4472 CD BD 45      [17]   79     call cpct_drawSolidBox_asm
+   4475 C9            [10]   80 ret

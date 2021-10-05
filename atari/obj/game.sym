@@ -56,14 +56,13 @@ Symbol Table
     Key_U   =  0405     |     Key_V   =  8006     |     Key_W   =  0807 
     Key_X   =  8007     |     Key_Y   =  0805     |     Key_Z   =  8008 
     PAL_INKR=  0040     |     PAL_PENR=  0000     |     PPI_PORT=  00F5 
-    _cpct_ge   **** GX  |   0 caja       0031 GR  |   0 caja_col   003D GR
-  0 cmp_caja   0032 GR  |   0 cmp_coll   0003 R   |   0 cmp_enem   000B GR
+    _cpct_ge   **** GX  |   0 cmp_coll   0003 R   |   0 cmp_enem   000B GR
+  0 cmp_ia     0001 R   |   0 cmp_inpu   0002 R   |   0 cmp_play   0018 GR
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Symbol Table
 
-  0 cmp_ia     0001 R   |   0 cmp_inpu   0002 R   |   0 cmp_play   0025 GR
   0 cmp_rend   0000 R   |     collider   **** GX  |     collider   **** GX
     cpct_dis   **** GX  |     cpct_dra   **** GX  |     cpct_dra   **** GX
     cpct_get   **** GX  |     cpct_isK   **** GX  |     cpct_pag=  0000 
@@ -73,24 +72,23 @@ Symbol Table
     e_h     =  0005     |     e_lastVP=  000B     |     e_lastVP=  000A 
     e_t     =  0000     |     e_vx    =  0006     |     e_vy    =  0007 
     e_w     =  0004     |     e_x     =  0002     |     e_y     =  0003 
-  0 enemy      000A GR  |   0 enemy2     0017 GR  |   0 enemy_co   0016 GR
-  0 final_te   003E R   |     ia_updat   **** GX  |     ia_updat   **** GX
-    input_in   **** GX  |     input_up   **** GX  |     input_up   **** GX
-  0 man_game   0091 GR  |   0 man_game   006D GR  |   0 man_game   0048 GR
-  0 man_game   008A GR  |   0 man_game   0071 GR  |     opc_DI  =  00F3 
-    opc_EI  =  00FB     |     opc_JR  =  0018     |     opc_LD_D=  0016 
-    physics_   **** GX  |     physics_   **** GX  |     physics_   **** GX
-  0 player     0024 GR  |   0 player_c   0030 GR  |     render_d   **** GX
-    render_d   **** GX  |     rendersy   **** GX  |     rendersy   **** GX
-    sizeof_e=  000D     |   0 t_caja     0031 GR  |   0 t_dead     0005 R
-  0 t_defaul   0004 R   |   0 t_enemy    000A GR  |   0 t_player   0024 GR
-  0 x_ban      0006 R   |   0 x_ban_2    0008 R   |   0 y_ban      0007 R
-  0 y_ban_2    0009 R
+  0 enemy      000A GR  |   0 enemy_co   0016 GR  |   0 final_te   0024 R
+    ia_updat   **** GX  |     ia_updat   **** GX  |     input_in   **** GX
+    input_up   **** GX  |     input_up   **** GX  |   0 man_game   006B GR
+  0 man_game   0047 GR  |   0 man_game   002E GR  |   0 man_game   0064 GR
+  0 man_game   004B GR  |     opc_DI  =  00F3     |     opc_EI  =  00FB 
+    opc_JR  =  0018     |     opc_LD_D=  0016     |     physics_   **** GX
+    physics_   **** GX  |     physics_   **** GX  |   0 player     0017 GR
+  0 player_c   0023 GR  |     render_d   **** GX  |     render_d   **** GX
+    rendersy   **** GX  |     rendersy   **** GX  |     sizeof_e=  000D 
+  0 t_dead     0005 R   |   0 t_defaul   0004 R   |   0 t_enemy    000A GR
+  0 t_player   0017 GR  |   0 x_ban      0006 R   |   0 x_ban_2    0008 R
+  0 y_ban      0007 R   |   0 y_ban_2    0009 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size   B4   flags    0
+   0 _CODE      size   8E   flags    0
 

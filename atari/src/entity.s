@@ -146,31 +146,32 @@ _ent_counter = .+1
     jr _renloop
 
 
+;;INPUT
+;;  A: Bit de signo (Si algo es colisionable)
+;;  D: Numero de entidades
+
 E_M_for_all_pairs_matching::
+    ;Intercambio A y D;
     ld c, a
     ld a, d
     ld d, c
-   ;intercambio A y D;
+
     _renloop_pairs:
         ld (_ent_counter2), a
-        ld a, e_t(ix)
-        ld c, a
-        ld a, e
-        ld e, c
-        ld a, (t_default)
-        and e
-        jr nz, invalid_entity_pairs
-       ;; erase previous istance
-       ; para mover todo lo que tenga a 1 el bit de ia
-        ld a, e_cmp(ix)
-        and d
-        ld__iy_ix
-        jr nz, cumple_pairs
+        ld e, e_t(ix)                   ;;E esta el tipo de la enidad
+        ld a, (t_default)               ;;A tipo default
+        and e                           ;;Detectar si es el tipo de la entidad es default
+
+        jr nz, invalid_entity_pairs     ;;Si la entidad es invalida salta a la siguiente
+
+        ld a, e_cmp(ix)                 ;;Cargar en A los componentes
+        and d                           ;;Comparar con el bit de signo
+        ld__iy_ix                       ;;Cargar en IY lo que hay en IX
+        jr nz, cumple_pairs             
         jr continua_pairs
         cumple_pairs:    
            ; significa que este elemento cumple que es colisionable
            ; A partir de aqui se busca el siguiente elemento colisionable para luego ver el tipo de colision entre la parejas
-           ; hl apuntara a las siguientes entidades
             ld bc, #sizeof_e
             add ix, bc
             ld a, (_ent_counter2)

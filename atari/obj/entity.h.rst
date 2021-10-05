@@ -46,95 +46,65 @@ Hexadecimal [16-Bits]
                              41     enemy_col:: .db 0x00
                              42 .endm
                              43 
-                             44 .macro DefineEnemy2Entity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-                             45 _name::
-                             46     .db 0x02 ;    type of entity is enemy
-                             47     .db 0x0B    ;components that enemy has
-                             48     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-                             49     .db 0x00
-                             50 .endm
-                             51 
-                             52 
-                             53 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-                             54 _name::
-                             55     t_player:: .db  0x01;    type of entity is player
+                             44 
+                             45 
+                             46 .macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
+                             47 _name::
+                             48     t_player:: .db  0x01;    type of entity is player
+                             49     cmp_player:: .db 0x0D   ;components that player has
+                             50     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
+                             51     player_col:: .db 0x06
+                             52 .endm
+                             53 
+                             54 
+                     0000    55 e_t = 0
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-                             56     cmp_player:: .db 0x0D   ;components that player has
-                             57     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-                             58     player_col:: .db 0x06
-                             59 .endm
-                             60 
-                             61 
-                             62 .macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-                             63 _name::
-                             64     t_caja:: .db 0x04 ;    type of entity is breakable box
-                             65     cmp_caja:: .db 0x09   ;components that box has
-                             66     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-                             67     caja_col:: .db 0x01
-                             68 .endm
+                     0001    56 e_cmp = 1
+                     0002    57 e_x = 2
+                     0003    58 e_y = 3
+                     0004    59 e_w = 4
+                     0005    60 e_h = 5
+                     0006    61 e_vx = 6
+                     0007    62 e_vy = 7
+                     0008    63 e_c = 8
+                     0009    64 e_be = 9
+                     000A    65 e_lastVP_l = 10
+                     000B    66 e_lastVP_h = 11
+                     000C    67 e_col = 12
+                     000D    68 sizeof_e = 13
                              69 
-                             70 
-                             71 ;.macro DefineBalaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-                             72 ;_name::
-                             73 ;    t_bala:: .db 0x08 ;    type of entity is bullet
-                             74 ;    cmp_bala:: .db 0x0D   ;components that bullet has
-                             75 ;    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-                             76 ;    bala_col:: .db 0x00
-                             77 ;.endm
-                             78 ;
+                             70 .macro DefineEntityArray _name, _N
+                             71 _name::
+                             72     .rept _N
+                             73         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
+                             74     .endm
+                             75 .endm
+                             76 
+                             77 
+                             78 ;; Componentes de las entidades
                              79 
-                     0000    80 e_t = 0
-                     0001    81 e_cmp = 1
-                     0002    82 e_x = 2
-                     0003    83 e_y = 3
-                     0004    84 e_w = 4
-                     0005    85 e_h = 5
-                     0006    86 e_vx = 6
-                     0007    87 e_vy = 7
-                     0008    88 e_c = 8
-                     0009    89 e_be = 9
-                     000A    90 e_lastVP_l = 10
-                     000B    91 e_lastVP_h = 11
-                     000C    92 e_col = 12
-                     000D    93 sizeof_e = 13
-                             94 
-                             95 .macro DefineEntityArray _name, _N
-                             96 _name::
-                             97     .rept _N
-                             98         DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
-                             99     .endm
-                            100 .endm
-                            101 
-                            102 
-                            103 ;; Componentes de las entidades
-                            104 
-                            105 ;;; Usando los bits  para definir signatures luego
-                            106 ;; 00000001 para lo que sea para renderizar
-   4157 01                  107 cmp_render: .db 0x01
-                            108 ;; 00000010 para las entidades que usen IA
-   4158 02                  109 cmp_ia: .db 0x02
-                            110 ;; 00000100 para las entidades con input (player)
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
-Hexadecimal [16-Bits]
-
-
-
-   4159 04                  111 cmp_input: .db 0x04
-                            112 ;;  entidades con colisiones
-   415A 08                  113 cmp_collider: .db 0x08
-                            114 
-                            115 
-                            116 ;; Tipos de las entidades
-   415B 00                  117 t_default: .db 0x00
-                            118 
-   415C 80                  119 t_dead: .db 0x80
-                            120 
-                            121 
-                            122 
-                            123 
-                            124 
-                            125 
+                             80 ;;; Usando los bits  para definir signatures luego
+                             81 ;; 00000001 para lo que sea para renderizar
+   4157 01                   82 cmp_render: .db 0x01
+                             83 ;; 00000010 para las entidades que usen IA
+   4158 02                   84 cmp_ia: .db 0x02
+                             85 ;; 00000100 para las entidades con input (player)
+   4159 04                   86 cmp_input: .db 0x04
+                             87 ;;  entidades con colisiones
+   415A 08                   88 cmp_collider: .db 0x08
+                             89 
+                             90 
+                             91 ;; Tipos de las entidades
+   415B 00                   92 t_default: .db 0x00
+                             93 
+   415C 80                   94 t_dead: .db 0x80
+                             95 
+                             96 
+                             97 
+                             98 
+                             99 
+                            100 
