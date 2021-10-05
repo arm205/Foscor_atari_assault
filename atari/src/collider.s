@@ -210,7 +210,7 @@ ld a, e_t(ix)
             ;; Aqui tendriamos que matar al jugador
             ld a, #0x00 
             ld e_c(ix), a
-            ;call man_game_end
+            call man_game_end
             ret
 
 

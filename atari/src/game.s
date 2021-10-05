@@ -76,16 +76,16 @@ man_game_render::
     call rendersys_update
 ret
 
-;man_game_end::
-;call E_M_init
-;call cpctm_clearScreen_asm #0
-;
-;ld de, #0xC000
-;ld c, #35
-;ld b, #100
-;call cpct_getScreenPtr_asm
-;ld iy, #final_text
-;call cpct_drawStringM0_asm
-;
-;ret
+man_game_end::
+call E_M_init
+cpctm_clearScreen_asm #0
+
+ld de, #0xC000
+ld c, #20
+ld b, #92
+call cpct_getScreenPtr_asm
+ld iy, #final_text
+call cpct_drawStringM0_asm
+
+jr .
 
