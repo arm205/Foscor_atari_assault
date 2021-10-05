@@ -1,7 +1,4 @@
-;
-;   RENDER SYSTEM
-;
-.globl rendersys_init
-.globl rendersys_update
-.globl render_delete_entity
-.globl render_delete_static_entity
+.globl _render_Entity
+.globl _render_sys_update 
+.globl _render_sys_init
+
