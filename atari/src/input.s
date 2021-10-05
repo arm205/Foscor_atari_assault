@@ -39,18 +39,6 @@ P_Pressed:
     ld e_vx(ix), #1
 P_NotPressed:
 
-    ld hl, #Key_Q
-    call cpct_isKeyPressed_asm
-    jr z, Q_NotPressed
-Q_Pressed:
-    ld e_vy(ix), #-4
-Q_NotPressed:
-    ld hl, #Key_A
-    call cpct_isKeyPressed_asm
-    jr z, A_NotPressed
-A_Pressed:
-    ld e_vy(ix), #4
-A_NotPressed:
 
 ;    ld e, e_t(ix)
 ;    ld a, (t_bala)
@@ -62,9 +50,11 @@ A_NotPressed:
     jr z, Space_NotPressed
 Space_Pressed:
     ld e_be(ix), #1
+    ret
 ;    call input_move_bala
     
 Space_NotPressed:
+    ld e_be(ix), #0
 ;call counter_for_bala
 ;no_bala:
 

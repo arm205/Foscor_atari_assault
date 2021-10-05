@@ -11,11 +11,11 @@
 
 ;                   _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 
-DefineEnemyEntity enemy, 20, 20, 4, 8, -1, 0, 0xFF, 1
+DefineEnemyEntity enemy, 70, 180, 4, 8, -1, 0, 0xFF, 1
 
-DefineEnemy2Entity enemy2, 20, 40, 4, 8, -1, 0, 0xFF, 2
+;DefineEnemy2Entity enemy2, 0, 180, 4, 8, -1, 0, 0xFF, 2
 
-DefinePlayerEntity player, 20, 180, 2, 8, -1, 0, 0x0F, 0
+DefinePlayerEntity player, 20, 180, 4, 16, -1, 0, 0x0F, 0
 
 DefineCajaEntity caja, 40, 100, 2, 8, 0, 0, 0xF0, 0
 
@@ -32,8 +32,8 @@ man_game_init::
 
     ld hl, #enemy
     call man_game_entity_creator
-    ld hl, #enemy2
-    call man_game_entity_creator
+;    ld hl, #enemy2
+;    call man_game_entity_creator
     ld hl, #caja
 ;    call man_game_entity_creator
 ;    ld hl, #bala

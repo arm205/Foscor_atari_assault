@@ -195,7 +195,7 @@ ld a, e_t(ix)
     ld b, a
     ld a, (t_player)
     xor b
-    jr nz, no_player_2
+    ret nz
 
         ld a, e_col(ix)
         and e_t(iy)
@@ -207,7 +207,20 @@ ld a, e_t(ix)
         xor b
         jr nz, pl_caja_2
         pl_en_2:
+
+            ld a, e_be(ix)
+            xor #1
+            jr nz, en_mata
+            ;tiene el behavior asi que la rompe
+            ld a, #0
+            ld e_c(iy), a
+            ld e_t(iy), a
+            ld e_be(ix), a
+            ret 
+
             ;; Aqui tendriamos que matar al jugador
+            en_mata:
+
             ld a, #0x00 
             ld e_c(ix), a
             call man_game_end
