@@ -1,5 +1,5 @@
-# ignore ALL .cdk files
-*.cdk
+# ignore ALL .cdt files
+*.cdt
 
 # ignore ALL .log files
 *.dsk
