@@ -19,7 +19,7 @@ final_text: .asciz "GAME OVER"
 man_game_init::
     call E_M_init
 
-    call rendersys_init
+    call _render_sys_init
     call physics_sys_init
     call input_init
 
@@ -38,30 +38,21 @@ ret
 man_game_entity_creator::
     call E_M_create
 ret
-
-
-
-
-
-
 man_game_update::
  
    ;; Init system
     call E_M_getEntityArray
-   call input_update
+    call input_update
     call E_M_getEntityArray
-   call ia_update
-   call E_M_getEntityArray
-   call collider_update
+    call ia_update
     call E_M_getEntityArray
-   call physics_sys_update
+    call collider_update
+    call E_M_getEntityArray
+    call physics_sys_update
    ret
-
-
-
 man_game_render::
     call E_M_getEntityArray
-    call rendersys_update
+    call _render_ents_update
 ret
 
 man_game_end::

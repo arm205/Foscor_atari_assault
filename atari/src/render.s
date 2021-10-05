@@ -1,80 +1,78 @@
-;
-;   RENDER SYSTEM
-;
-.include "cpctelera.h.s"
-.include "cpct_func.h.s"
+;;
+;; RENDER.S -- Dibuja por pantalla.
+;;
+.include "render.h.s"
 .include "entity.h.s"
-
-screen_start = 0xC000
-
-
-rendersys_init::
-    ;ld  c, #0
-    ;call cpct_setVideoMode_asm
-    ;ld  hl, #_pal_main
-    ;ld  de, #16
-    ;call cpct_setPalette_asm
-    ;cpctm_setBorder_asm HW_WHITE
-ret
+;; instrucciones utiles
+.globl cpct_disableFirmware_asm
+.globl cpct_drawSolidBox_asm
+.globl cpct_getScreenPtr_asm
+.globl cpct_setVideoMode_asm
+;;.globl cpctm_setBorder_asm
 
 
+;; RENDER AN ENTITY
+;;      INPUT: IX
+_render_Entity:: ;;importante: actualizar con la posibilidad de abrir sprites.
 
-rendersys_update::
-    call render_entities
-ret
+    ld de, #0xC000
+    ld b, e_y(ix) ;;pos_y
+    ld c, e_x(ix) ;;pos_x
 
-
-
-render_entities::
-_renloop:
-
-    ld (_ent_counter), a
-    ;; erase previous istance
-    call render_delete_entity
-
-    ;; calculate new VP
-    ld de, #screen_start
-    ld c, e_x(ix)
-    ld b, e_y(ix)
-    call cpct_getScreenPtr_asm
-
-    ; store VP as last
-    ld e_lastVP_l(ix), l
-    ld e_lastVP_h(ix), h
-
-
-    ex  de, hl
-    ld a, e_c(ix)  ;; Color
-    ld c, e_w(ix) ;; width
-    ld b, e_h(ix) ;; height
-    call cpct_drawSolidBox_asm
-
-_ent_counter = .+1
-    ld  a, #0
-    dec a
-    ret z
-
-    ld (_ent_counter), a
-    ld bc, #sizeof_e
-    add ix, bc
-    jr _renloop
-
-
-render_delete_entity::
+    call cpct_getScreenPtr_asm ;;entidad que comenzara a dibujarse en la pos (x,y)
+    
     ld e, e_lastVP_l(ix)
     ld d, e_lastVP_h(ix)
     xor a
     ld c, e_w(ix)
     ld b, e_h(ix)
+    push bc
     call cpct_drawSolidBox_asm
+    
+    ld de, #0xC000
+    ld b, e_y(ix) ;;pos_y
+    ld c, e_x(ix) ;;pos_x
+º
+    call cpct_getScreenPtr_asm ;;entidad que comenzara a dibujarse en la pos (x,y)
+
+    ld e_lastVP_l(ix), l
+    ld e_lastVP_h(ix), h
+    ld a, e_c(ix)
+    ex de, hl
+    pop bc
+    call cpct_drawSolidBox_asm ;;dibuja un cuadrado con esas dimensiones.
+
+    ret
+
+;; RENDER INIT (llamado desde GAME)
+_render_sys_init::
+    ld c, #0
+    call cpct_setVideoMode_asm
+;;    ld hl, #_pal_main
+;;    ld de, #16
+;;    call cpctm_setBorder_asm
 ret
 
+;; RENDER ALL
+_render_sys_update::
+    call _render_ents_update
+ret
+;; RENDER ENTITIES
+;;      INPUT: IX
+;;      INPUT: A
+_render_ents_update::
+    ld (_ent_counter), a ;;Save entity COUNTER
+    _update_loop:
+        call _render_Entity
+        _ent_counter = .+1
+        ld a, #0
+        dec a
+        ret z
 
-render_delete_static_entity::
-    ld e, e_x(ix)
-    ld d, e_y(ix)
-    xor a
-    ld c, e_w(ix)
-    ld b, e_h(ix)
-    call cpct_drawSolidBox_asm
+        ld (_ent_counter), a
+        ld bc, #sizeof_e
+        add ix, bc
+    jr _update_loop
+
+_render_sys_terminate::
 ret
