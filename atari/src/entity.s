@@ -47,8 +47,8 @@ E_M_new::
 
 ret
 
-; Input: HL; pointer to entity initializer bytes
-; Desc: 
+; Input: HL; pointer to entity initializer bytes, DE; Puntero a la direccion en la que se almacenara nueva entidad
+; Desc: Almacenamos la direccion de nueva entidad en IX y cargamos la uneva entidad con los valores almacenados en HL
 ; Modifies: IX, HL, BC, DE
 E_M_create::
     push hl
@@ -64,6 +64,11 @@ E_M_create::
 
 ret
 
+
+
+
+; Desc: Cargamos el numero de entidades que tengo en A y funtero al inicio del array en IX
+; Modifies: IX, A
 E_M_getEntityArray::
     ld ix, #_entity_array
     ld a, (_num_entities)
@@ -72,7 +77,9 @@ ret
 
 
 ;
-;Input: A type that we are looking for, D num entity
+;Input: A; type that we are looking for, D; num entity
+;Desc: Buscamos todas las entidades validas cuyo tipo tenga el componente del signature(D en la amyoria del codigo) y se devuelve al sistema que lo ha llamado
+;Modifies: IX, BC, DE, A
 E_M_for_all_matching::
     ld c, a
     ld a, d
@@ -124,7 +131,7 @@ _renloop:
             jr continua
                 render:
                 push de
-;; Con esto modifico la velocidad del player dependiendo de la tecla pulsada
+;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
                 call physics_sys_for_one
                 pop de
                 jr continua
