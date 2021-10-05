@@ -4862,12 +4862,12 @@ Hexadecimal [16-Bits]
    00E0 51            [ 4]  157     ld d, c
                             158 
    00E1                     159     _renloop_pairs:
-   00E1 32 38 01      [13]  160         ld (_ent_counter2), a
+   00E1 32 35 01      [13]  160         ld (_ent_counter2), a
    00E4 DD 5E 00      [19]  161         ld e, e_t(ix)                   ;;E esta el tipo de la enidad
    00E7 3A 04 00      [13]  162         ld a, (t_default)               ;;A tipo default
    00EA A3            [ 4]  163         and e                           ;;Detectar si es el tipo de la entidad es default
                             164 
-   00EB 20 51         [12]  165         jr nz, invalid_entity_pairs     ;;Si la entidad es invalida salta a la siguiente
+   00EB 20 4E         [12]  165         jr nz, invalid_entity_pairs     ;;Si la entidad es invalida salta a la siguiente
                             166 
    00ED DD 7E 01      [19]  167         ld a, e_cmp(ix)                 ;;Cargar en A los componentes
    00F0 A2            [ 4]  168         and d                           ;;Comparar con el bit de signo
@@ -4884,66 +4884,63 @@ Hexadecimal [16-Bits]
    00F7 FD 67                 1    .dw #0x67FD  ;; Opcode for ld iyh, a
                               7    ;;------------
    00F9 20 02         [12]  170         jr nz, cumple_pairs             
-   00FB 18 32         [12]  171         jr continua_pairs
+   00FB 18 2F         [12]  171         jr continua_pairs
    00FD                     172         cumple_pairs:    
                             173            ; significa que este elemento cumple que es colisionable
                             174            ; A partir de aqui se busca el siguiente elemento colisionable para luego ver el tipo de colision entre la parejas
    00FD 01 0D 00      [10]  175             ld bc, #sizeof_e
    0100 DD 09         [15]  176             add ix, bc
-   0102 3A 38 01      [13]  177             ld a, (_ent_counter2)
+   0102 3A 35 01      [13]  177             ld a, (_ent_counter2)
    0105 3D            [ 4]  178             dec a
    0106                     179             second_loop_pairs:
-   0106 32 21 01      [13]  180                ld (_ent_counter_2), a
-   0109 DD 7E 00      [19]  181                 ld a, e_t(ix)
-   010C 4F            [ 4]  182                 ld c, a
-   010D 7B            [ 4]  183                 ld a, e
-   010E 59            [ 4]  184                 ld e, c
-   010F 3A 04 00      [13]  185                 ld a, (t_default)
+   0106 32 1E 01      [13]  180                 ld (_ent_counter_2), a  ;;Resto de entidades a comprobar
+   0109 DD 5E 00      [19]  181                 ld e, e_t(ix)
+   010C 3A 04 00      [13]  182                 ld a, (t_default)
+   010F A3            [ 4]  183                 and e                   ;;Comprobar si es invalido el tipo
+   0110 20 13         [12]  184                 jr nz, invalid_entity_2_pairs
+   0112 DD 7E 01      [19]  185                 ld a, e_cmp(ix)
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 97.
 Hexadecimal [16-Bits]
 
 
 
-   0112 A3            [ 4]  186                 and e
-   0113 20 13         [12]  187                 jr nz, invalid_entity_2_pairs
-   0115 DD 7E 01      [19]  188                 ld a, e_cmp(ix)
-   0118 A2            [ 4]  189                 and d
-   0119 20 02         [12]  190                 jr nz, cumple2_pairs
-   011B 18 03         [12]  191                 jr continua2_pairs
-   011D                     192                   cumple2_pairs:  
-   011D CD 00 00      [17]  193                   call collider_one_pair
-   0120                     194             continua2_pairs:
-                     0121   195                 _ent_counter_2 = .+1
-   0120 3E 00         [ 7]  196                 ld  a, #0
-   0122 3D            [ 4]  197                 dec a
-   0123 28 0A         [12]  198                 jr z, continua_pairs
-   0125 32 21 01      [13]  199                 ld (_ent_counter_2), a
-   0128                     200             invalid_entity_2_pairs:
-   0128 01 0D 00      [10]  201                 ld bc, #sizeof_e
-   012B DD 09         [15]  202                 add ix, bc
-   012D 18 D7         [12]  203                 jr second_loop_pairs
-                            204                    
-   012F                     205     continua_pairs:
-   012F                     206     ld__ix_iy
+   0115 A2            [ 4]  186                 and d
+   0116 20 02         [12]  187                 jr nz, cumple2_pairs
+   0118 18 03         [12]  188                 jr continua2_pairs
+   011A                     189                   cumple2_pairs:  
+   011A CD 00 00      [17]  190                   call collider_one_pair
+   011D                     191             continua2_pairs:
+                     011E   192                 _ent_counter_2 = .+1
+   011D 3E 00         [ 7]  193                 ld  a, #0
+   011F 3D            [ 4]  194                 dec a
+   0120 28 0A         [12]  195                 jr z, continua_pairs
+   0122 32 1E 01      [13]  196                 ld (_ent_counter_2), a
+   0125                     197             invalid_entity_2_pairs:
+   0125 01 0D 00      [10]  198                 ld bc, #sizeof_e
+   0128 DD 09         [15]  199                 add ix, bc
+   012A 18 DA         [12]  200                 jr second_loop_pairs
+                            201                    
+   012C                     202     continua_pairs:
+   012C                     203     ld__ix_iy
                               1    ;; LD IX, IY
                               2    ;;------------
-   012F                       3    ld__a_iyl
-   012F FD 7D                 1    .dw #0x7DFD  ;; Opcode for ld a, iyl
-   0131                       4    ld__ixl_a
-   0131 DD 6F                 1    .dw #0x6FDD  ;; Opcode for ld ixl, a
-   0133                       5    ld__a_iyh
-   0133 FD 7C                 1    .dw #0x7CFD  ;; Opcode for ld a, iyh
-   0135                       6    ld__ixh_a
-   0135 DD 67                 1    .dw #0x67DD  ;; Opcode for ld ixh, a
+   012C                       3    ld__a_iyl
+   012C FD 7D                 1    .dw #0x7DFD  ;; Opcode for ld a, iyl
+   012E                       4    ld__ixl_a
+   012E DD 6F                 1    .dw #0x6FDD  ;; Opcode for ld ixl, a
+   0130                       5    ld__a_iyh
+   0130 FD 7C                 1    .dw #0x7CFD  ;; Opcode for ld a, iyh
+   0132                       6    ld__ixh_a
+   0132 DD 67                 1    .dw #0x67DD  ;; Opcode for ld ixh, a
                               7    ;;------------
-                     0138   207     _ent_counter2 = .+1
-   0137 3E 00         [ 7]  208     ld  a, #0
-   0139 3D            [ 4]  209    dec a
-   013A C8            [11]  210    ret z
-                            211 
-   013B 32 38 01      [13]  212    ld (_ent_counter2), a;
-   013E                     213    invalid_entity_pairs:
-   013E 01 0D 00      [10]  214    ld bc, #sizeof_e
-   0141 DD 09         [15]  215    add ix, bc
-   0143 18 9C         [12]  216    jr _renloop_pairs;
-                            217 
+                     0135   204     _ent_counter2 = .+1
+   0134 3E 00         [ 7]  205     ld  a, #0
+   0136 3D            [ 4]  206    dec a
+   0137 C8            [11]  207    ret z
+                            208 
+   0138 32 35 01      [13]  209    ld (_ent_counter2), a;
+   013B                     210    invalid_entity_pairs:
+   013B 01 0D 00      [10]  211    ld bc, #sizeof_e
+   013E DD 09         [15]  212    add ix, bc
+   0140 18 9F         [12]  213    jr _renloop_pairs;
+                            214 

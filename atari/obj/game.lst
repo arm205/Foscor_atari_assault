@@ -4599,13 +4599,13 @@ Hexadecimal [16-Bits]
                               9 
                              10 
                              11 
-   000A                      12 DefineEnemyEntity enemy, 20, 60, 4, 8, -1, 0, 0xFF, 1
+   000A                      12 DefineEnemyEntity enemy, 20, 80, 4, 8, -1, 0, 0xFF, 1
    000A                       1 enemy::
    000A 02                    2     t_enemy:: .db 0x02 ;    type of entity is enemy
    000B 0B                    3     cmp_enemy:: .db 0x0B   ;components that enemy has
-   000C                       4     CommonDefine 20, 60, 4, 8, -1, 0, 0xFF, 1
+   000C                       4     CommonDefine 20, 80, 4, 8, -1, 0, 0xFF, 1
    000C 14                    1     .db 20 ;    position x of entity
-   000D 3C                    2     .db 60 ;    position y of entity
+   000D 50                    2     .db 80 ;    position y of entity
    000E 04                    3     .db 4 ;    width of entity
    000F 08                    4     .db 8 ;    height y of entity
    0010 FF                    5     .db -1 ;    speed x of entity

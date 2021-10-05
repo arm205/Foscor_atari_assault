@@ -90,19 +90,19 @@ Hexadecimal [16-Bits]
                              79 
                              80 ;;; Usando los bits  para definir signatures luego
                              81 ;; 00000001 para lo que sea para renderizar
-   43D6 01                   82 cmp_render: .db 0x01
+   43D3 01                   82 cmp_render: .db 0x01
                              83 ;; 00000010 para las entidades que usen IA
-   43D7 02                   84 cmp_ia: .db 0x02
+   43D4 02                   84 cmp_ia: .db 0x02
                              85 ;; 00000100 para las entidades con input (player)
-   43D8 04                   86 cmp_input: .db 0x04
+   43D5 04                   86 cmp_input: .db 0x04
                              87 ;;  entidades con colisiones
-   43D9 08                   88 cmp_collider: .db 0x08
+   43D6 08                   88 cmp_collider: .db 0x08
                              89 
                              90 
                              91 ;; Tipos de las entidades
-   43DA 00                   92 t_default: .db 0x00
+   43D7 00                   92 t_default: .db 0x00
                              93 
-   43DB 80                   94 t_dead: .db 0x80
+   43D8 80                   94 t_dead: .db 0x80
                              95 
                              96 
                              97 
@@ -4528,14 +4528,14 @@ Hexadecimal [16-Bits]
                      0050     8 screen_width = 80
                      00C8     9 screen_height = 200
                              10 
-   43DC                      11 physics_sys_init::
-   43DC C9            [10]   12 ret
+   43D9                      11 physics_sys_init::
+   43D9 C9            [10]   12 ret
                              13 
-   43DD                      14 physics_sys_update::
-   43DD 57            [ 4]   15     ld d, a
-   43DE 3A D6 43      [13]   16     ld a, (cmp_render)
-   43E1 CD E8 41      [17]   17     call E_M_for_all_matching
-   43E4 C9            [10]   18 ret
+   43DA                      14 physics_sys_update::
+   43DA 57            [ 4]   15     ld d, a
+   43DB 3A D3 43      [13]   16     ld a, (cmp_render)
+   43DE CD E8 41      [17]   17     call E_M_for_all_matching
+   43E1 C9            [10]   18 ret
                              19 
                              20 
                              21 ;
@@ -4544,45 +4544,45 @@ Hexadecimal [16-Bits]
                              24 
                              25 ;
                              26 ;Modifica: CD, A
-   43E5                      27 physics_sys_for_one::
-   43E5 3E 50         [ 7]   28     ld a, #screen_width
-   43E7 DD 96 04      [19]   29     sub e_w(ix)
-   43EA 4F            [ 4]   30     ld  c, a
+   43E2                      27 physics_sys_for_one::
+   43E2 3E 50         [ 7]   28     ld a, #screen_width
+   43E4 DD 96 04      [19]   29     sub e_w(ix)
+   43E7 4F            [ 4]   30     ld  c, a
                              31 
-   43EB DD 7E 02      [19]   32     ld a, e_x(ix)
-   43EE DD 86 06      [19]   33     add e_vx(ix)
-   43F1 B9            [ 4]   34     cp  c
-   43F2 30 05         [12]   35     jr nc, invalid_x
+   43E8 DD 7E 02      [19]   32     ld a, e_x(ix)
+   43EB DD 86 06      [19]   33     add e_vx(ix)
+   43EE B9            [ 4]   34     cp  c
+   43EF 30 05         [12]   35     jr nc, invalid_x
                              36 
-   43F4                      37     id_x:
-   43F4 DD 77 02      [19]   38         ld e_x(ix), a
-   43F7 18 00         [12]   39         jr  endif_x
-   43F9                      40     invalid_x:
-   43F9                      41 endif_x:
+   43F1                      37     id_x:
+   43F1 DD 77 02      [19]   38         ld e_x(ix), a
+   43F4 18 00         [12]   39         jr  endif_x
+   43F6                      40     invalid_x:
+   43F6                      41 endif_x:
                              42 
-   43F9 3E C8         [ 7]   43     ld a, #screen_height
-   43FB DD 96 05      [19]   44     sub e_h(ix)
-   43FE 4F            [ 4]   45     ld  c, a
+   43F6 3E C8         [ 7]   43     ld a, #screen_height
+   43F8 DD 96 05      [19]   44     sub e_h(ix)
+   43FB 4F            [ 4]   45     ld  c, a
                              46 
-   43FF DD 7E 03      [19]   47     ld a, e_y(ix)
-   4402 DD 86 07      [19]   48     add e_vy(ix)
-   4405 B9            [ 4]   49     cp  c
-   4406 30 05         [12]   50     jr nc, invalid_y
+   43FC DD 7E 03      [19]   47     ld a, e_y(ix)
+   43FF DD 86 07      [19]   48     add e_vy(ix)
+   4402 B9            [ 4]   49     cp  c
+   4403 30 05         [12]   50     jr nc, invalid_y
                              51 
-   4408                      52     id_y:
-   4408 DD 77 03      [19]   53         ld e_y(ix), a
-   440B 18 08         [12]   54         jr  endif_y
-   440D                      55     invalid_y:
-   440D DD 7E 07      [19]   56         ld  a, e_vy(ix)
-   4410 ED 44         [ 8]   57         neg
+   4405                      52     id_y:
+   4405 DD 77 03      [19]   53         ld e_y(ix), a
+   4408 18 08         [12]   54         jr  endif_y
+   440A                      55     invalid_y:
+   440A DD 7E 07      [19]   56         ld  a, e_vy(ix)
+   440D ED 44         [ 8]   57         neg
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 86.
 Hexadecimal [16-Bits]
 
 
 
-   4412 DD 77 07      [19]   58         ld  e_vy(ix), a
-   4415                      59 endif_y:
+   440F DD 77 07      [19]   58         ld  e_vy(ix), a
+   4412                      59 endif_y:
                              60 
                              61 
                              62 
-   4415 C9            [10]   63 ret
+   4412 C9            [10]   63 ret

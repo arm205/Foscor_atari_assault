@@ -90,19 +90,19 @@ Hexadecimal [16-Bits]
                              79 
                              80 ;;; Usando los bits  para definir signatures luego
                              81 ;; 00000001 para lo que sea para renderizar
-   4330 01                   82 cmp_render: .db 0x01
+   432D 01                   82 cmp_render: .db 0x01
                              83 ;; 00000010 para las entidades que usen IA
-   4331 02                   84 cmp_ia: .db 0x02
+   432E 02                   84 cmp_ia: .db 0x02
                              85 ;; 00000100 para las entidades con input (player)
-   4332 04                   86 cmp_input: .db 0x04
+   432F 04                   86 cmp_input: .db 0x04
                              87 ;;  entidades con colisiones
-   4333 08                   88 cmp_collider: .db 0x08
+   4330 08                   88 cmp_collider: .db 0x08
                              89 
                              90 
                              91 ;; Tipos de las entidades
-   4334 00                   92 t_default: .db 0x00
+   4331 00                   92 t_default: .db 0x00
                              93 
-   4335 80                   94 t_dead: .db 0x80
+   4332 80                   94 t_dead: .db 0x80
                              95 
                              96 
                              97 
@@ -121,63 +121,49 @@ Hexadecimal [16-Bits]
                               6 
                               7 
                               8 ; MODIFIES: A, C
-   4336                       9 ia_update_one_entity::
-   4336 DD 7E 00      [19]   10 ld a, e_t(ix)
-   4339 4F            [ 4]   11 ld c, a
-   433A 3A AC 42      [13]   12 ld a, (t_enemy)
-   433D A9            [ 4]   13 xor c
-   433E 28 00         [12]   14 jr z, is_enemy
-                             15 ;not_enemy:
-                             16 ;    ld a, (t_bala)
-                             17 ;    xor c
-                             18 ;    jr z, is_bala
-                             19 ;
-                             20 ;is_bala:
-                             21 ;    call ia_auto_destroy
-                             22 ;    jr acabado
-                             23 ;
-                             24 
-   4340                      25 is_enemy:
-   4340 CD 44 43      [17]   26     call ia_for_enemy
-   4343                      27 acabado:
-                             28 
-   4343 C9            [10]   29 ret
-                             30 
-                             31 
-                             32 
-                             33 ;; Comportamiento de las entidades de tipo enemigo
-   4344                      34 ia_for_enemy:
-   4344 3E 50         [ 7]   35     ld a, #screen_width
-   4346 DD 96 04      [19]   36     sub e_w(ix)
-   4349 4F            [ 4]   37     ld  c, a
-                             38 
-   434A DD 7E 02      [19]   39     ld a, e_x(ix)
-   434D DD 86 06      [19]   40     add e_vx(ix)
-   4350 B9            [ 4]   41     cp  c
-   4351 30 02         [12]   42     jr nc, cambia_vx
-   4353 18 08         [12]   43     jr no_cambia
+   4333                       9 ia_update_one_entity::
+   4333 DD 7E 00      [19]   10 ld a, e_t(ix)
+   4336 4F            [ 4]   11 ld c, a
+   4337 3A A9 42      [13]   12 ld a, (t_enemy)
+   433A A9            [ 4]   13 xor c
+   433B 28 00         [12]   14 jr z, is_enemy
+                             15 
+   433D                      16 is_enemy:
+   433D CD 41 43      [17]   17     call ia_for_enemy
+   4340                      18 acabado:
+                             19 
+   4340 C9            [10]   20 ret
+                             21 
+                             22 
+                             23 
+                             24 ;; Comportamiento de las entidades de tipo enemigo
+   4341                      25 ia_for_enemy:
+   4341 3E 50         [ 7]   26     ld a, #screen_width
+   4343 DD 96 04      [19]   27     sub e_w(ix)
+   4346 4F            [ 4]   28     ld  c, a
+                             29 
+   4347 DD 7E 02      [19]   30     ld a, e_x(ix)
+   434A DD 86 06      [19]   31     add e_vx(ix)
+   434D B9            [ 4]   32     cp  c
+   434E 30 02         [12]   33     jr nc, cambia_vx
+   4350 18 08         [12]   34     jr no_cambia
+                             35 
+   4352                      36     cambia_vx:
+   4352 DD 7E 06      [19]   37         ld  a, e_vx(ix)
+   4355 ED 44         [ 8]   38         neg
+   4357 DD 77 06      [19]   39         ld  e_vx(ix), a
+   435A                      40     no_cambia:
+   435A C9            [10]   41 ret
+                             42 
+                             43 
                              44 
-   4355                      45     cambia_vx:
-   4355 DD 7E 06      [19]   46         ld  a, e_vx(ix)
-   4358 ED 44         [ 8]   47         neg
-   435A DD 77 06      [19]   48         ld  e_vx(ix), a
-   435D                      49     no_cambia:
-   435D C9            [10]   50 ret
-                             51 
-                             52 
+                             45 
+                             46 
+                             47 
+                             48 
+   435B                      49 ia_update::
+   435B 57            [ 4]   50     ld d, a
+   435C 3A 2E 43      [13]   51     ld a, (cmp_ia)
+   435F CD E8 41      [17]   52     call E_M_for_all_matching
                              53 
-                             54 
-                             55 
-                             56 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
-Hexadecimal [16-Bits]
-
-
-
-                             57 
-   435E                      58 ia_update::
-   435E 57            [ 4]   59     ld d, a
-   435F 3A 31 43      [13]   60     ld a, (cmp_ia)
-   4362 CD E8 41      [17]   61     call E_M_for_all_matching
-                             62 
-   4365 C9            [10]   63 ret
+   4362 C9            [10]   54 ret

@@ -10,15 +10,15 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  .__.ABS.                           cpct_random
      00000000  l__DATA                         
      00000006  max_entities                       cpct_keyboard
-     0000069C  l__CODE                         
+     00000699  l__CODE                         
      00004000  s__CODE                         
-     0000469C  s__DATA                         
+     00004699  s__DATA                         
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    0000069C =        1692. bytes (REL,CON)
+_CODE                               00004000    00000699 =        1689. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -36,65 +36,65 @@ _CODE                               00004000    0000069C =        1692. bytes (R
      000041E0  E_M_getEntityArray                 cpct_keyboard
      000041E8  E_M_for_all_matching               cpct_keyboard
      0000423B  E_M_for_all_pairs_matching         cpct_keyboard
-     000042AC  enemy                              cpct_keyboard
-     000042AC  t_enemy                            cpct_keyboard
-     000042AD  cmp_enemy                          cpct_keyboard
-     000042B8  enemy_col                          cpct_keyboard
-     000042B9  player                             cpct_keyboard
-     000042B9  t_player                           cpct_keyboard
-     000042BA  cmp_player                         cpct_keyboard
-     000042C5  player_col                         cpct_keyboard
-     000042D0  man_game_init                      cpct_keyboard
-     000042E9  man_game_entity_creator            cpct_keyboard
-     000042ED  man_game_update                    cpct_keyboard
-     00004306  man_game_render                    cpct_keyboard
-     0000430D  man_game_end                       cpct_keyboard
-     00004336  ia_update_one_entity               
-     0000435E  ia_update                          
-     0000436E  input_init                         cpct_keyboard
-     0000436F  input_update                       cpct_keyboard
-     00004377  input_update_one                   cpct_keyboard
-     000043C5  _main                              cpct_keyboard
-     000043DC  physics_sys_init                   cpct_keyboard
-     000043DD  physics_sys_update                 cpct_keyboard
-     000043E5  physics_sys_for_one                cpct_keyboard
-     0000441C  rendersys_init                     cpct_keyboard
-     0000441D  rendersys_update                   cpct_keyboard
-     00004421  render_entities                    cpct_keyboard
-     00004454  render_delete_entity               cpct_keyboard
-     00004465  render_delete_static_entity        cpct_keyboard
-     00004476  _cpct_isKeyPressed                 cpct_keyboard
-     00004476  cpct_isKeyPressed_asm              cpct_keyboard
-     00004482  _cpct_scanKeyboard_f               cpct_keyboard
-     00004482  cpct_scanKeyboard_f_asm            cpct_keyboard
-     000044EC  cpct_drawStringM0_asm              cpct_strings
-     00004512  cpct_drawCharM0_inner_asm          cpct_strings
-     00004572  dc_2pxtableM0                      cpct_strings
-     00004576  _cpct_keyboardStatusBuffer         cpct_keyboard
-     00004580  _cpct_waitVSYNC                    cpct_video
+     000042A9  enemy                              cpct_keyboard
+     000042A9  t_enemy                            cpct_keyboard
+     000042AA  cmp_enemy                          cpct_keyboard
+     000042B5  enemy_col                          cpct_keyboard
+     000042B6  player                             cpct_keyboard
+     000042B6  t_player                           cpct_keyboard
+     000042B7  cmp_player                         cpct_keyboard
+     000042C2  player_col                         cpct_keyboard
+     000042CD  man_game_init                      cpct_keyboard
+     000042E6  man_game_entity_creator            cpct_keyboard
+     000042EA  man_game_update                    cpct_keyboard
+     00004303  man_game_render                    cpct_keyboard
+     0000430A  man_game_end                       cpct_keyboard
+     00004333  ia_update_one_entity               
+     0000435B  ia_update                          
+     0000436B  input_init                         cpct_keyboard
+     0000436C  input_update                       cpct_keyboard
+     00004374  input_update_one                   cpct_keyboard
+     000043C2  _main                              cpct_keyboard
+     000043D9  physics_sys_init                   cpct_keyboard
+     000043DA  physics_sys_update                 cpct_keyboard
+     000043E2  physics_sys_for_one                cpct_keyboard
+     00004419  rendersys_init                     cpct_keyboard
+     0000441A  rendersys_update                   cpct_keyboard
+     0000441E  render_entities                    cpct_keyboard
+     00004451  render_delete_entity               cpct_keyboard
+     00004462  render_delete_static_entity        cpct_keyboard
+     00004473  _cpct_isKeyPressed                 cpct_keyboard
+     00004473  cpct_isKeyPressed_asm              cpct_keyboard
+     0000447F  _cpct_scanKeyboard_f               cpct_keyboard
+     0000447F  cpct_scanKeyboard_f_asm            cpct_keyboard
+     000044E9  cpct_drawStringM0_asm              cpct_strings
+     0000450F  cpct_drawCharM0_inner_asm          cpct_strings
+     0000456F  dc_2pxtableM0                      cpct_strings
+     00004573  _cpct_keyboardStatusBuffer         cpct_keyboard
+     0000457D  _cpct_waitVSYNC                    cpct_video
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00004000    0000069C =        1692. bytes (REL,CON)
+_CODE                               00004000    00000699 =        1689. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004580  cpct_waitVSYNC_asm                 cpct_video
-     00004588  _cpct_disableFirmware              cpct_firmware
-     00004588  _cpct_removeInterruptHandler       cpct_firmware
-     00004588  cpct_disableFirmware_asm           cpct_firmware
-     00004588  cpct_removeInterruptHandler_asm    cpct_firmware
-     00004598  _cpct_getRandom_mxor_u8            cpct_random
-     00004598  cpct_getRandom_mxor_u8_asm         cpct_random
-     00004599  cpct_randomIdx_mxor_u8             cpct_random
-     000045BD  cpct_drawSolidBox_asm              cpct_sprites
-     00004660  _cpct_mode_rom_status              cpct_firmware
-     00004661  cpct_getScreenPtr_asm              cpct_video
-     00004675  _cpct_mxor32_seed                  cpct_random
-     00004679  _cpct_nextRandom_mxor_u32          cpct_random
-     00004679  cpct_nextRandom_mxor_u32_asm       cpct_random
+     0000457D  cpct_waitVSYNC_asm                 cpct_video
+     00004585  _cpct_disableFirmware              cpct_firmware
+     00004585  _cpct_removeInterruptHandler       cpct_firmware
+     00004585  cpct_disableFirmware_asm           cpct_firmware
+     00004585  cpct_removeInterruptHandler_asm    cpct_firmware
+     00004595  _cpct_getRandom_mxor_u8            cpct_random
+     00004595  cpct_getRandom_mxor_u8_asm         cpct_random
+     00004596  cpct_randomIdx_mxor_u8             cpct_random
+     000045BA  cpct_drawSolidBox_asm              cpct_sprites
+     0000465D  _cpct_mode_rom_status              cpct_firmware
+     0000465E  cpct_getScreenPtr_asm              cpct_video
+     00004672  _cpct_mxor32_seed                  cpct_random
+     00004676  _cpct_nextRandom_mxor_u32          cpct_random
+     00004676  cpct_nextRandom_mxor_u32_asm       cpct_random
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 

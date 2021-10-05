@@ -4520,19 +4520,19 @@ Hexadecimal [16-Bits]
                              79 
                              80 ;;; Usando los bits  para definir signatures luego
                              81 ;; 00000001 para lo que sea para renderizar
-   4416 01                   82 cmp_render: .db 0x01
+   4413 01                   82 cmp_render: .db 0x01
                              83 ;; 00000010 para las entidades que usen IA
-   4417 02                   84 cmp_ia: .db 0x02
+   4414 02                   84 cmp_ia: .db 0x02
                              85 ;; 00000100 para las entidades con input (player)
-   4418 04                   86 cmp_input: .db 0x04
+   4415 04                   86 cmp_input: .db 0x04
                              87 ;;  entidades con colisiones
-   4419 08                   88 cmp_collider: .db 0x08
+   4416 08                   88 cmp_collider: .db 0x08
                              89 
                              90 
                              91 ;; Tipos de las entidades
-   441A 00                   92 t_default: .db 0x00
+   4417 00                   92 t_default: .db 0x00
                              93 
-   441B 80                   94 t_dead: .db 0x80
+   4418 80                   94 t_dead: .db 0x80
                              95 
                              96 
                              97 
@@ -4548,56 +4548,56 @@ Hexadecimal [16-Bits]
                      C000     8 screen_start = 0xC000
                               9 
                              10 
-   441C                      11 rendersys_init::
+   4419                      11 rendersys_init::
                              12     ;ld  c, #0
                              13     ;call cpct_setVideoMode_asm
                              14     ;ld  hl, #_pal_main
                              15     ;ld  de, #16
                              16     ;call cpct_setPalette_asm
                              17     ;cpctm_setBorder_asm HW_WHITE
-   441C C9            [10]   18 ret
+   4419 C9            [10]   18 ret
                              19 
                              20 
                              21 
-   441D                      22 rendersys_update::
-   441D CD 21 44      [17]   23     call render_entities
-   4420 C9            [10]   24 ret
+   441A                      22 rendersys_update::
+   441A CD 1E 44      [17]   23     call render_entities
+   441D C9            [10]   24 ret
                              25 
                              26 
                              27 
-   4421                      28 render_entities::
-   4421                      29 _renloop:
+   441E                      28 render_entities::
+   441E                      29 _renloop:
                              30 
-   4421 32 47 44      [13]   31     ld (_ent_counter), a
+   441E 32 44 44      [13]   31     ld (_ent_counter), a
                              32     ;; erase previous istance
-   4424 CD 54 44      [17]   33     call render_delete_entity
+   4421 CD 51 44      [17]   33     call render_delete_entity
                              34 
                              35     ;; calculate new VP
-   4427 11 00 C0      [10]   36     ld de, #screen_start
-   442A DD 4E 02      [19]   37     ld c, e_x(ix)
-   442D DD 46 03      [19]   38     ld b, e_y(ix)
-   4430 CD 61 46      [17]   39     call cpct_getScreenPtr_asm
+   4424 11 00 C0      [10]   36     ld de, #screen_start
+   4427 DD 4E 02      [19]   37     ld c, e_x(ix)
+   442A DD 46 03      [19]   38     ld b, e_y(ix)
+   442D CD 5E 46      [17]   39     call cpct_getScreenPtr_asm
                              40 
                              41     ; store VP as last
-   4433 DD 75 0A      [19]   42     ld e_lastVP_l(ix), l
-   4436 DD 74 0B      [19]   43     ld e_lastVP_h(ix), h
+   4430 DD 75 0A      [19]   42     ld e_lastVP_l(ix), l
+   4433 DD 74 0B      [19]   43     ld e_lastVP_h(ix), h
                              44 
                              45 
-   4439 EB            [ 4]   46     ex  de, hl
-   443A DD 7E 08      [19]   47     ld a, e_c(ix)  ;; Color
-   443D DD 4E 04      [19]   48     ld c, e_w(ix) ;; width
-   4440 DD 46 05      [19]   49     ld b, e_h(ix) ;; height
-   4443 CD BD 45      [17]   50     call cpct_drawSolidBox_asm
+   4436 EB            [ 4]   46     ex  de, hl
+   4437 DD 7E 08      [19]   47     ld a, e_c(ix)  ;; Color
+   443A DD 4E 04      [19]   48     ld c, e_w(ix) ;; width
+   443D DD 46 05      [19]   49     ld b, e_h(ix) ;; height
+   4440 CD BA 45      [17]   50     call cpct_drawSolidBox_asm
                              51 
                      0031    52 _ent_counter = .+1
-   4446 3E 00         [ 7]   53     ld  a, #0
-   4448 3D            [ 4]   54     dec a
-   4449 C8            [11]   55     ret z
+   4443 3E 00         [ 7]   53     ld  a, #0
+   4445 3D            [ 4]   54     dec a
+   4446 C8            [11]   55     ret z
                              56 
-   444A 32 47 44      [13]   57     ld (_ent_counter), a
-   444D 01 0D 00      [10]   58     ld bc, #sizeof_e
-   4450 DD 09         [15]   59     add ix, bc
-   4452 18 CD         [12]   60     jr _renloop
+   4447 32 44 44      [13]   57     ld (_ent_counter), a
+   444A 01 0D 00      [10]   58     ld bc, #sizeof_e
+   444D DD 09         [15]   59     add ix, bc
+   444F 18 CD         [12]   60     jr _renloop
                              61 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 88.
 Hexadecimal [16-Bits]
@@ -4605,21 +4605,21 @@ Hexadecimal [16-Bits]
 
 
                              62 
-   4454                      63 render_delete_entity::
-   4454 DD 5E 0A      [19]   64     ld e, e_lastVP_l(ix)
-   4457 DD 56 0B      [19]   65     ld d, e_lastVP_h(ix)
-   445A AF            [ 4]   66     xor a
-   445B DD 4E 04      [19]   67     ld c, e_w(ix)
-   445E DD 46 05      [19]   68     ld b, e_h(ix)
-   4461 CD BD 45      [17]   69     call cpct_drawSolidBox_asm
-   4464 C9            [10]   70 ret
+   4451                      63 render_delete_entity::
+   4451 DD 5E 0A      [19]   64     ld e, e_lastVP_l(ix)
+   4454 DD 56 0B      [19]   65     ld d, e_lastVP_h(ix)
+   4457 AF            [ 4]   66     xor a
+   4458 DD 4E 04      [19]   67     ld c, e_w(ix)
+   445B DD 46 05      [19]   68     ld b, e_h(ix)
+   445E CD BA 45      [17]   69     call cpct_drawSolidBox_asm
+   4461 C9            [10]   70 ret
                              71 
                              72 
-   4465                      73 render_delete_static_entity::
-   4465 DD 5E 02      [19]   74     ld e, e_x(ix)
-   4468 DD 56 03      [19]   75     ld d, e_y(ix)
-   446B AF            [ 4]   76     xor a
-   446C DD 4E 04      [19]   77     ld c, e_w(ix)
-   446F DD 46 05      [19]   78     ld b, e_h(ix)
-   4472 CD BD 45      [17]   79     call cpct_drawSolidBox_asm
-   4475 C9            [10]   80 ret
+   4462                      73 render_delete_static_entity::
+   4462 DD 5E 02      [19]   74     ld e, e_x(ix)
+   4465 DD 56 03      [19]   75     ld d, e_y(ix)
+   4468 AF            [ 4]   76     xor a
+   4469 DD 4E 04      [19]   77     ld c, e_w(ix)
+   446C DD 46 05      [19]   78     ld b, e_h(ix)
+   446F CD BA 45      [17]   79     call cpct_drawSolidBox_asm
+   4472 C9            [10]   80 ret

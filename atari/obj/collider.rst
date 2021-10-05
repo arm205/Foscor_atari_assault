@@ -4639,7 +4639,7 @@ Hexadecimal [16-Bits]
                              86 
    4058 FD 7E 00      [19]   87     ld a, e_t(iy)
    405B 47            [ 4]   88     ld b, a
-   405C 3A B9 42      [13]   89     ld a, (t_player)
+   405C 3A B6 42      [13]   89     ld a, (t_player)
    405F A8            [ 4]   90     xor b
    4060 20 73         [12]   91     jr nz, no_player
                              92 
@@ -4649,7 +4649,7 @@ Hexadecimal [16-Bits]
                              96 
    4069 DD 7E 00      [19]   97         ld a, e_t(ix)
    406C 47            [ 4]   98         ld b, a
-   406D 3A AC 42      [13]   99         ld a, (t_enemy)
+   406D 3A A9 42      [13]   99         ld a, (t_enemy)
    4070 A8            [ 4]  100         xor b
    4071 20 06         [12]  101         jr nz, pl_caja
    4073                     102         pl_en:
@@ -4756,7 +4756,7 @@ Hexadecimal [16-Bits]
                             193 
    40D6 DD 7E 00      [19]  194 ld a, e_t(ix)
    40D9 47            [ 4]  195     ld b, a
-   40DA 3A B9 42      [13]  196     ld a, (t_player)
+   40DA 3A B6 42      [13]  196     ld a, (t_player)
    40DD A8            [ 4]  197     xor b
    40DE 20 76         [12]  198     jr nz, no_player_2
                             199 
@@ -4766,14 +4766,14 @@ Hexadecimal [16-Bits]
                             203 
    40E7 FD 7E 00      [19]  204         ld a, e_t(iy)
    40EA 47            [ 4]  205         ld b, a
-   40EB 3A AC 42      [13]  206         ld a, (t_enemy)
+   40EB 3A A9 42      [13]  206         ld a, (t_enemy)
    40EE A8            [ 4]  207         xor b
    40EF 20 09         [12]  208         jr nz, pl_caja_2
    40F1                     209         pl_en_2:
                             210             ;; Aqui tendriamos que matar al jugador
    40F1 3E 00         [ 7]  211             ld a, #0x00 
    40F3 DD 77 08      [19]  212             ld e_c(ix), a
-   40F6 CD 0D 43      [17]  213             call man_game_end
+   40F6 CD 0A 43      [17]  213             call man_game_end
    40F9 C9            [10]  214             ret
                             215 
                             216 

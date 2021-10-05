@@ -177,13 +177,10 @@ E_M_for_all_pairs_matching::
             ld a, (_ent_counter2)
             dec a
             second_loop_pairs:
-               ld (_ent_counter_2), a
-                ld a, e_t(ix)
-                ld c, a
-                ld a, e
-                ld e, c
+                ld (_ent_counter_2), a  ;;Resto de entidades a comprobar
+                ld e, e_t(ix)
                 ld a, (t_default)
-                and e
+                and e                   ;;Comprobar si es invalido el tipo
                 jr nz, invalid_entity_2_pairs
                 ld a, e_cmp(ix)
                 and d

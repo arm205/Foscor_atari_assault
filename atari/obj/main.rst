@@ -4525,19 +4525,19 @@ Hexadecimal [16-Bits]
                              79 
                              80 ;;; Usando los bits  para definir signatures luego
                              81 ;; 00000001 para lo que sea para renderizar
-   43BF 01                   82 cmp_render: .db 0x01
+   43BC 01                   82 cmp_render: .db 0x01
                              83 ;; 00000010 para las entidades que usen IA
-   43C0 02                   84 cmp_ia: .db 0x02
+   43BD 02                   84 cmp_ia: .db 0x02
                              85 ;; 00000100 para las entidades con input (player)
-   43C1 04                   86 cmp_input: .db 0x04
+   43BE 04                   86 cmp_input: .db 0x04
                              87 ;;  entidades con colisiones
-   43C2 08                   88 cmp_collider: .db 0x08
+   43BF 08                   88 cmp_collider: .db 0x08
                              89 
                              90 
                              91 ;; Tipos de las entidades
-   43C3 00                   92 t_default: .db 0x00
+   43C0 00                   92 t_default: .db 0x00
                              93 
-   43C4 80                   94 t_dead: .db 0x80
+   43C1 80                   94 t_dead: .db 0x80
                              95 
                              96 
                              97 
@@ -4569,16 +4569,16 @@ Hexadecimal [16-Bits]
                              10 
                              11 
                              12 
-   43C5                      13 _main::
-   43C5 CD 88 45      [17]   14    call cpct_disableFirmware_asm
-   43C8 CD D0 42      [17]   15    call man_game_init
+   43C2                      13 _main::
+   43C2 CD 85 45      [17]   14    call cpct_disableFirmware_asm
+   43C5 CD CD 42      [17]   15    call man_game_init
                              16 
-   43CB                      17 loop:
+   43C8                      17 loop:
                              18 ;   call esperar
-   43CB CD ED 42      [17]   19    call man_game_update
+   43C8 CD EA 42      [17]   19    call man_game_update
                              20 
-   43CE CD 80 45      [17]   21    call cpct_waitVSYNC_asm
-   43D1 CD 06 43      [17]   22    call man_game_render
+   43CB CD 7D 45      [17]   21    call cpct_waitVSYNC_asm
+   43CE CD 03 43      [17]   22    call man_game_render
                              23 
-   43D4 18 F5         [12]   24    jr    loop
+   43D1 18 F5         [12]   24    jr    loop
                              25 

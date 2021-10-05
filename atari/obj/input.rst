@@ -106,19 +106,19 @@ Hexadecimal [16-Bits]
                              79 
                              80 ;;; Usando los bits  para definir signatures luego
                              81 ;; 00000001 para lo que sea para renderizar
-   4366 01                   82 cmp_render: .db 0x01
+   4363 01                   82 cmp_render: .db 0x01
                              83 ;; 00000010 para las entidades que usen IA
-   4367 02                   84 cmp_ia: .db 0x02
+   4364 02                   84 cmp_ia: .db 0x02
                              85 ;; 00000100 para las entidades con input (player)
-   4368 04                   86 cmp_input: .db 0x04
+   4365 04                   86 cmp_input: .db 0x04
                              87 ;;  entidades con colisiones
-   4369 08                   88 cmp_collider: .db 0x08
+   4366 08                   88 cmp_collider: .db 0x08
                              89 
                              90 
                              91 ;; Tipos de las entidades
-   436A 00                   92 t_default: .db 0x00
+   4367 00                   92 t_default: .db 0x00
                              93 
-   436B 80                   94 t_dead: .db 0x80
+   4368 80                   94 t_dead: .db 0x80
                              95 
                              96 
                              97 
@@ -4551,53 +4551,53 @@ Hexadecimal [16-Bits]
 
                               5 
                               6 
-   436C 00                    7 bala_moved: .db 0
-   436D 01                    8 bala_counter: .db 1
+   4369 00                    7 bala_moved: .db 0
+   436A 01                    8 bala_counter: .db 1
                               9 
-   436E                      10 input_init::
-   436E C9            [10]   11 ret
+   436B                      10 input_init::
+   436B C9            [10]   11 ret
                              12 
                              13 
-   436F                      14 input_update::
-   436F 57            [ 4]   15     ld d, a
-   4370 3A 68 43      [13]   16     ld a, (cmp_input)
-   4373 CD E8 41      [17]   17     call E_M_for_all_matching
-   4376 C9            [10]   18 ret
+   436C                      14 input_update::
+   436C 57            [ 4]   15     ld d, a
+   436D 3A 65 43      [13]   16     ld a, (cmp_input)
+   4370 CD E8 41      [17]   17     call E_M_for_all_matching
+   4373 C9            [10]   18 ret
                              19 
                              20 
                              21 ;MODIFICA: AF, BC, DE, HL
-   4377                      22 input_update_one::
-   4377 DD 36 06 00   [19]   23     ld e_vx(ix), #0
+   4374                      22 input_update_one::
+   4374 DD 36 06 00   [19]   23     ld e_vx(ix), #0
                              24 
-   437B DD 36 07 00   [19]   25     ld e_vy(ix), #0
+   4378 DD 36 07 00   [19]   25     ld e_vy(ix), #0
                              26 
-   437F CD 82 44      [17]   27     call cpct_scanKeyboard_f_asm
+   437C CD 7F 44      [17]   27     call cpct_scanKeyboard_f_asm
                              28 
-   4382 21 04 04      [10]   29     ld hl, #Key_O
-   4385 CD 76 44      [17]   30     call cpct_isKeyPressed_asm
-   4388 28 04         [12]   31     jr z, O_NotPressed
-   438A                      32 O_Pressed:
-   438A DD 36 06 FF   [19]   33     ld e_vx(ix), #-1
-   438E                      34 O_NotPressed:
-   438E 21 03 08      [10]   35     ld hl, #Key_P
-   4391 CD 76 44      [17]   36     call cpct_isKeyPressed_asm
-   4394 28 04         [12]   37     jr z, P_NotPressed
-   4396                      38 P_Pressed:
-   4396 DD 36 06 01   [19]   39     ld e_vx(ix), #1
-   439A                      40 P_NotPressed:
+   437F 21 04 04      [10]   29     ld hl, #Key_O
+   4382 CD 73 44      [17]   30     call cpct_isKeyPressed_asm
+   4385 28 04         [12]   31     jr z, O_NotPressed
+   4387                      32 O_Pressed:
+   4387 DD 36 06 FF   [19]   33     ld e_vx(ix), #-1
+   438B                      34 O_NotPressed:
+   438B 21 03 08      [10]   35     ld hl, #Key_P
+   438E CD 73 44      [17]   36     call cpct_isKeyPressed_asm
+   4391 28 04         [12]   37     jr z, P_NotPressed
+   4393                      38 P_Pressed:
+   4393 DD 36 06 01   [19]   39     ld e_vx(ix), #1
+   4397                      40 P_NotPressed:
                              41 
-   439A 21 08 08      [10]   42     ld hl, #Key_Q
-   439D CD 76 44      [17]   43     call cpct_isKeyPressed_asm
-   43A0 28 04         [12]   44     jr z, Q_NotPressed
-   43A2                      45 Q_Pressed:
-   43A2 DD 36 07 FC   [19]   46     ld e_vy(ix), #-4
-   43A6                      47 Q_NotPressed:
-   43A6 21 08 20      [10]   48     ld hl, #Key_A
-   43A9 CD 76 44      [17]   49     call cpct_isKeyPressed_asm
-   43AC 28 04         [12]   50     jr z, A_NotPressed
-   43AE                      51 A_Pressed:
-   43AE DD 36 07 04   [19]   52     ld e_vy(ix), #4
-   43B2                      53 A_NotPressed:
+   4397 21 08 08      [10]   42     ld hl, #Key_Q
+   439A CD 73 44      [17]   43     call cpct_isKeyPressed_asm
+   439D 28 04         [12]   44     jr z, Q_NotPressed
+   439F                      45 Q_Pressed:
+   439F DD 36 07 FC   [19]   46     ld e_vy(ix), #-4
+   43A3                      47 Q_NotPressed:
+   43A3 21 08 20      [10]   48     ld hl, #Key_A
+   43A6 CD 73 44      [17]   49     call cpct_isKeyPressed_asm
+   43A9 28 04         [12]   50     jr z, A_NotPressed
+   43AB                      51 A_Pressed:
+   43AB DD 36 07 04   [19]   52     ld e_vy(ix), #4
+   43AF                      53 A_NotPressed:
                              54 
                              55 ;    ld e, e_t(ix)
                              56 ;    ld a, (t_bala)
@@ -4609,18 +4609,18 @@ Hexadecimal [16-Bits]
 
 
 
-   43B2 21 05 80      [10]   60     ld hl, #Key_Space
-   43B5 CD 76 44      [17]   61     call cpct_isKeyPressed_asm
-   43B8 28 04         [12]   62     jr z, Space_NotPressed
-   43BA                      63 Space_Pressed:
-   43BA DD 36 09 01   [19]   64     ld e_be(ix), #1
+   43AF 21 05 80      [10]   60     ld hl, #Key_Space
+   43B2 CD 73 44      [17]   61     call cpct_isKeyPressed_asm
+   43B5 28 04         [12]   62     jr z, Space_NotPressed
+   43B7                      63 Space_Pressed:
+   43B7 DD 36 09 01   [19]   64     ld e_be(ix), #1
                              65 ;    call input_move_bala
                              66     
-   43BE                      67 Space_NotPressed:
+   43BB                      67 Space_NotPressed:
                              68 ;call counter_for_bala
                              69 ;no_bala:
                              70 
-   43BE C9            [10]   71 ret
+   43BB C9            [10]   71 ret
                              72 
                              73 
                              74 ;input_move_bala::
