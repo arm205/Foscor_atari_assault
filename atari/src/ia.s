@@ -50,16 +50,6 @@ ia_for_enemy:
 ret
 
 
-ia_auto_destroy::
-    ld a, e_count(ix)
-    dec a
-    jr nz, no_destruir
-
-     ;   call man_game_destroy_entity
-
-no_destruir: 
-   ld e_count(ix), a
-ret
 
 
 

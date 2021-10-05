@@ -195,7 +195,7 @@ E_M_for_all_pairs_matching::
                 jr second_loop_pairs
                    
     continua_pairs:
-    ld__iy_ix
+    ld__ix_iy
     _ent_counter2 = .+1
     ld  a, #0
    dec a

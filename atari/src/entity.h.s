@@ -12,7 +12,7 @@
 
 
 ; ENTITY DEFINITION MACRO
-.macro CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+.macro CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
     .db _x ;    position x of entity
     .db _y ;    position y of entity
     .db _w ;    width of entity
@@ -21,51 +21,50 @@
     .db _vy ;    speed x of entity
     .db _c ;    color of entity
     .db _b;     byte that we use for setting a special behavior to an entity (asi podemos tener dos cosas del mismo tipo que se comporten distinto)
-    .db _dest_c;     Counter of frames for de entity to be destructed
     .dw 0xCCCC; last video memory value to delate later
 .endm
 
 
-.macro DefineDefaultEntity _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+.macro DefineDefaultEntity _x, _y, _w, _h, _vx, _vy, _c, _b
     .db 0x00 ;    type of entity default
     .db 0x00 ;      components of entity default
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
     .db 0x00
 .endm
 
 
-.macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+.macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
 _name::
     t_enemy:: .db 0x02 ;    type of entity is enemy
     cmp_enemy:: .db 0x0B   ;components that enemy has
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
     enemy_col:: .db 0x00
 .endm
 
-.macro DefineEnemy2Entity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+.macro DefineEnemy2Entity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
 _name::
     .db 0x02 ;    type of entity is enemy
     .db 0x0B    ;components that enemy has
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
     .db 0x00
 .endm
 
 
-.macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+.macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
 _name::
     t_player:: .db  0x01;    type of entity is player
     cmp_player:: .db 0x0D   ;components that player has
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
     player_col:: .db 0x06
 .endm
 
 
-.macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
+.macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
 _name::
     t_caja:: .db 0x04 ;    type of entity is breakable box
     cmp_caja:: .db 0x09   ;components that box has
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-    caja_col:: .db 0x00
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
+    caja_col:: .db 0x01
 .endm
 
 
@@ -88,16 +87,15 @@ e_vx = 6
 e_vy = 7
 e_c = 8
 e_be = 9
-e_count = 10
-e_lastVP_l = 11
-e_lastVP_h = 12
-e_col = 13
-sizeof_e = 14
+e_lastVP_l = 10
+e_lastVP_h = 11
+e_col = 12
+sizeof_e = 13
 
 .macro DefineEntityArray _name, _N
 _name::
     .rept _N
-        DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xAA
+        DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD
     .endm
 .endm
 

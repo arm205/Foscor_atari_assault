@@ -11,13 +11,13 @@
 
 ;                   _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
 
-DefineEnemyEntity enemy, 20, 20, 4, 8, -1, 0, 0xFF, 1, 0
+DefineEnemyEntity enemy, 20, 20, 4, 8, -1, 0, 0xFF, 1
 
-DefineEnemy2Entity enemy2, 20, 40, 4, 8, -1, 0, 0xFF, 2, 0
+DefineEnemy2Entity enemy2, 20, 40, 4, 8, -1, 0, 0xFF, 2
 
-DefinePlayerEntity player, 20, 180, 2, 8, -1, 0, 0x0F, 0, 0
+DefinePlayerEntity player, 20, 180, 2, 8, -1, 0, 0x0F, 0
 
-DefineCajaEntity caja, 40, 100, 2, 8, 0, 0, 0xF0, 0, 0
+DefineCajaEntity caja, 40, 100, 2, 8, 0, 0, 0xF0, 0
 
 ;DefineBalaEntity bala, 20, 180, 2, 8, 0, 0, 0xF0, 0, 2
 

@@ -1,5 +1,6 @@
 .include "entity.h.s"
 .include "cpctelera.h.s"
+.include "collider.h.s"
 
 
 
@@ -23,18 +24,26 @@ collider_one_pair::
 
         call check_collision
         jr c, no_colisionan
-            cpctm_setBorder_asm HW_WHITE
+            ;cpctm_setBorder_asm HW_WHITE
 
-            call collider_check_type_iy
+            ;call collider_check_type_iy
+             	;ex__hl_ix
+ 	            ;ex__hl_iy
+                ;ex__hl_ix
             call collider_check_type_ix
+
+             	;ex__hl_ix
+ 	            ;ex__hl_iy
+                ;ex__hl_ix
+
+
 
 
 no_colisionan:
+;cpctm_setBorder_asm HW_BLUE
 ret
 
 
-x_ban:: .db 0x00
-y_ban:: .db 0x00
 check_collision::
 
 ;COLISIONES CON EL EJE X
@@ -174,24 +183,121 @@ no_player:
 ;    jr nz, no_enemy
 
 ;no_enemy:   
-;    ld a, e_t(iy)
-;    ld b, a
-;    ld a, (t_caja)
-;    xor b
-;    jr nz, no_caja
-;
-;no_caja:    
-;    ld a, e_t(iy)
-;    ld b, a
-;    ld a, (t_bala)
-;    xor b
-;    ret z
-
-
 pair_not_col:
 
 ret
 
+
 collider_check_type_ix::
 
+ld a, e_t(ix)
+    ld b, a
+    ld a, (t_player)
+    xor b
+    jr nz, no_player_2
+
+        ld a, e_col(ix)
+        and e_t(iy)
+        ret z
+
+        ld a, e_t(iy)
+        ld b, a
+        ld a, (t_enemy)
+        xor b
+        jr nz, pl_caja_2
+        pl_en_2:
+            ;; Aqui tendriamos que matar al jugador
+            ld a, #0x00 
+            ld e_c(ix), a
+            ret
+
+
+
+
+
+        pl_caja_2:
+        ; Compruebo si tiene el behavior de romper caja
+
+        ld a, e_be(ix)
+        xor #1
+        jr nz, for_x_2
+        ;tiene el behavior asi que la rompe
+        ld a, #0
+        ld e_c(iy), a
+        ld e_be(ix), a
+        ret
+
+
+; No tiene el behavior asi que colisiona
+        for_x_2:
+            ld a, e_vx(ix)
+            or #0
+            jr z, cero_x_2
+
+            ld a, (x_ban_2)
+            and a
+            jr z, new_x_ban_2
+                ld b, a
+                ld a, e_vx(ix)
+                xor b
+                jr z, cero_x_2
+                move_x_2:
+                
+                    ld a, #0
+                    ld (x_ban_2), a
+                    jr for_y_2
+                    
+
+            new_x_ban_2:
+                ld a, e_vx(ix)
+                ld (x_ban_2), a
+
+
+
+            cero_x_2:
+                ld a, #0
+                ld e_vx(ix), a
+        for_y_2:
+
+            ld a, e_vy(ix)
+            or #0
+            jr z, cero_y_2
+
+            ld a, (y_ban_2)
+            and a
+            jr z, new_y_ban_2
+                ld b, a
+                ld a, e_vy(ix)
+                xor b
+                jr z, cero_y_2
+                move_y_2:
+                    ld a, #0
+                    ld (y_ban_2), a
+                    ret
+
+            new_y_ban_2:
+                ld a, e_vy(ix)
+                ld (y_ban_2), a
+
+            cero_y_2:
+                ld a, #0
+                ld e_vy(ix), a
+                ret
+
+
+no_player_2:  
+;   DEJO ESTO POR SI EN UN FUTURO TENEMOS OTRAS ENTIDADES QUE COLISIONEN  
+;    ld a, e_t(iy)
+;    ld b, a
+;    ld a, (t_enemy)
+;    xor b
+;    jr nz, no_enemy
+
+;no_enemy:   
+pair_not_col_2:
+
 ret
+
+
+
+
