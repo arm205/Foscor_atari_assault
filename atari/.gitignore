@@ -1,0 +1,8 @@
+# ignore ALL .cdt files
+*.cdt
+
+# ignore ALL .log files
+*.dsk
+
+# ignore ALL .log files
+*.sna

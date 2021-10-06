@@ -1,0 +1,90 @@
+XL2
+H 1 areas 2A global symbols
+M cpct_keyboard
+S rendersys_update Ref0000
+S input_init Ref0000
+S E_M_init Ref0000
+S E_M_create Ref0000
+S cpct_scanKeyboard_f_asm Ref0000
+S cpct_isKeyPressed_asm Ref0000
+S physics_sys_for_one Ref0000
+S ia_update_one_entity Ref0000
+S cpct_drawStringM0_asm Ref0000
+S E_M_getEntityArray Ref0000
+S render_delete_entity Ref0000
+S input_update Ref0000
+S physics_sys_init Ref0000
+S E_M_for_all_pairs_matching Ref0000
+S E_M_for_all_matching Ref0000
+S E_M_new Ref0000
+S .__.ABS. Def0000
+S physics_sys_update Ref0000
+S ia_update Ref0000
+S collider_update Ref0000
+S cpct_waitVSYNC_asm Ref0000
+S rendersys_init Ref0000
+S input_update_one Ref0000
+S render_delete_static_entity Ref0000
+S collider_one_pair Ref0000
+S _cpct_getRandom_mxor_u8 Ref0000
+S cpct_disableFirmware_asm Ref0000
+S cpct_drawSolidBox_asm Ref0000
+S cpct_getScreenPtr_asm Ref0000
+A _CODE size 8E flags 0 addr 0
+S man_game_entity_creator Def0047
+S man_game_init Def002E
+S man_game_end Def006B
+S player Def0017
+S man_game_render Def0064
+S man_game_update Def004B
+S enemy Def000A
+S t_player Def0017
+S player_col Def0023
+S cmp_player Def0018
+S t_enemy Def000A
+S enemy_col Def0016
+S cmp_enemy Def000B
+T 00 00 01 02 04 08 00 80 00 00 00 00
+R 00 00 00 00
+T 0A 00
+R 00 00 00 00
+T 0A 00 02 0B 14 50 04 08 FF 00 FF 01 CC CC 00
+R 00 00 00 00
+T 17 00
+R 00 00 00 00
+T 17 00 01 0D 14 B4 02 08 FF 00 0F 00 CC CC 06 47
+R 00 00 00 00
+T 25 00 41 4D 45 20 4F 56 45 52 00
+R 00 00 00 00
+T 2E 00
+R 00 00 00 00
+T 2E 00 CD 00 00 CD 00 00 CD 00 00 CD
+R 00 00 00 00 02 03 02 00 02 06 15 00 02 09 0C 00
+T 38 00 00 00 21 0A 00 CD 47 00 21
+R 00 00 00 00 02 02 01 00 00 05 00 00 00 08 00 00
+T 41 00 17 00 CD 47 00 C9
+R 00 00 00 00 00 02 00 00 00 05 00 00
+T 47 00
+R 00 00 00 00
+T 47 00 CD 00 00 C9
+R 00 00 00 00 02 03 03 00
+T 4B 00
+R 00 00 00 00
+T 4B 00 CD 00 00 CD 00 00 CD 00 00 CD
+R 00 00 00 00 02 03 09 00 02 06 0B 00 02 09 09 00
+T 55 00 00 00 CD 00 00 CD 00 00 CD
+R 00 00 00 00 02 02 12 00 02 05 09 00 02 08 13 00
+T 5E 00 00 00 CD 00 00 C9
+R 00 00 00 00 02 02 09 00 02 05 11 00
+T 64 00
+R 00 00 00 00
+T 64 00 CD 00 00 CD 00 00 C9
+R 00 00 00 00 02 03 09 00 02 06 00 00
+T 6B 00
+R 00 00 00 00
+T 6B 00 CD 00 00 21 00 C0 11 01 C0 01 00 40 36 00
+R 00 00 00 00 02 03 02 00
+T 79 00 ED B0 11 00 C0 0E 14 06 5C CD 00 00 FD 21
+R 00 00 00 00 02 0C 1C 00
+T 87 00 24 00 CD 00 00 18 FE
+R 00 00 00 00 00 02 00 00 02 05 08 00

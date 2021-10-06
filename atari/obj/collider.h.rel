@@ -1,0 +1,8 @@
+XL2
+H 1 areas 3 global symbols
+S .__.ABS. Def0000
+S collider_update Ref0000
+S collider_one_pair Ref0000
+A _CODE size 4 flags 0 addr 0
+T 00 00 00 00 00 00
+R 00 00 00 00
