@@ -6,3 +6,6 @@
 
 # ignore ALL .log files
 *.sna
+
+#Ignore folder obj
+obj/
