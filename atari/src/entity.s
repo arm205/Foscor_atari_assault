@@ -47,8 +47,8 @@ E_M_new::
 
 ret
 
-; Input: HL; pointer to entity initializer bytes
-; Desc: 
+; Input: HL; pointer to entity initializer bytes, DE; Puntero a la direccion en la que se almacenara nueva entidad
+; Desc: Almacenamos la direccion de nueva entidad en IX y cargamos la uneva entidad con los valores almacenados en HL
 ; Modifies: IX, HL, BC, DE
 E_M_create::
     push hl
@@ -64,6 +64,11 @@ E_M_create::
 
 ret
 
+
+
+
+; Desc: Cargamos el numero de entidades que tengo en A y funtero al inicio del array en IX
+; Modifies: IX, A
 E_M_getEntityArray::
     ld ix, #_entity_array
     ld a, (_num_entities)
@@ -72,7 +77,9 @@ ret
 
 
 ;
-;Input: A type that we are looking for, D num entity
+;Input: A; type that we are looking for, D; num entity
+;Desc: Buscamos todas las entidades validas cuyo tipo tenga el componente del signature(D en la amyoria del codigo) y se devuelve al sistema que lo ha llamado
+;Modifies: IX, BC, DE, A
 E_M_for_all_matching::
     ld c, a
     ld a, d
@@ -124,7 +131,7 @@ _renloop:
             jr continua
                 render:
                 push de
-;; Con esto modifico la velocidad del player dependiendo de la tecla pulsada
+;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
                 call physics_sys_for_one
                 pop de
                 jr continua
@@ -146,71 +153,96 @@ _ent_counter = .+1
     jr _renloop
 
 
+;;INPUT
+;;  A: Bit de signo (Si algo es colisionable)
+;;  D: Numero de entidades
+
 E_M_for_all_pairs_matching::
+    ;Intercambio A y D;
     ld c, a
     ld a, d
     ld d, c
-   ;intercambio A y D;
+
     _renloop_pairs:
+        ;;SE CARGA A CANTIDAD DE ENTIDADES
         ld (_ent_counter2), a
-        ld a, e_t(ix)
-        ld c, a
-        ld a, e
-        ld e, c
+
+        ;;VERIFICAR SI LA ENTIDAD EN IX ES DEFAULT
+        ld e, e_t(ix)
         ld a, (t_default)
-        and e
+        and e                           
+
+        ;;CASO: ENTIDAD IX ES INVALIDA
         jr nz, invalid_entity_pairs
-       ;; erase previous istance
-       ; para mover todo lo que tenga a 1 el bit de ia
+
+        ;;CASO: ENTIDAD IX ES VALIDA
+        ;;VERIFICAR SI IX TIENE EL COMPONENTE PASADO
         ld a, e_cmp(ix)
         and d
-        ld__iy_ix
+        ld__iy_ix                                                              ;;Cargar en IY lo que hay en IX
+
+        ;;CASO: ENTIDAD IX TIENE EL COMPONENTE
         jr nz, cumple_pairs
+
+        ;;CASO: LA ENTIDAD IX NO TIENE EL COMPONENTE, BUSCA EN LA SIGUIENTE         
         jr continua_pairs
-        cumple_pairs:    
-           ; significa que este elemento cumple que es colisionable
+
+
+        cumple_pairs:
+           ; Significa que este elemento cumple que es colisionable
            ; A partir de aqui se busca el siguiente elemento colisionable para luego ver el tipo de colision entre la parejas
-           ; hl apuntara a las siguientes entidades
             ld bc, #sizeof_e
             add ix, bc
             ld a, (_ent_counter2)
             dec a
             second_loop_pairs:
-               ld (_ent_counter_2), a
-                ld a, e_t(ix)
-                ld c, a
-                ld a, e
-                ld e, c
+                ld (_ent_counter_2), a  ;;Resto de entidades a comprobar
+
+                ;;VERIFICAR SI EL TIPO DE LA ENTIDAD IX ES DEFAULT
+                ld e, e_t(ix)
                 ld a, (t_default)
                 and e
+
+                ;;CASO: LA ENTIDAD EN IX ES INVALIDA
                 jr nz, invalid_entity_2_pairs
+
+                ;;CASO: LA ENTIDAD EN IX ES VALIDA
+                ;;VERIFICAR SI IX TIENE EL COMPONENTE PASADO
                 ld a, e_cmp(ix)
                 and d
-                jr nz, cumple2_pairs
-                jr continua2_pairs
-                  cumple2_pairs:  
-                  call collider_one_pair
-            continua2_pairs:
-                _ent_counter_2 = .+1
-                ld  a, #0
-                dec a
-                jr z, continua_pairs
-                ld (_ent_counter_2), a
-            invalid_entity_2_pairs:
-                ld bc, #sizeof_e
-                add ix, bc
-                jr second_loop_pairs
-                   
-    continua_pairs:
-    ld__ix_iy
-    _ent_counter2 = .+1
-    ld  a, #0
-   dec a
-   ret z
 
-   ld (_ent_counter2), a;
-   invalid_entity_pairs:
-   ld bc, #sizeof_e
-   add ix, bc
-   jr _renloop_pairs;
+                ;;CASO: LA SEGUNDA ENTIDAD TAMBIEN TIENE EL COMPONENTE
+                jr nz, cumple2_pairs
+
+                ;;CASO: LA SEGUNDA ENTIDAD NO TIENE EL COMPONENTE, BUSCA EN LA SIGUIENTE
+                jr continua2_pairs
+
+                cumple2_pairs:  
+                    call collider_one_pair
+
+                continua2_pairs:
+                    _ent_counter_2 = .+1
+                    ld  a, #0
+                    dec a
+                    jr z, continua_pairs
+                    ld (_ent_counter_2), a
+
+                invalid_entity_2_pairs:
+                    ld bc, #sizeof_e
+                    add ix, bc
+                    jr second_loop_pairs
+                   
+        continua_pairs:
+            ld__ix_iy
+            _ent_counter2 = .+1
+            ld  a, #0
+            dec a
+        ret z
+
+        ld (_ent_counter2), a
+        
+        invalid_entity_pairs:
+            ld bc, #sizeof_e
+            add ix, bc
+            jr _renloop_pairs
 

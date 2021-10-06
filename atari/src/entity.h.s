@@ -68,15 +68,6 @@ _name::
 .endm
 
 
-;.macro DefineBalaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-;_name::
-;    t_bala:: .db 0x08 ;    type of entity is bullet
-;    cmp_bala:: .db 0x0D   ;components that bullet has
-;    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _dest_c
-;    bala_col:: .db 0x00
-;.endm
-;
-
 e_t = 0
 e_cmp = 1
 e_x = 2

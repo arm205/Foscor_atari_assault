@@ -12,15 +12,6 @@ ld c, a
 ld a, (t_enemy)
 xor c
 jr z, is_enemy
-;not_enemy:
-;    ld a, (t_bala)
-;    xor c
-;    jr z, is_bala
-;
-;is_bala:
-;    call ia_auto_destroy
-;    jr acabado
-;
 
 is_enemy:
     call ia_for_enemy
