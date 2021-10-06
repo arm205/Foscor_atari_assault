@@ -10,12 +10,13 @@
 .globl cpct_setVideoMode_asm
 ;;.globl cpctm_setBorder_asm
 
+screen_start = 0xC000
 
 ;; RENDER AN ENTITY
 ;;      INPUT: IX
 _render_Entity:: ;;importante: actualizar con la posibilidad de abrir sprites.
 
-    ld de, #0xC000
+    ld de, screen_start
     ld b, e_y(ix) ;;pos_y
     ld c, e_x(ix) ;;pos_x
 
