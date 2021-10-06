@@ -1,0 +1,30 @@
+-mjwx
+-i obj/atari.ihx
+-b _CODE = 0x4000
+-b _DATA = 0x0000
+-u
+-k /home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/bin/../share/sdcc/lib/z80
+-k /home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/share/sdcc/lib/z80
+-l /home/javiers/Escritorio/CPCtelera/cpctelera/cpctelera/cpctelera.lib
+-l z80
+obj/animation.h.rel
+obj/animation.rel
+obj/collider.h.rel
+obj/collider.rel
+obj/cpct_func.h.rel
+obj/ejemplo.rel
+obj/entity.h.rel
+obj/entity.rel
+obj/game.h.rel
+obj/game.rel
+obj/ia.h.rel
+obj/ia.rel
+obj/input.h.rel
+obj/input.rel
+obj/main.rel
+obj/physics.h.rel
+obj/physics.rel
+obj/render.h.rel
+obj/render.rel
+
+-e

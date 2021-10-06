@@ -1,0 +1,105 @@
+XL2
+H 1 areas 2F global symbols
+M cpct_keyboard
+S input_init Ref0000
+S E_M_init Ref0000
+S E_M_create Ref0000
+S cpct_scanKeyboard_f_asm Ref0000
+S cpct_isKeyPressed_asm Ref0000
+S physics_sys_for_one Ref0000
+S ia_update_one_entity Ref0000
+S cpct_drawStringM0_asm Ref0000
+S E_M_getEntityArray Ref0000
+S input_update Ref0000
+S physics_sys_init Ref0000
+S E_M_for_all_pairs_matching Ref0000
+S E_M_for_all_matching Ref0000
+S _render_ents_update Ref0000
+S E_M_new Ref0000
+S .__.ABS. Def0000
+S physics_sys_update Ref0000
+S ia_update Ref0000
+S collider_update Ref0000
+S _render_sys_init Ref0000
+S cpct_waitVSYNC_asm Ref0000
+S input_update_one Ref0000
+S collider_one_pair Ref0000
+S _cpct_getRandom_mxor_u8 Ref0000
+S cpct_disableFirmware_asm Ref0000
+S _render_Entity Ref0000
+S cpct_drawSolidBox_asm Ref0000
+S _render_sys_update Ref0000
+S cpct_getScreenPtr_asm Ref0000
+A _CODE size B4 flags 0 addr 0
+S man_game_entity_creator Def006D
+S man_game_init Def0048
+S man_game_end Def0091
+S player Def0024
+S caja Def0031
+S enemy2 Def0017
+S man_game_render Def008A
+S man_game_update Def0071
+S enemy Def000A
+S t_player Def0024
+S t_caja Def0031
+S player_col Def0030
+S caja_col Def003D
+S cmp_player Def0025
+S cmp_caja Def0032
+S t_enemy Def000A
+S enemy_col Def0016
+S cmp_enemy Def000B
+T 00 00 01 02 04 08 00 80 00 00 00 00
+R 00 00 00 00
+T 0A 00
+R 00 00 00 00
+T 0A 00 02 0B 14 14 04 08 FF 00 FF 01 CC CC 00
+R 00 00 00 00
+T 17 00
+R 00 00 00 00
+T 17 00 02 0B 14 28 04 08 FF 00 FF 01 CC CC 00
+R 00 00 00 00
+T 24 00
+R 00 00 00 00
+T 24 00 01 0D 14 B4 02 08 FF 00 0F 00 CC CC 06
+R 00 00 00 00
+T 31 00
+R 00 00 00 00
+T 31 00 04 09 32 6E 02 08 00 00 F0 00 CC CC 01 47
+R 00 00 00 00
+T 3F 00 41 4D 45 20 4F 56 45 52 00
+R 00 00 00 00
+T 48 00
+R 00 00 00 00
+T 48 00 CD 00 00 CD 00 00 CD 00 00 CD
+R 00 00 00 00 02 03 01 00 02 06 13 00 02 09 0A 00
+T 52 00 00 00 21 0A 00 CD 6D 00 21
+R 00 00 00 00 02 02 00 00 00 05 00 00 00 08 00 00
+T 5B 00 17 00 CD 6D 00 21 31 00 CD
+R 00 00 00 00 00 02 00 00 00 05 00 00 00 08 00 00
+T 64 00 6D 00 21 24 00 CD 6D 00 C9
+R 00 00 00 00 00 02 00 00 00 05 00 00 00 08 00 00
+T 6D 00
+R 00 00 00 00
+T 6D 00 CD 00 00 C9
+R 00 00 00 00 02 03 02 00
+T 71 00
+R 00 00 00 00
+T 71 00 CD 00 00 CD 00 00 CD 00 00 CD
+R 00 00 00 00 02 03 08 00 02 06 09 00 02 09 08 00
+T 7B 00 00 00 CD 00 00 CD 00 00 CD
+R 00 00 00 00 02 02 11 00 02 05 08 00 02 08 12 00
+T 84 00 00 00 CD 00 00 C9
+R 00 00 00 00 02 02 08 00 02 05 10 00
+T 8A 00
+R 00 00 00 00
+T 8A 00 CD 00 00 CD 00 00 C9
+R 00 00 00 00 02 03 08 00 02 06 0D 00
+T 91 00
+R 00 00 00 00
+T 91 00 CD 00 00 21 00 C0 11 01 C0 01 00 40 36 00
+R 00 00 00 00 02 03 01 00
+T 9F 00 ED B0 11 00 C0 0E 14 06 5C CD 00 00 FD 21
+R 00 00 00 00 02 0C 1C 00
+T AD 00 3E 00 CD 00 00 18 FE
+R 00 00 00 00 00 02 00 00 02 05 07 00

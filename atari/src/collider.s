@@ -191,23 +191,30 @@ ret
 
 collider_check_type_ix::
 
-ld a, e_t(ix)
-    ld b, a
+    ;;VERIFICAR SI IX ES EL JUGADOR     
+    ld b, e_t(ix)
     ld a, (t_player)
     xor b
+
+    ;;CASO: IX NO ES EL JUGADOR
     jr nz, no_player_2
 
+        ;;VERIFICAR SI HAY COLISION CON IY
         ld a, e_col(ix)
         and e_t(iy)
         ret z
-
-        ld a, e_t(iy)
-        ld b, a
+        
+        ;;VERIFIFICAR SI IX COLISIONA CON UN ENEMIGO O UNA CAJA
+        ld b, e_t(iy)
         ld a, (t_enemy)
         xor b
+
+        ;;CASO: IX COLISIONA CON UNA CAJA
         jr nz, pl_caja_2
+
+        ;;CASO: IX COLISIONA CON UN ENEMIGO
         pl_en_2:
-            ;; Aqui tendriamos que matar al jugador
+            ;;Aqui tendriamos que matar al jugador
             ld a, #0x00 
             ld e_c(ix), a
             call man_game_end
@@ -215,18 +222,19 @@ ld a, e_t(ix)
 
 
 
-
-
         pl_caja_2:
-        ; Compruebo si tiene el behavior de romper caja
+            ;;VERIFICAR SI LA CAJA TIENE EL BEHAVIOUR
+            ld a, e_be(ix)
+            xor #1
 
-        ld a, e_be(ix)
-        xor #1
-        jr nz, for_x_2
-        ;tiene el behavior asi que la rompe
-        ld a, #0
-        ld e_c(iy), a
-        ld e_be(ix), a
+            ;;CASO: LA CAJA NO ES ROMPIBLE
+            jr nz, for_x_2
+
+            ;;CASO: LA CAJA ES ROMPIBLE
+            ld a, #0
+            ld e_c(iy), a
+            ld e_cmp(iy), a
+            ld e_be(ix), a
         ret
 
 

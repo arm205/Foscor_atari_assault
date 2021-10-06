@@ -164,20 +164,32 @@ E_M_for_all_pairs_matching::
     ld d, c
 
     _renloop_pairs:
+        ;;SE CARGA A CANTIDAD DE ENTIDADES
         ld (_ent_counter2), a
-        ld e, e_t(ix)                   ;;E esta el tipo de la enidad
-        ld a, (t_default)               ;;A tipo default
-        and e                           ;;Detectar si es el tipo de la entidad es default
 
-        jr nz, invalid_entity_pairs     ;;Si la entidad es invalida salta a la siguiente
+        ;;VERIFICAR SI LA ENTIDAD EN IX ES DEFAULT
+        ld e, e_t(ix)
+        ld a, (t_default)
+        and e                           
 
-        ld a, e_cmp(ix)                 ;;Cargar en A los componentes
-        and d                           ;;Comparar con el bit de signo
-        ld__iy_ix                       ;;Cargar en IY lo que hay en IX
-        jr nz, cumple_pairs             
+        ;;CASO: ENTIDAD IX ES INVALIDA
+        jr nz, invalid_entity_pairs
+
+        ;;CASO: ENTIDAD IX ES VALIDA
+        ;;VERIFICAR SI IX TIENE EL COMPONENTE PASADO
+        ld a, e_cmp(ix)
+        and d
+        ld__iy_ix                                                              ;;Cargar en IY lo que hay en IX
+
+        ;;CASO: ENTIDAD IX TIENE EL COMPONENTE
+        jr nz, cumple_pairs
+
+        ;;CASO: LA ENTIDAD IX NO TIENE EL COMPONENTE, BUSCA EN LA SIGUIENTE         
         jr continua_pairs
-        cumple_pairs:    
-           ; significa que este elemento cumple que es colisionable
+
+
+        cumple_pairs:
+           ; Significa que este elemento cumple que es colisionable
            ; A partir de aqui se busca el siguiente elemento colisionable para luego ver el tipo de colision entre la parejas
             ld bc, #sizeof_e
             add ix, bc
@@ -185,37 +197,52 @@ E_M_for_all_pairs_matching::
             dec a
             second_loop_pairs:
                 ld (_ent_counter_2), a  ;;Resto de entidades a comprobar
+
+                ;;VERIFICAR SI EL TIPO DE LA ENTIDAD IX ES DEFAULT
                 ld e, e_t(ix)
                 ld a, (t_default)
-                and e                   ;;Comprobar si es invalido el tipo
+                and e
+
+                ;;CASO: LA ENTIDAD EN IX ES INVALIDA
                 jr nz, invalid_entity_2_pairs
+
+                ;;CASO: LA ENTIDAD EN IX ES VALIDA
+                ;;VERIFICAR SI IX TIENE EL COMPONENTE PASADO
                 ld a, e_cmp(ix)
                 and d
-                jr nz, cumple2_pairs
-                jr continua2_pairs
-                  cumple2_pairs:  
-                  call collider_one_pair
-            continua2_pairs:
-                _ent_counter_2 = .+1
-                ld  a, #0
-                dec a
-                jr z, continua_pairs
-                ld (_ent_counter_2), a
-            invalid_entity_2_pairs:
-                ld bc, #sizeof_e
-                add ix, bc
-                jr second_loop_pairs
-                   
-    continua_pairs:
-    ld__ix_iy
-    _ent_counter2 = .+1
-    ld  a, #0
-   dec a
-   ret z
 
-   ld (_ent_counter2), a;
-   invalid_entity_pairs:
-   ld bc, #sizeof_e
-   add ix, bc
-   jr _renloop_pairs;
+                ;;CASO: LA SEGUNDA ENTIDAD TAMBIEN TIENE EL COMPONENTE
+                jr nz, cumple2_pairs
+
+                ;;CASO: LA SEGUNDA ENTIDAD NO TIENE EL COMPONENTE, BUSCA EN LA SIGUIENTE
+                jr continua2_pairs
+
+                cumple2_pairs:  
+                    call collider_one_pair
+
+                continua2_pairs:
+                    _ent_counter_2 = .+1
+                    ld  a, #0
+                    dec a
+                    jr z, continua_pairs
+                    ld (_ent_counter_2), a
+
+                invalid_entity_2_pairs:
+                    ld bc, #sizeof_e
+                    add ix, bc
+                    jr second_loop_pairs
+                   
+        continua_pairs:
+            ld__ix_iy
+            _ent_counter2 = .+1
+            ld  a, #0
+            dec a
+        ret z
+
+        ld (_ent_counter2), a
+        
+        invalid_entity_pairs:
+            ld bc, #sizeof_e
+            add ix, bc
+            jr _renloop_pairs
 
