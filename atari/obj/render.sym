@@ -1,27 +1,0 @@
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
-Hexadecimal [16-Bits]
-
-Symbol Table
-
-    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
-    .__.H$L.=  0000 L   |   0 B          002C R   |     E_M_crea   **** GX
-    E_M_for_   **** GX  |     E_M_for_   **** GX  |     E_M_getE   **** GX
-    E_M_init   **** GX  |     E_M_new    **** GX  |   0 _ent_cou=  004F R
-  0 _render_   0006 GR  |   0 _render_   0048 GR  |   0 _render_   003E GR
-  0 _render_   005C GR  |   0 _render_   0044 GR  |   0 _update_   004B R
-  0 cmp_coll   0003 R   |   0 cmp_ia     0001 R   |   0 cmp_inpu   0002 R
-  0 cmp_rend   0000 R   |     cpct_dis   **** GX  |     cpct_dra   **** GX
-    cpct_get   **** GX  |     cpct_set   **** GX  |     e_be    =  0009 
-    e_c     =  0008     |     e_cmp   =  0001     |     e_col   =  000C 
-    e_h     =  0005     |     e_lastVP=  000B     |     e_lastVP=  000A 
-    e_t     =  0000     |     e_vx    =  0006     |     e_vy    =  0007 
-    e_w     =  0004     |     e_x     =  0002     |     e_y     =  0003 
-    sizeof_e=  000D     |   0 t_dead     0005 R   |   0 t_defaul   0004 R
-
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
-Hexadecimal [16-Bits]
-
-Area Table
-
-   0 _CODE      size   5D   flags    0
-
