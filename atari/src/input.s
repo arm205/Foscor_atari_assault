@@ -27,13 +27,13 @@ input_update_one::
     call cpct_isKeyPressed_asm
     jr z, O_NotPressed
 O_Pressed:
-    ld e_vx(ix), #-1
+    ld e_vx(ix), #-2
 O_NotPressed:
     ld hl, #Key_P
     call cpct_isKeyPressed_asm
     jr z, P_NotPressed
 P_Pressed:
-    ld e_vx(ix), #1
+    ld e_vx(ix), #2
 P_NotPressed:
 
     ld hl, #Key_Q
