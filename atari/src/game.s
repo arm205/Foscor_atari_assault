@@ -19,8 +19,12 @@ DefinePlayerEntity player, 20, 180, 2, 8, -1, 0, 0x0F, 0
 DefineCajaEntity caja, 50, 100, 2, 8, 0, 0, 0xF0, 0
 
 
+DefineSalidaEntity salida, 0, 0, 2, 8, 0, 0, 0xF0, 0
+
+
 
 final_text: .asciz "GAME OVER"
+win_text: .asciz "YOU WIN!!!"
 
 
 man_game_init::
@@ -30,6 +34,9 @@ man_game_init::
     call physics_sys_init
     call input_init
 
+    ld hl, #player
+    call man_game_entity_creator
+
     ld hl, #enemy
     call man_game_entity_creator
 
@@ -37,13 +44,12 @@ man_game_init::
     ld hl, #enemy2
     call man_game_entity_creator
 
-
-
     ld hl, #caja
     call man_game_entity_creator
 
-    ld hl, #player
+    ld hl, #salida
     call man_game_entity_creator
+
 
 
 
@@ -80,6 +86,19 @@ ld c, #20
 ld b, #92
 call cpct_getScreenPtr_asm
 ld iy, #final_text
+call cpct_drawStringM0_asm
+
+jr .
+
+man_game_win::
+call E_M_init
+cpctm_clearScreen_asm #0
+
+ld de, #0xC000
+ld c, #20
+ld b, #92
+call cpct_getScreenPtr_asm
+ld iy, #win_text
 call cpct_drawStringM0_asm
 
 jr .

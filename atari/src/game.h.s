@@ -7,4 +7,4 @@
 .globl man_game_end
 
 
-pos_player = 4
+pos_player = 1

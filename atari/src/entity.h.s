@@ -56,7 +56,7 @@ _name::
     t_player:: .db  0x01;    type of entity is player
     cmp_player:: .db 0x0D   ;components that player has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-    player_col:: .db 0x06
+    player_col:: .db 0x0E
 .endm
 
 
@@ -66,6 +66,15 @@ _name::
     cmp_caja:: .db 0x09   ;components that box has
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
     caja_col:: .db 0x01
+.endm
+
+
+.macro DefineSalidaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
+_name::
+    t_salida:: .db 0x08 ;    type of entity is exit
+    cmp_salida:: .db 0x09   ;components that exit has
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
+    caja_salida:: .db 0x01
 .endm
 
 
