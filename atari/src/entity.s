@@ -75,6 +75,23 @@ E_M_getEntityArray::
 ret
 
 
+;Input: A, index of entity starting with 0, 
+;
+;
+E_M_get_from_idx::
+    ld iy, #_entity_array
+buscando_idx:
+    dec a
+    ret z
+
+    ld bc, #sizeof_e
+    add iy, bc
+    jr buscando_idx
+
+
+
+
+
 
 ;
 ;Input: A; type that we are looking for, D; num entity

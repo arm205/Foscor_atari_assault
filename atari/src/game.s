@@ -11,12 +11,12 @@
 
 DefineEnemyEntity enemy, 20, 20, 4, 8, -1, 0, 0xFF, 1
 
-DefineEnemy2Entity enemy2, 20, 40, 4, 8, -1, 0, 0xFF, 1
+DefineEnemy2Entity enemy2, 20, 40, 4, 8, 0, 0, 0xFF, 0
 
 DefinePlayerEntity player, 20, 180, 2, 8, -1, 0, 0x0F, 0
 
 
-DefineCajaEntity caja, 50, 110, 2, 8, 0, 0, 0xF0, 0
+DefineCajaEntity caja, 50, 100, 2, 8, 0, 0, 0xF0, 0
 
 
 

@@ -9,6 +9,7 @@
 .globl E_M_new
 .globl E_M_for_all_matching
 .globl E_M_for_all_pairs_matching
+.globl E_M_get_from_idx
 
 
 ; ENTITY DEFINITION MACRO
