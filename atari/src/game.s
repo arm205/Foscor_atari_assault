@@ -7,19 +7,10 @@
 .include "ia.h.s"
 .include "collider.h.s"
 
-
-
-DefineEnemyEntity enemy, 20, 20, 4, 8, -1, 0, 0xFF, 1
-
-DefineEnemy2Entity enemy2, 20, 40, 4, 8, -1, 0, 0xFF, 1
-
-DefinePlayerEntity player, 20, 180, 2, 8, -1, 0, 0x0F, 0
-
-
-DefineCajaEntity caja, 50, 110, 2, 8, 0, 0, 0xF0, 0
-
-
-
+DefineEnemyEntity enemy, 20, 20, 4, 16, -1, 0, 0xFF, 1, #_h_array
+DefineEnemy2Entity enemy2, 20, 40, 4, 16, -1, 0, 0xFF, 1, #_h_array
+DefinePlayerEntity player, 20, 180, 4, 16, -1, 0, 0x0F, 0, #_g_array_0
+DefineCajaEntity caja, 50, 110, 2, 4, 0, 0, 0xF0, 0, 0
 final_text: .asciz "GAME OVER"
 
 
@@ -83,4 +74,3 @@ ld iy, #final_text
 call cpct_drawStringM0_asm
 
 jr .
-
