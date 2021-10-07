@@ -7,7 +7,7 @@
 
 collider_update::
     ld d, a
-    ld a, (cmp_collider)
+    ld a, #cmp_collider
     call E_M_for_all_pairs_matching
 
 ret
@@ -84,7 +84,7 @@ ret
 
 collider_check_type_iy::
 
-    ld a, (t_player)
+    ld a, #t_player
     xor e_t(iy)
     jr nz, no_player
 
@@ -92,7 +92,7 @@ collider_check_type_iy::
         and e_t(ix)
         ret z
 
-        ld a, (t_enemy)
+        ld a, #t_enemy
         xor e_t(ix)
         jr nz, pl_otro
         pl_en:
@@ -105,7 +105,7 @@ collider_check_type_iy::
         pl_otro:
         ;Compruebo si es caja 
 
-        ld a, (t_caja)
+        ld a, #t_caja
         xor e_t(ix)
         jr nz, pl_salida
         ; Compruebo si tiene el behavior de romper caja

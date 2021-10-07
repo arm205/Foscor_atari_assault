@@ -9,17 +9,17 @@
 
 
 
-DefineEnemyEntity enemy, 20, 20, 4, 8, -1, 0, 0xFF, 1
+enemy: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 20, 20, 4, 8, -1, 0, 0xFF, 1, 0xCC, 0xCC, t_player
 
-DefineEnemy2Entity enemy2, 20, 40, 4, 8, 0, 0, 0xFF, 0
+enemy2: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 0, 40, 4, 8, 0, 0, 0xFF, 0, 0xCC, 0xCC, t_player
 
-DefinePlayerEntity player, 20, 180, 2, 8, -1, 0, 0x0F, 0
-
-
-DefineCajaEntity caja, 50, 100, 2, 8, 0, 0, 0xF0, 0
+player: .db t_player, cmp_collider | cmp_render | cmp_input, 20, 180, 2, 8, -1, 0, 0x0F, 0, 0xCC, 0xCC, t_enemy | t_caja | t_salida
 
 
-DefineSalidaEntity salida, 0, 0, 2, 8, 0, 0, 0xF0, 0
+caja: .db t_caja, cmp_collider | cmp_render, 50, 100, 2, 8, 0, 0, 0xF0, 0, 0xCC, 0xCC, t_player
+
+
+salida: .db t_salida, cmp_collider | cmp_render, 0, 0, 2, 8, 0, 0, 0xF0, 0, 0xCC, 0xCC, t_player
 
 
 
@@ -40,7 +40,6 @@ man_game_init::
     ld hl, #enemy
     call man_game_entity_creator
 
-
     ld hl, #enemy2
     call man_game_entity_creator
 
@@ -50,6 +49,11 @@ man_game_init::
     ld hl, #salida
     call man_game_entity_creator
 
+
+    ld hl, #enemy2
+    ld__ix_hl
+    ld e_x(ix), #8
+    call man_game_entity_creator
 
 
 

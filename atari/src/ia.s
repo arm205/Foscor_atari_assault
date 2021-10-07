@@ -179,7 +179,7 @@ ret
 
 ia_update::
     ld d, a
-    ld a, (cmp_ia)
+    ld a, #cmp_ia
     call E_M_for_all_matching
 
 ret
