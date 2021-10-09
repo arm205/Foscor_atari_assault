@@ -10,10 +10,11 @@
 .include "render.h.s"
 .include "collider.h.s"
 
-max_entities == 6
+max_entities == 4
 
 _num_entities:: .db 0
 _last_elem_ptr:: .dw _entity_array
+_last_start_entity_ptr:: .dw _entity_array
 DefineEntityArray _entity_array, max_entities
 
 ; Input
@@ -25,6 +26,9 @@ E_M_init::
 
     ld hl, #_entity_array
     ld (_last_elem_ptr), hl
+
+    ld hl, #_entity_array
+    ld (_last_start_entity_ptr), hl
 ret
 
 
@@ -58,14 +62,39 @@ E_M_create::
     ld__ixh_d
     ld__ixl_e
 
+    ld (_last_start_entity_ptr), de
 
     pop hl
     ldir
 
 ret
 
+;;INPUT
+;;  IY: Direccion de la entidad a eliminar
+E_M_deleteEntity::
+    
+    ;;MODIFICAR CANTIDAD DE ENTIDADES
+    ld a, (_num_entities)
+    dec a
+    ld (_num_entities), a
 
+    ;;COPIAR
+    ld  bc, #sizeof_e
+    ld  hl, (_last_start_entity_ptr)
+    ld__de_iy
+    ldir
 
+    ;;MODIFICAR last_elem_ptr
+    ld  a, l
+    sub c
+    ld  l, a
+    ld  a, h
+    sub b
+    ld  h, a
+    ld (_last_start_entity_ptr), hl
+    
+
+ret
 
 ; Desc: Cargamos el numero de entidades que tengo en A y funtero al inicio del array en IX
 ; Modifies: IX, A

@@ -9,7 +9,7 @@
 .globl E_M_new
 .globl E_M_for_all_matching
 .globl E_M_for_all_pairs_matching
-
+.globl E_M_deleteEntity
 
 ; ENTITY DEFINITION MACRO
 .macro CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b

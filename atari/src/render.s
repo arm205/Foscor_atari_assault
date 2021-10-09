@@ -16,7 +16,7 @@ screen_start = 0xC000
 ;;      INPUT: IX
 _render_Entity:: ;;importante: actualizar con la posibilidad de abrir sprites.
 
-    ld de, screen_start
+    ld de, #screen_start
     ld b, e_y(ix) ;;pos_y
     ld c, e_x(ix) ;;pos_x
 

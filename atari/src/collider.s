@@ -231,10 +231,13 @@ collider_check_type_ix::
             jr nz, for_x_2
 
             ;;CASO: LA CAJA ES ROMPIBLE
-            ld a, #0
-            ld e_c(iy), a
-            ld e_cmp(iy), a
-            ld e_be(ix), a
+            ;;ld a, #0
+            ;;ld e_c(iy), a
+            ;;ld e_cmp(iy), a
+            ;;ld e_be(ix), a
+
+            ;;DESTRUIR LA CAJA
+            call E_M_deleteEntity
         ret
 
 
