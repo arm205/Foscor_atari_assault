@@ -10,7 +10,7 @@
 .include "render.h.s"
 .include "collider.h.s"
 
-max_entities == 4
+max_entities == 20
 
 _num_entities:: .db 0
 _last_elem_ptr:: .dw _entity_array
@@ -104,6 +104,23 @@ E_M_getEntityArray::
 ret
 
 
+;Input: A, index of entity starting with 0, 
+;
+;
+E_M_get_from_idx::
+    ld iy, #_entity_array
+buscando_idx:
+    dec a
+    ret z
+
+    ld bc, #sizeof_e
+    add iy, bc
+    jr buscando_idx
+
+
+
+
+
 
 ;
 ;Input: A; type that we are looking for, D; num entity
@@ -123,7 +140,7 @@ _renloop:
     ld c, a
     ld a, e
     ld e, c
-    ld a, (t_default)
+    ld a, #t_default
     and e
     jr nz, invalid_entity
 
@@ -134,7 +151,7 @@ _renloop:
     jr nz, cumple
     jr continua
     cumple:    
-        ld a, (cmp_ia)
+        ld a, #cmp_ia
         xor d
         jr z, con_ia
         jr no_ia
@@ -143,7 +160,7 @@ _renloop:
             jr continua
 
         no_ia:
-            ld a, (cmp_input)
+            ld a, #cmp_input
             xor d
             jr z, control
             jr mover_cosas
@@ -154,7 +171,7 @@ _renloop:
                 pop de
                 jr continua
         mover_cosas:
-            ld a, (cmp_render)
+            ld a, #cmp_render
             xor d
             jr z, render
             jr continua
@@ -198,7 +215,7 @@ E_M_for_all_pairs_matching::
 
         ;;VERIFICAR SI LA ENTIDAD EN IX ES DEFAULT
         ld e, e_t(ix)
-        ld a, (t_default)
+        ld a, #t_default
         and e                           
 
         ;;CASO: ENTIDAD IX ES INVALIDA
@@ -229,7 +246,7 @@ E_M_for_all_pairs_matching::
 
                 ;;VERIFICAR SI EL TIPO DE LA ENTIDAD IX ES DEFAULT
                 ld e, e_t(ix)
-                ld a, (t_default)
+                ld a, #t_default
                 and e
 
                 ;;CASO: LA ENTIDAD EN IX ES INVALIDA

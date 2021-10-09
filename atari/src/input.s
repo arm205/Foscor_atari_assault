@@ -10,7 +10,7 @@ ret
 
 input_update::
     ld d, a
-    ld a, (cmp_input)
+    ld a, #cmp_input
     call E_M_for_all_matching
 ret
 
@@ -27,13 +27,13 @@ input_update_one::
     call cpct_isKeyPressed_asm
     jr z, O_NotPressed
 O_Pressed:
-    ld e_vx(ix), #-1
+    ld e_vx(ix), #-2
 O_NotPressed:
     ld hl, #Key_P
     call cpct_isKeyPressed_asm
     jr z, P_NotPressed
 P_Pressed:
-    ld e_vx(ix), #1
+    ld e_vx(ix), #2
 P_NotPressed:
 
     ld hl, #Key_Q

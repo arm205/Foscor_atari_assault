@@ -10,6 +10,8 @@
 .globl E_M_for_all_matching
 .globl E_M_for_all_pairs_matching
 .globl E_M_deleteEntity
+.globl E_M_get_from_idx
+
 
 ; ENTITY DEFINITION MACRO
 .macro CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
@@ -30,41 +32,6 @@
     .db 0x00 ;      components of entity default
     CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
     .db 0x00
-.endm
-
-
-.macro DefineEnemyEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-_name::
-    t_enemy:: .db 0x02 ;    type of entity is enemy
-    cmp_enemy:: .db 0x0B   ;components that enemy has
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-    enemy_col:: .db 0x00
-.endm
-
-.macro DefineEnemy2Entity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-_name::
-    .db 0x02 ;    type of entity is enemy
-    .db 0x0B    ;components that enemy has
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-    .db 0x00
-.endm
-
-
-.macro DefinePlayerEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-_name::
-    t_player:: .db  0x01;    type of entity is player
-    cmp_player:: .db 0x0D   ;components that player has
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-    player_col:: .db 0x06
-.endm
-
-
-.macro DefineCajaEntity _name, _x, _y, _w, _h, _vx, _vy, _c, _b
-_name::
-    t_caja:: .db 0x04 ;    type of entity is breakable box
-    cmp_caja:: .db 0x09   ;components that box has
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b
-    caja_col:: .db 0x01
 .endm
 
 
@@ -95,19 +62,27 @@ _name::
 
 ;;; Usando los bits  para definir signatures luego
 ;; 00000001 para lo que sea para renderizar
-cmp_render: .db 0x01
+cmp_render = 0x01
 ;; 00000010 para las entidades que usen IA
-cmp_ia: .db 0x02
+cmp_ia = 0x02
 ;; 00000100 para las entidades con input (player)
-cmp_input: .db 0x04
+cmp_input = 0x04
 ;;  entidades con colisiones
-cmp_collider: .db 0x08
+cmp_collider = 0x08
 
 
 ;; Tipos de las entidades
-t_default: .db 0x00
+t_default = 0x00
 
-t_dead: .db 0x80
+t_player = 0x01
+
+t_enemy = 0x02
+
+t_caja = 0x04
+
+t_salida = 0x08
+
+t_dead = 0x80
 
 
 
