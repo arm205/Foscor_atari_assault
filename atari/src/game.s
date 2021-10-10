@@ -8,8 +8,8 @@
 .include "collider.h.s"
 
 DefineEnemyEntity enemy, 20, 0, 4, 32, -1, 0, 0xFF, 1, #_h_array_1
-DefineEnemy2Entity enemy2, 20, 40, 4, 32, -1, 0, 0xFF, 1, #_h_array_1
-DefinePlayerEntity player, 20, 170, 4, 32, -1, 0, 0x0F, 0, #_g_array_0
+DefineEnemy2Entity enemy2, 20, 40, 4, 32, -1, 0, 0xFF, 1, #_h_array_0
+DefinePlayerEntity player, 20, 170, 4, 32, -1, 0, 0x0F, 0, #_g_array
 DefineCajaEntity caja, 50, 110, 2, 4, 0, 0, 0xF0, 0, 0
 final_text: .asciz "GAME OVER"
 
@@ -46,23 +46,18 @@ man_game_entity_creator::
 ret
 man_game_update::
  
-   ;; Init system
- cpctm_setBorder HW_BLUE ;; Probando 
     call E_M_getEntityArray
     call input_update
 
 
- cpctm_setBorder HW_WHITE
     call E_M_getEntityArray
     call ia_update
 
 
- cpctm_setBorder HW_GREEN
     call E_M_getEntityArray
     call collider_update
 
 
- cpctm_setBorder HW_RED
     call E_M_getEntityArray
     call physics_sys_update
    ret
