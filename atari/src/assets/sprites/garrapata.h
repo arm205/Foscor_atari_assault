@@ -3,10 +3,10 @@
 #define _IMG_GARRAPATA_H_
 
 #include <types.h>
-extern const u8 g_palette[16];
+extern const u8 pal_main[16];
 
 #define G_ARRAY_W 4
-#define G_ARRAY_H 16
-extern const u8 g_array[4 * 16];
+#define G_ARRAY_H 32
+extern const u8 g_array[4 * 32];
 
 #endif

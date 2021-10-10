@@ -3,10 +3,13 @@
 #define _IMG_HORMIGA_H_
 
 #include <types.h>
-extern const u8 h_palette[16];
+extern const u8 h_pal[16];
 
-#define H_ARRAY_W 4
-#define H_ARRAY_H 16
-extern const u8 h_array[4 * 16];
+#define H_ARRAY_0_W 4
+#define H_ARRAY_0_H 32
+extern const u8 h_array_0[4 * 32];
+#define H_ARRAY_1_W 4
+#define H_ARRAY_1_H 32
+extern const u8 h_array_1[4 * 32];
 
 #endif
