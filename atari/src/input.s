@@ -40,13 +40,13 @@ P_NotPressed:
     call cpct_isKeyPressed_asm
     jr z, Q_NotPressed
 Q_Pressed:
-    ld e_vy(ix), #-4
+    ld e_vy(ix), #-8
 Q_NotPressed:
     ld hl, #Key_A
     call cpct_isKeyPressed_asm
     jr z, A_NotPressed
 A_Pressed:
-    ld e_vy(ix), #4
+    ld e_vy(ix), #8
 A_NotPressed:
 
 ;    ld e, e_t(ix)
