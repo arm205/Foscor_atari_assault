@@ -9,11 +9,11 @@
 
 
 
-enemy: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 20, 20, 4, 8, -1, 0, 0xFF, 1, 0xCC, 0xCC, t_player
+enemy: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 20, 20, 4, 8, -1, 0, 0xFF, 1, #_h_array_1, 0xCC, 0xCC, t_player
 
-enemy2: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 0, 40, 4, 8, 0, 0, 0xFF, 0, 0xCC, 0xCC, t_player
+enemy2: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 0, 40, 4, 8, 0, 0, 0xFF, 0, #_h_array_0, 0xCC, 0xCC, t_player
 
-player: .db t_player, cmp_collider | cmp_render | cmp_input, 20, 180, 2, 8, -1, 0, 0x0F, 0, 0xCC, 0xCC, t_enemy | t_caja | t_salida
+player: .db t_player, cmp_collider | cmp_render | cmp_input, 20, 180, 2, 8, -1, 0, 0x0F, 0, #_h_array_0, 0xCC, 0xCC, t_enemy | t_caja | t_salida
 
 
 caja: .db t_caja, cmp_collider | cmp_render, 50, 100, 2, 8, 0, 0, 0xF0, 0, 0xCC, 0xCC, t_player
@@ -29,7 +29,6 @@ win_text: .asciz "YOU WIN!!!"
 
 man_game_init::
     call E_M_init
-
     call _render_sys_init
     call physics_sys_init
     call input_init
@@ -66,13 +65,18 @@ man_game_entity_creator::
 ret
 man_game_update::
  
-   ;; Init system
     call E_M_getEntityArray
     call input_update
+
+
     call E_M_getEntityArray
     call ia_update
+
+
     call E_M_getEntityArray
     call collider_update
+
+
     call E_M_getEntityArray
     call physics_sys_update
    ret
