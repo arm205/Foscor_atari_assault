@@ -9,14 +9,13 @@
 
 DefineEnemyEntity enemy, 20, 20, 4, 16, -1, 0, 0xFF, 1, #_h_array
 DefineEnemy2Entity enemy2, 20, 40, 4, 16, -1, 0, 0xFF, 1, #_h_array
-DefinePlayerEntity player, 20, 180, 4, 16, -1, 0, 0x0F, 0, #_g_array_0
+DefinePlayerEntity player, 20, 170, 4, 32, -1, 0, 0x0F, 0, #_g_array_0
 DefineCajaEntity caja, 50, 110, 2, 4, 0, 0, 0xF0, 0, 0
 final_text: .asciz "GAME OVER"
 
 
 man_game_init::
     call E_M_init
-
     call _render_sys_init
     call physics_sys_init
     call input_init
