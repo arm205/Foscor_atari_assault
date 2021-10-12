@@ -87,7 +87,7 @@ man_game_update::
    ret
 man_game_render::
     call E_M_getEntityArray
-    call _render_ents_update
+    call _render_sys_update 
 ret
 
 man_game_end::
