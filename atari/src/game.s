@@ -8,22 +8,6 @@
 .include "collider.h.s"
 
 
-e_t = 0
-e_cmp = 1
-e_x = 2
-e_y = 3
-e_w = 4
-e_h = 5
-e_vx = 6
-e_vy = 7
-e_c = 8
-e_be = 9
-e_spr = 10
-e_lastVP_l = 12
-e_lastVP_h = 13
-e_col = 14
-sizeof_e = 15
-
 enemy: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 20, 10, 4, 16, -1, 0, 0xFF, 1
 .dw #_h_array_1
 .db 0xCC, 0xCC, t_player
