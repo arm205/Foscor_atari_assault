@@ -113,10 +113,13 @@ collider_check_type_iy::
         xor #1
         jr nz, for_x
         ;tiene el behavior asi que la rompe
-        ld a, #0
-        ld e_c(ix), a
-        ld e_cmp(ix), a
-        ld e_be(iy), a
+        ;;ld a, #0
+        ;;ld e_c(ix), a
+        ;;ld e_cmp(ix), a
+        ;;ld e_be(iy), a
+
+        call E_M_prepateToDelete
+        
         ret
 
 ; No tiene el behavior asi que colisiona

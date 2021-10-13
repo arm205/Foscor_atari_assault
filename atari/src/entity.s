@@ -10,11 +10,12 @@
 .include "render.h.s"
 .include "collider.h.s"
 
-max_entities == 20
+max_entities == 7
 
 _num_entities:: .db 0
 _last_elem_ptr:: .dw _entity_array
 _last_start_entity_ptr:: .dw _entity_array
+_entity_to_erase:: .dw #0x0
 DefineEntityArray _entity_array, max_entities
 
 ; Input
@@ -43,6 +44,7 @@ E_M_new::
 ;   Increment Array end pointer to point to the next
 ;   free element in the array
     ld hl, (_last_elem_ptr)
+
     ld d, h
     ld e, l
     ld bc, #sizeof_e
@@ -62,37 +64,87 @@ E_M_create::
     ld__ixh_d
     ld__ixl_e
 
+    pop hl
+
     ld (_last_start_entity_ptr), de
 
-    pop hl
     ldir
 
 ret
 
 ;;INPUT
-;;  IY: Direccion de la entidad a eliminar
+;;  IX: Direccion de la entidad a eliminar
+E_M_prepateToDelete::
+
+    ld  e_c(ix), #0x0
+
+    ld__hl_ix
+
+    ld  (_entity_to_erase), hl
+
+ret
+
+
 E_M_deleteEntity::
     
     ;;MODIFICAR CANTIDAD DE ENTIDADES
-    ld a, (_num_entities)
-    dec a
-    ld (_num_entities), a
+    ld hl, #_num_entities
+    dec (hl)
 
-    ;;COPIAR
+    ;;Mover la ultima entidad a la entidad a eliminar
     ld  bc, #sizeof_e
     ld  hl, (_last_start_entity_ptr)
-    ld__de_iy
+    ld  de, (_entity_to_erase)
     ldir
 
-    ;;MODIFICAR last_elem_ptr
+    ;;Decrementar _last_start_entity_ptr
+    ld  bc, #sizeof_e
+    ld  hl, (_last_start_entity_ptr)
     ld  a, l
     sub c
     ld  l, a
     ld  a, h
     sub b
     ld  h, a
-    ld (_last_start_entity_ptr), hl
+    ld  (_last_start_entity_ptr), hl
+
+    ;Decrementar _last_elem_ptr
+    ld  bc, #sizeof_e
+    ld  hl, (_last_elem_ptr)
+    ld  a, l
+    sub c
+    ld  l, a
+    ld  a, h
+    sub b
+    ld  h, a
+    ld  (_last_elem_ptr), hl
+
+    ;;Vaciar la ultima entidad
+    ld  hl, (_last_elem_ptr)
+    ld  (hl), #0x0
     
+ret
+
+E_M_checkDelete::
+
+    ld  hl, (_entity_to_erase)
+
+    ld  a, h
+    or  #0x0
+    jr  nz, eliminar
+
+    ld  a, l
+    or  #0x0
+    jr  nz, eliminar
+
+    ;;ES CERO
+    ret
+
+    ;;NO ES CERO
+    eliminar:
+    call E_M_deleteEntity
+    ld  hl, #0x0
+    ld  (_entity_to_erase), hl
 
 ret
 

@@ -11,6 +11,8 @@
 .globl E_M_for_all_pairs_matching
 .globl E_M_deleteEntity
 .globl E_M_get_from_idx
+.globl E_M_checkDelete
+.globl E_M_prepateToDelete
 
 
 ; ENTITY DEFINITION MACRO

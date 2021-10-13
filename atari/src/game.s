@@ -79,6 +79,8 @@ man_game_update::
 man_game_render::
     call E_M_getEntityArray
     call _render_ents_update
+    call E_M_checkDelete
+
 ret
 
 man_game_end::

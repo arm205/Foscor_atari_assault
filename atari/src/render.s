@@ -74,6 +74,5 @@ _render_ents_update::
         ld bc, #sizeof_e
         add ix, bc
     jr _update_loop
-
 _render_sys_terminate::
 ret
