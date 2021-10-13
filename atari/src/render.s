@@ -4,6 +4,7 @@
 .include "render.h.s"
 .include "entity.h.s"
 .include "assets/tiles/tilemap_02.h.s"
+
 ;; instrucciones utiles
 .globl cpct_disableFirmware_asm
 .globl cpct_drawSolidBox_asm
