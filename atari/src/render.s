@@ -3,6 +3,7 @@
 ;;
 .include "render.h.s"
 .include "entity.h.s"
+.include "assets/tiles/tileset_prueba.h.s"
 ;; instrucciones utiles
 .globl cpct_disableFirmware_asm
 .globl cpct_drawSolidBox_asm
@@ -54,8 +55,8 @@ _render_sys_init::
     call cpct_setPalette_asm
 
     ;;SET THE TILEMAP
-    ld c, #0x10
-    ld b, #0x10
+    ld c, #_tilemap_W
+    ld b, #_tilemap_H
     ld de, #25
     ld hl, #_tiles_00
     call cpct_etm_setDrawTilemap4x8_ag_asm

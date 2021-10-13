@@ -7,6 +7,48 @@
 input_init::
 ret
 
+move_left:
+    ld e_vx(ix), #-2
+    ld hl, #_g_array_6
+    ld e_spr(ix), l
+    ld e_spr+1(ix), h
+ret
+
+move_right:
+    ld e_vx(ix), #2
+    ld hl, #_g_array_4
+    ld e_spr(ix), l
+    ld e_spr+1(ix), h
+ret
+
+
+move_up:
+    ld e_vy(ix), #-8
+    ld hl, #_g_array_0
+    ld e_spr(ix), l
+    ld e_spr+1(ix), h
+ret
+
+move_down:
+    ld e_vy(ix), #8
+    ld hl, #_g_array_2
+    ld e_spr(ix), l
+    ld e_spr+1(ix), h
+ret
+
+eat:
+    ld e_be(ix), #1
+ret
+
+
+key_actions:
+    .dw Key_O, move_left
+    .dw Key_P, move_right
+    .dw Key_Q, move_up
+    .dw Key_A, move_down
+    .dw Key_Space, eat
+    .dw 0
+
 
 input_update::
     ld d, a
@@ -14,56 +56,33 @@ input_update::
     call E_M_for_all_matching
 ret
 
-
-;MODIFICA: AF, BC, DE, HL
 input_update_one::
     ld e_vx(ix), #0
-
     ld e_vy(ix), #0
+    ld e_be(ix), #0
 
     call cpct_scanKeyboard_f_asm
 
-    ld hl, #Key_O
-    call cpct_isKeyPressed_asm
-    jr z, O_NotPressed
-O_Pressed:
-    ld e_vx(ix), #-2
-O_NotPressed:
-    ld hl, #Key_P
-    call cpct_isKeyPressed_asm
-    jr z, P_NotPressed
-P_Pressed:
-    ld e_vx(ix), #2
-P_NotPressed:
+    ld iy, #key_actions-4
 
-    ld hl, #Key_Q
-    call cpct_isKeyPressed_asm
-    jr z, Q_NotPressed
-Q_Pressed:
-    ld e_vy(ix), #-8
-Q_NotPressed:
-    ld hl, #Key_A
-    call cpct_isKeyPressed_asm
-    jr z, A_NotPressed
-A_Pressed:
-    ld e_vy(ix), #8
-A_NotPressed:
+loop_keys:
+    ld bc, #4
+    add iy, bc
 
-;    ld e, e_t(ix)
-;    ld a, (t_bala)
-;    xor e
-;    jr nz, no_bala
-;
-    ld hl, #Key_Space
-    call cpct_isKeyPressed_asm
-    jr z, Space_NotPressed
-Space_Pressed:
-    ld e_be(ix), #1
-    ret
-    
-Space_NotPressed:
+    ld l, 0(iy)
+    ld h, 1(iy)
 
-    ld e_be(ix), #0
+    ld a, l
+    or h
+    ret z
+
+    call cpct_isKeyPressed_asm
+    jr z, loop_keys
+
+    ld hl, #loop_keys
+    push hl
+    ld h, 3(iy)
+    ld l, 2(iy)
+    jp (hl)
 
 ret
-

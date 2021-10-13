@@ -39,7 +39,7 @@ ia_mario_ghost:
     ld a, #pos_player
     call E_M_get_from_idx
     ;; en iy tengo el player
-    ld e, #4;; NO PONER A 0
+    ld e, #3;; NO PONER A 0
     call check_distance
     call nc, stalker_mode
 
