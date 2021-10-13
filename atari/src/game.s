@@ -16,7 +16,7 @@ enemy2: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 0, 42, 4, 16, 0, 0, 0xF
 .dw #_h_array_0
 .db 0xCC, 0xCC, t_player
 
-player: .db t_player, cmp_collider | cmp_render | cmp_input, 20, 160, 4, 16, -1, 0, 0x0F, 0
+player: .db t_player, cmp_collider | cmp_render | cmp_input, 20, 160, 8, 32, -1, 0, 0x0F, 0
 .dw #_g_array_0
 .db 0xCC, 0xCC, t_enemy | t_caja | t_salida
 
