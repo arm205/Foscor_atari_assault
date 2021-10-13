@@ -3,7 +3,12 @@
 ;;
 .include "render.h.s"
 .include "entity.h.s"
+<<<<<<< HEAD
 .include "assets/tiles/tileset_prueba.h.s"
+=======
+.include "assets/tiles/tilemap_02.h.s"
+
+>>>>>>> sprites_tiles
 ;; instrucciones utiles
 .globl cpct_disableFirmware_asm
 .globl cpct_drawSolidBox_asm
@@ -57,12 +62,11 @@ _render_sys_init::
     ;;SET THE TILEMAP
     ld c, #_tilemap_W
     ld b, #_tilemap_H
-    ld de, #25
+    ld de, #_tilemap_W
     ld hl, #_tiles_00
     call cpct_etm_setDrawTilemap4x8_ag_asm
 
     ;;DRAW THE TILEMAP
-
     ld hl, #0xC000
     ld de, #_tilemap
     call cpct_etm_drawTilemap4x8_ag_asm
