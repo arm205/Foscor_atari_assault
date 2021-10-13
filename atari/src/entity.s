@@ -120,8 +120,10 @@ E_M_deleteEntity::
     ld  (_last_elem_ptr), hl
 
     ;;Vaciar la ultima entidad
-    ld  hl, (_last_elem_ptr)
-    ld  (hl), #0x0
+    ld  bc, #sizeof_e
+    ld  de, (_last_elem_ptr)
+    ld  a, #0x0
+    call cpct_memset_asm
     
 ret
 
