@@ -3,6 +3,7 @@
 ;;
 .include "render.h.s"
 .include "entity.h.s"
+.include "assets/tiles/tilemap_02.h.s"
 ;; instrucciones utiles
 .globl cpct_disableFirmware_asm
 .globl cpct_drawSolidBox_asm
@@ -54,14 +55,13 @@ _render_sys_init::
     call cpct_setPalette_asm
 
     ;;SET THE TILEMAP
-    ld c, #0x10
-    ld b, #0x10
-    ld de, #25
+    ld c, #_tilemap_W
+    ld b, #_tilemap_H
+    ld de, #_tilemap_W
     ld hl, #_tiles_00
     call cpct_etm_setDrawTilemap4x8_ag_asm
 
     ;;DRAW THE TILEMAP
-
     ld hl, #0xC000
     ld de, #_tilemap
     call cpct_etm_drawTilemap4x8_ag_asm
