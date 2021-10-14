@@ -217,13 +217,27 @@ _renloop:
             ld a, #cmp_input
             xor d
             jr z, control
-            jr mover_cosas
+            jr colisiona
                 control:
                 push de
 ;; Con esto modifico la velocidad del player dependiendo de la tecla pulsada
                 call input_update_one
                 pop de
                 jr continua
+
+        colisiona:
+            ld a, #cmp_collider
+            xor d
+            jr z, colision
+            jr mover_cosas
+                colision:
+                push de
+                
+;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
+                call collider_tilemap
+                pop de
+                jr continua
+
         mover_cosas:
             ld a, #cmp_render
             xor d
