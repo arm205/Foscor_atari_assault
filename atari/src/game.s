@@ -9,11 +9,11 @@
 
 
 enemy: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 20, 10, 4, 16, -1, 0, 0xFF, 1
-.dw #_h_array_1
+.dw #_h_array
 .db 0xCC, 0xCC, t_player
 
 enemy2: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 0, 42, 4, 16, 0, 0, 0xFF, 0
-.dw #_h_array_0
+.dw #_h_array
 .db 0xCC, 0xCC, t_player
 
 player: .db t_player, cmp_collider | cmp_render | cmp_input, 20, 160, 4, 16, -1, 0, 0x0F, 0
