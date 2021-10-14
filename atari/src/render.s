@@ -3,12 +3,8 @@
 ;;
 .include "render.h.s"
 .include "entity.h.s"
-<<<<<<< HEAD
-.include "assets/tiles/tileset_prueba.h.s"
-=======
 .include "assets/tiles/tilemap_02.h.s"
 
->>>>>>> sprites_tiles
 ;; instrucciones utiles
 .globl cpct_disableFirmware_asm
 .globl cpct_drawSolidBox_asm

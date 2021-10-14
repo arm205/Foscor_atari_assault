@@ -28,10 +28,10 @@ salida: .db t_salida, cmp_collider | cmp_render, 0, 0, 2, 8, 0, 0, 0xF0, 0, 0xCC
 
 
 
-DefineEnemyEntity enemy, 20, 20, 4, 16, -1, 0, 0xFF, 1, #_h_array
-DefineEnemy2Entity enemy2, 20, 40, 4, 16, -1, 0, 0xFF, 1, #_h_array
-DefinePlayerEntity player, 20, 170, 4, 16, -1, 0, 0x0F, 0, #_g_array_0
-DefineCajaEntity caja, 50, 110, 2, 4, 0, 0, 0xF0, 0, 0
+;;DefineEnemyEntity enemy, 20, 20, 4, 16, -1, 0, 0xFF, 1, #_h_array
+;;DefineEnemy2Entity enemy2, 20, 40, 4, 16, -1, 0, 0xFF, 1, #_h_array
+;;DefinePlayerEntity player, 20, 170, 4, 16, -1, 0, 0x0F, 0, #_g_array_00
+;;DefineCajaEntity caja, 50, 110, 2, 4, 0, 0, 0xF0, 0, 0
 final_text: .asciz "GAME OVER"
 win_text: .asciz "YOU WIN!!!"
 
