@@ -43,7 +43,7 @@ PALETTE=0 1 2 3 6 9 11 12 13 15 16 18 20 24 25 26
 
 $(eval $(call IMG2SP, SET_FOLDER      , src/assets/sprites ))
 $(eval $(call IMG2SP, SET_PALETTE_FW  , $(PALETTE)         ))
-$(eval $(call IMG2SP, CONVERT, img/garrapata.png , 16, 32, g_array, pal_main))
+$(eval $(call IMG2SP, CONVERT, img/garrapata.png , 8, 16, g_array, pal_main))
 $(eval $(call IMG2SP, CONVERT, img/hormiga.png , 8, 16, h_array, h_pal))
 
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles))
