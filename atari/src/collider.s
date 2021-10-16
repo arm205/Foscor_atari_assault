@@ -9,11 +9,13 @@
 collider_update::
     ld d, a
     push de
-    ld a, #cmp_collider
-    call E_M_for_all_matching
-    pop de
+    push ix
     ld a, #cmp_collider
     call E_M_for_all_pairs_matching
+    pop ix
+    pop de
+    ld a, #cmp_collider
+    call E_M_for_all_matching
 
 
 ret
@@ -89,9 +91,17 @@ our_position:
     srl a
     srl a
 
+
+
 ;HL=A = ty
     ld h, #0
     ld l, a
+
+
+    ld h, #0
+    ld l, a
+
+    ld__iyl_a
 
 ;HL=20*ty    
 
@@ -101,6 +111,7 @@ our_position:
     add hl, hl ;8*ty
     add hl, hl ;16*ty
     add hl, de
+
 
     ld a, e_x(ix)
     srl a
@@ -120,8 +131,11 @@ check_tile:
 ;; ARRIBA
     cp #1
     jr nz, no_arriba
+        ld__a_iyl
+        sub_hl_a
         call check_type_tile
-        ret nz
+        ret z
+
             ;; Collision detected
             ld e_vy(ix), #0
             ret
@@ -133,13 +147,9 @@ check_tile:
     ;; DERECHA
         cp #2
         jr nz, no_derecha
-            ld a, e_w(ix)
-            srl a
-            srl a
-
-            add_hl_a
+            inc hl
             call check_type_tile
-            ret nz
+            ret z
                 ;; Collision detected
                 ld e_vx(ix), #0
                 ret
@@ -149,14 +159,17 @@ check_tile:
         jr nz, no_abajo
 
 ;           para sumarle la altura del personaje
-            ld a, e_h-1(ix)
-            srl a
-            srl a
-            srl a
+
+            ld e, e_h+1(ix)
+            ld__a_iyl
+            bajando_altura:
+                add a, d
+                dec e
+                jr nz, bajando_altura
             add_hl_a
 
             call check_type_tile
-            ret nz
+            ret z
                 ;; Collision detected
                 ld e_vy(ix), #0
                 ret
@@ -164,9 +177,9 @@ check_tile:
     no_abajo:
 
     ;; IZQUIERDA    
-
+        dec hl
         call check_type_tile
-        ret nz
+        ret z
             ;; Collision detected
             ld e_vx(ix), #0
             ret
@@ -177,7 +190,7 @@ check_tile:
 check_type_tile:
 
     ld a, (hl)
-    and #0xE9
+    or #0x0
 ret
 
 

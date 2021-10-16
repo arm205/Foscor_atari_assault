@@ -191,12 +191,9 @@ _renloop:
     ld (_ent_counter), a
 
     ld a, e_t(ix)
-    ld c, a
-    ld a, e
-    ld e, c
-    ld a, #t_default
-    and e
-    jr nz, invalid_entity
+    ld e, #t_default
+    or e
+    jr z, invalid_entity
 
     ;; erase previous istance
 ; para mover todo lo que tenga a 1 el bit de ia
@@ -262,6 +259,8 @@ _ent_counter = .+1
     ld (_ent_counter), a
 
     invalid_entity:
+
+    ld a, (_ent_counter)
     ld bc, #sizeof_e
     add ix, bc
     jr _renloop
