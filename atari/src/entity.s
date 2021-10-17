@@ -202,15 +202,28 @@ _renloop:
     jr nz, cumple
     jr continua
     cumple:    
+    pinta_cosas:
+        ld a, #cmp_render
+        xor d
+        jr z, render
+        jr ia
+            render:
+            push de
+    ;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
+            call _render_Entity
+            pop de
+        jr continua
+
+        ia:
         ld a, #cmp_ia
         xor d
         jr z, con_ia
-        jr no_ia
-        con_ia:
+        jr input
+        con_ia
             call ia_update_one_entity
             jr continua
 
-        no_ia:
+        input:
             ld a, #cmp_input
             xor d
             jr z, control
@@ -235,7 +248,7 @@ _renloop:
                 pop de
                 jr continua
 
-        mover_cosas:
+        pinta_cosas:
             ld a, #cmp_render
             xor d
             jr z, render

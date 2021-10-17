@@ -85,7 +85,10 @@ our_position:
 ;tw=tilemap-width (20)
 ;p= tilemap + ty*w + tx
 
+
+
     ld a, e_y(ix)
+
     ;A=ty(y/8)
     srl a
     srl a
