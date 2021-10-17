@@ -8,11 +8,11 @@
 .include "collider.h.s"
 
 
-enemy: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 20, 10, 4, 16, -1, 0, 0xFF, 1
+enemy: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 10, 4, 16, 1, 0, 0xFF, 1
 .dw #_h_array
 .db 0xCC, 0xCC, t_player
 
-enemy2: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 0, 42, 4, 16, 0, 0, 0xFF, 0
+enemy2: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 42, 4, 16, 0, 0, 0xFF, 0
 .dw #_h_array
 .db 0xCC, 0xCC, t_player
 
@@ -60,7 +60,7 @@ man_game_init::
 
     ld hl, #enemy2
     ld__ix_hl
-    ld e_x(ix), #8
+    ld e_x(ix), #12
     call man_game_entity_creator
 
 
