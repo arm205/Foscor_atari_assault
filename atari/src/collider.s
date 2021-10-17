@@ -134,6 +134,10 @@ check_tile:
         ld a, #20
         sub_hl_a
         call check_type_tile
+        ld e, a
+        inc hl
+        call check_type_tile
+        or e
         ret z
 
             ;; Collision detected
@@ -149,6 +153,12 @@ check_tile:
         jr nz, no_derecha
             inc hl
             call check_type_tile
+            ld e, a
+
+            ld a, #20
+            add_hl_a
+            call check_type_tile
+            or e
             ret z
                 ;; Collision detected
                 ld e_vx(ix), #0
@@ -162,8 +172,11 @@ check_tile:
 
             ld a, #40
             add_hl_a
-
             call check_type_tile
+            ld e, a
+            inc hl
+            call check_type_tile
+            or e
             ret z
                 ;; Collision detected
                 ld e_vy(ix), #0
@@ -171,14 +184,22 @@ check_tile:
 
     no_abajo:
 
-    ;; IZQUIERDA    
+    ;; IZQUIERDA 
+    cp #8
+    jr nz, nada   
         dec hl
         call check_type_tile
+        ld e, a
+        ld a, #20
+        add_hl_a
+        call check_type_tile
+        or e
         ret z
             ;; Collision detected
             ld e_vx(ix), #0
             ret
-
+    nada:
+    ret
 
 
 ;Input: HL, pointer to de type to check to collide

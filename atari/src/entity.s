@@ -219,7 +219,7 @@ _renloop:
         xor d
         jr z, con_ia
         jr input
-        con_ia
+        con_ia:
             call ia_update_one_entity
             jr continua
 
@@ -248,12 +248,12 @@ _renloop:
                 pop de
                 jr continua
 
-        pinta_cosas:
-            ld a, #cmp_render
+        mover_cosas:
+            ld a, #cmp_input+#cmp_ia
             xor d
-            jr z, render
+            jr z, fisica
             jr continua
-                render:
+                fisica:
                 push de
 ;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
                 call physics_sys_for_one

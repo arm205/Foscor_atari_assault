@@ -76,17 +76,8 @@ ret
 ;;      INPUT: IX
 ;;      INPUT: A
 _render_ents_update::
-    ld (_ent_counter), a ;;Save entity COUNTER
-    _update_loop:
-        call _render_Entity
-        _ent_counter = .+1
-        ld a, #0
-        dec a
-        ret z
-
-        ld (_ent_counter), a
-        ld bc, #sizeof_e
-        add ix, bc
-    jr _update_loop
+    ld d, a
+    ld a, #cmp_render
+    call E_M_for_all_matching
 _render_sys_terminate::
 ret
