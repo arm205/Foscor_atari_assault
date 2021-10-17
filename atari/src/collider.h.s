@@ -1,5 +1,6 @@
 .globl collider_one_pair
 .globl collider_update
+.globl collider_tilemap
 
 
 x_ban: .db 0x00

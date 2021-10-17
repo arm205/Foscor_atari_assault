@@ -191,12 +191,9 @@ _renloop:
     ld (_ent_counter), a
 
     ld a, e_t(ix)
-    ld c, a
-    ld a, e
-    ld e, c
-    ld a, #t_default
-    and e
-    jr nz, invalid_entity
+    ld e, #t_default
+    or e
+    jr z, invalid_entity
 
     ;; erase previous istance
 ; para mover todo lo que tenga a 1 el bit de ia
@@ -205,31 +202,58 @@ _renloop:
     jr nz, cumple
     jr continua
     cumple:    
+    pinta_cosas:
+        ld a, #cmp_render
+        xor d
+        jr z, render
+        jr ia
+            render:
+            push de
+    ;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
+            call _render_Entity
+            pop de
+        jr continua
+
+        ia:
         ld a, #cmp_ia
         xor d
         jr z, con_ia
-        jr no_ia
+        jr input
         con_ia:
             call ia_update_one_entity
             jr continua
 
-        no_ia:
+        input:
             ld a, #cmp_input
             xor d
             jr z, control
-            jr mover_cosas
+            jr colisiona
                 control:
                 push de
 ;; Con esto modifico la velocidad del player dependiendo de la tecla pulsada
                 call input_update_one
                 pop de
                 jr continua
-        mover_cosas:
-            ld a, #cmp_render
+
+        colisiona:
+            ld a, #cmp_collider
             xor d
-            jr z, render
+            jr z, colision
+            jr mover_cosas
+                colision:
+                push de
+                
+;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
+                call collider_tilemap
+                pop de
+                jr continua
+
+        mover_cosas:
+            ld a, #cmp_input+#cmp_ia
+            xor d
+            jr z, fisica
             jr continua
-                render:
+                fisica:
                 push de
 ;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
                 call physics_sys_for_one
@@ -248,6 +272,8 @@ _ent_counter = .+1
     ld (_ent_counter), a
 
     invalid_entity:
+
+    ld a, (_ent_counter)
     ld bc, #sizeof_e
     add ix, bc
     jr _renloop
