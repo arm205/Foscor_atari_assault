@@ -81,7 +81,7 @@ ret
 our_position:
 
 ;tx=x/4
-;ty=x/8
+;ty=y/8
 ;tw=tilemap-width (20)
 ;p= tilemap + ty*w + tx
 
@@ -98,10 +98,7 @@ our_position:
     ld l, a
 
 
-    ld h, #0
-    ld l, a
-
-    ld__iyl_a
+    ld b, a
 
 ;HL=20*ty    
 
@@ -131,7 +128,7 @@ check_tile:
 ;; ARRIBA
     cp #1
     jr nz, no_arriba
-        ld__a_iyl
+        ld a, #20
         sub_hl_a
         call check_type_tile
         ret z
@@ -160,12 +157,7 @@ check_tile:
 
 ;           para sumarle la altura del personaje
 
-            ld e, e_h+1(ix)
-            ld__a_iyl
-            bajando_altura:
-                add a, d
-                dec e
-                jr nz, bajando_altura
+            ld a, #40
             add_hl_a
 
             call check_type_tile
