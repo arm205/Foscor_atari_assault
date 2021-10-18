@@ -72,8 +72,24 @@ collider_tilemap::
 
     ya_y:
 
+    ; comprobación diagonal
 
 
+    ld a, e_vx(ix)
+    or #0
+    jr z, no_diagonal
+
+    ld a, e_vy(ix)
+    or #0
+    jr z, no_diagonal
+
+    ; HAY DIAGONAL!!!!!!!!!
+
+    
+
+
+
+    no_diagonal:
 
 
 ret
@@ -173,6 +189,57 @@ our_position_end:
 
 ret
 
+
+
+our_position_foot:
+
+;tx=x/4
+;ty=y/8
+;tw=tilemap-width (20)
+;p= tilemap + ty*w + tx
+
+
+
+    ld a, e_y(ix)
+    add e_h(ix)
+    dec a
+
+    ;A=ty(y/8)
+    srl a
+    srl a
+    srl a
+
+
+
+;HL=A = ty
+    ld h, #0
+    ld l, a
+
+
+
+;HL=20*ty    
+
+    add hl, hl ;2*ty
+    add hl, hl ;4*ty
+    ld__de_hl
+    add hl, hl ;8*ty
+    add hl, hl ;16*ty
+    add hl, de
+
+
+    ld a, e_x(ix)
+    srl a
+    srl a
+
+    add_hl_a
+    ld de, #_tilemap
+    add hl, de
+
+
+ret
+
+
+
 ;INPUT: A, relative direction of tile to the entity, 1-top 2-right 4-down 8-left
 check_tile:
 
@@ -194,6 +261,13 @@ check_tile:
 
             ;; Collision detected
             ld e_vy(ix), #0
+            ld a, e_t(ix)
+            xor #t_enemy
+                jr nz, no_en_3
+                ld a, #1
+                call ia_colides_tilemap
+
+            no_en_3:  
             ret
 
 
@@ -229,8 +303,7 @@ check_tile:
 
 ;           para sumarle la altura del personaje
 
-            ld a, #40
-            add_hl_a
+            call our_position_foot
             call check_type_tile
             ld b, a
             call our_position_end
@@ -241,6 +314,13 @@ check_tile:
             ret z
                 ;; Collision detected
                 ld e_vy(ix), #0
+                ld a, e_t(ix)
+                xor #t_enemy
+                    jr nz, no_en_4
+                    ld a, #4
+                    call ia_colides_tilemap
+
+                no_en_4:  
                 ret
 
     no_abajo:

@@ -16,13 +16,15 @@
 
 
 ; ENTITY DEFINITION MACRO
-.macro CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _spr
+.macro CommonDefine _x, _y, _w, _h, _vx, _vy, _vx_prev, _vy_prev, _c, _b, _spr
     .db _x ;    position x of entity
     .db _y ;    position y of entity
     .db _w ;    width of entity
     .db _h ;    height y of entity
     .db _vx ;    speed x of entity
     .db _vy ;    speed x of entity
+    .db _vx_prev ;    speed x of entity
+    .db _vy_prev ;    speed x of entity
     .db _c ;    color of entity
     .db _b;     byte that we use for setting a special behavior to an entity (asi podemos tener dos cosas del mismo tipo que se comporten distinto)
     .dw _spr;   2Bytes for Sprite loading.
@@ -30,10 +32,10 @@
 .endm
 
 
-.macro DefineDefaultEntity _x, _y, _w, _h, _vx, _vy, _c, _b, _spr
+.macro DefineDefaultEntity _x, _y, _w, _h, _vx, _vy, _vx_prev, _vy_prev, _c, _b, _spr
     .db 0x00 ;    type of entity default
     .db 0x00 ;      components of entity default
-    CommonDefine _x, _y, _w, _h, _vx, _vy, _c, _b, _spr
+    CommonDefine _x, _y, _w, _h, _vx, _vy, _vx_prev, _vy_prev, _c, _b, _spr
     .db 0x00
 .endm
 
@@ -47,19 +49,21 @@ e_w = 4
 e_h = 5
 e_vx = 6
 e_vy = 7
-e_c = 8
-e_be = 9
-e_spr = 10
-e_lastVP_l = 12
-e_lastVP_h = 13
-e_col = 14
-sizeof_e = 15
+e_vx_prev = 8
+e_vy_prev = 9
+e_c = 10
+e_be = 11
+e_spr = 12
+e_lastVP_l = 14
+e_lastVP_h = 15
+e_col = 16
+sizeof_e = 17
 
 
 .macro DefineEntityArray _name, _N
 _name::
     .rept _N
-        DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDEAD
+        DefineDefaultEntity 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDE, 0xAD, 0xDEAD
     .endm
 .endm
 

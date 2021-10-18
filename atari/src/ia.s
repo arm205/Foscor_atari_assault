@@ -174,11 +174,36 @@ ia_right_left:
 
 ret
 
+
+ia_up_down:
+
+    ld a, e
+
+    cp #1
+    jr z, move_down
+        cp #4
+        jr z, move_up
+
+        move_up:
+        ld e_vy(ix), #-2
+        ret
+
+    move_down:
+        ld e_vy(ix), #2
+
+
+ret
+
 ia_colides_tilemap::
     ld e, a
     ld a, e_be(ix)
     cp  #1
     jr z, ia_r_l
+        cp  #2
+        jr z, ia_u_d
+            ret
+        ia_u_d:
+        call ia_up_down
         ret
     ia_r_l:
         call ia_right_left

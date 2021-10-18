@@ -58,6 +58,10 @@ endif_x:
         ld  e_vy(ix), a
 endif_y:
 
+    ld a, e_vx(ix)
+    ld e_vx_prev(ix), a
+    ld a, e_vy(ix)
+    ld e_vy_prev(ix), a
 
 
 ret
