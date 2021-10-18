@@ -2,3 +2,4 @@
 .globl _render_sys_update 
 .globl _render_sys_init
 
+.globl _render_sys_drawTileMap

@@ -66,7 +66,7 @@ E_M_create::
 
     pop hl
 
-    ld (_last_start_entity_ptr), de
+    ld (_last_start_entity_ptr), hl
 
     ldir
 
@@ -346,3 +346,44 @@ E_M_for_all_pairs_matching::
             add ix, bc
             jr _renloop_pairs
 
+
+;;MODIFICA
+;;  HL: Direccion del player
+E_M_getPlayer::
+    ld  hl, #player
+ret
+
+;;MODIFICA
+;;  HL: Direccion del enemigo
+E_M_getEnemy::
+    ld  hl, #enemy2
+ret
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getSalida::
+    ld  hl, #salida
+ret
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getCaja::
+    ld  hl, #caja
+ret
+
+E_M_destroyAllEntities::
+
+    destroy_loop:
+    ld  hl, (_last_start_entity_ptr)
+    ld  (_entity_to_erase), hl
+
+    call E_M_deleteEntity
+
+    ld  a, (_num_entities)
+    xor #0x00
+    jr nz, destroy_loop
+
+    ld  hl, (_last_elem_ptr)
+    ld  (_last_start_entity_ptr), hl
+
+ret

@@ -99,7 +99,8 @@ collider_check_type_iy::
             ;; Aqui tendriamos que matar al jugador
             ld a, #0x00 
             ld e_c(ix), a
-            call man_game_end
+            ;;call man_game_end
+            call L_M_resetCurrentLevel
             ret
 
         pl_otro:

@@ -8,23 +8,24 @@
 .include "collider.h.s"
 
 
-enemy: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 20, 10, 4, 16, -1, 0, 0xFF, 1
+
+enemy:: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 0, 0, 4, 16, -1, 0, 0xFF, 1
 .dw #_h_array
 .db 0xCC, 0xCC, t_player
 
-enemy2: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 0, 42, 4, 16, 0, 0, 0xFF, 0
+enemy2:: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 0, 0, 4, 16, 0, 0, 0xFF, 0
 .dw #_h_array
 .db 0xCC, 0xCC, t_player
 
-player: .db t_player, cmp_collider | cmp_render | cmp_input, 20, 160, 4, 16, -1, 0, 0x0F, 0
+player:: .db t_player, cmp_collider | cmp_render | cmp_input, 0, 0, 4, 16, -1, 0, 0x0F, 0
 .dw #_g_array_0
 .db 0xCC, 0xCC, t_enemy | t_caja | t_salida
 
 
-caja: .db t_caja, cmp_collider | cmp_render, 50, 100, 2, 8, 0, 0, 0xF0, 0, 0, 0xCC, 0xCC, 0xCC, 0xCC, t_player
+caja:: .db t_caja, cmp_collider | cmp_render, 0, 0, 2, 8, 0, 0, 0xF0, 0, 0, 0xCC, 0xCC, 0xCC, 0xCC, t_player
 
 
-salida: .db t_salida, cmp_collider | cmp_render, 0, 0, 2, 8, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0xCC, 0xCC, t_player
+salida:: .db t_salida, cmp_collider | cmp_render, 0, 0, 2, 8, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0xCC, 0xCC, t_player
 
 
 
@@ -37,33 +38,20 @@ win_text: .asciz "YOU WIN!!!"
 
 
 man_game_init::
-    call E_M_init
-    call _render_sys_init
-    call physics_sys_init
-    call input_init
-
-    ld hl, #player
-    call man_game_entity_creator
-
-    ld hl, #enemy
-    call man_game_entity_creator
-
-    ld hl, #enemy2
-    call man_game_entity_creator
-
-    ld hl, #caja
-    call man_game_entity_creator
-
-    ld hl, #salida
-    call man_game_entity_creator
-
-
-    ld hl, #enemy2
-    ld__ix_hl
-    ld e_x(ix), #8
-    call man_game_entity_creator
-
-
+    ;;Inicializar Entity Manager
+    call    E_M_init
+    ;;Inicializar Level Manager
+    call    L_M_init
+    ;;Inicializar Render System
+    call    _render_sys_init
+    ;;Inicializar Physics System
+    call    physics_sys_init
+    ;;Inicializar Input System
+    call    input_init
+    
+    
+    ;;Render Tile Map
+    call _render_sys_drawTileMap
 
 ret
 
@@ -106,7 +94,10 @@ call cpct_getScreenPtr_asm
 ld iy, #final_text
 call cpct_drawStringM0_asm
 
-jr .
+;;jr .
+
+call L_M_resetCurrentLevel
+ret  
 
 man_game_win::
 call E_M_init
