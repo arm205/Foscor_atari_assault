@@ -38,14 +38,14 @@ collider_tilemap::
     jr z, ya_x
     jp m, no_right
     ;se mueve a la derecha
-        call our_position
+        call our_position_start
         ld a, #2
         call check_tile
         jr ya_x
 
     no_right:
     ;se mueve a la izquierda
-        call our_position
+        call our_position_start
         ld a, #8
         call check_tile
 
@@ -58,14 +58,14 @@ collider_tilemap::
     jr z, ya_y
     jp m, no_down
     ;se mueve hacia abajo
-        call our_position
+        call our_position_start
         ld a, #4
         call check_tile
         jr ya_y
 
     no_down:
     ;se mueve hacia arriba
-        call our_position
+        call our_position_start
         ld a, #1
         call check_tile
 
@@ -78,7 +78,7 @@ collider_tilemap::
 ret
 
 
-our_position:
+our_position_start:
 
 ;tx=x/4
 ;ty=y/8
@@ -124,6 +124,54 @@ our_position:
 
 ret
 
+
+our_position_end:
+
+;tx=x/4
+;ty=y/8
+;tw=tilemap-width (20)
+;p= tilemap + ty*w + tx
+
+
+
+    ld a, e_y(ix)
+
+    ;A=ty(y/8)
+    srl a
+    srl a
+    srl a
+
+
+
+;HL=A = ty
+    ld h, #0
+    ld l, a
+
+
+
+;HL=20*ty    
+
+    add hl, hl ;2*ty
+    add hl, hl ;4*ty
+    ld__de_hl
+    add hl, hl ;8*ty
+    add hl, hl ;16*ty
+    add hl, de
+
+
+    ld a, e_x(ix)
+    add e_w(ix)
+    dec a
+    srl a
+    srl a
+
+    add_hl_a
+    ld de, #_tilemap
+    add hl, de
+
+
+ret
+
 ;INPUT: A, relative direction of tile to the entity, 1-top 2-right 4-down 8-left
 check_tile:
 
@@ -134,10 +182,13 @@ check_tile:
         ld a, #20
         sub_hl_a
         call check_type_tile
-        ld e, a
-        inc hl
+        ld b, a
+     
+        call our_position_end
+        ld a, #20
+        sub_hl_a
         call check_type_tile
-        or e
+        or b
         ret z
 
             ;; Collision detected
@@ -153,12 +204,12 @@ check_tile:
         jr nz, no_derecha
             inc hl
             call check_type_tile
-            ld e, a
+            ld b, a
 
             ld a, #20
             add_hl_a
             call check_type_tile
-            or e
+            or b
             ret z
                 ;; Collision detected
                 ld e_vx(ix), #0
@@ -173,10 +224,12 @@ check_tile:
             ld a, #40
             add_hl_a
             call check_type_tile
-            ld e, a
-            inc hl
+            ld b, a
+            call our_position_end
+            ld a, #40
+            add_hl_a
             call check_type_tile
-            or e
+            or b
             ret z
                 ;; Collision detected
                 ld e_vy(ix), #0
@@ -189,11 +242,11 @@ check_tile:
     jr nz, nada   
         dec hl
         call check_type_tile
-        ld e, a
+        ld b, a
         ld a, #20
         add_hl_a
         call check_type_tile
-        or e
+        or b
         ret z
             ;; Collision detected
             ld e_vx(ix), #0
