@@ -17,7 +17,7 @@ _main::
 loop:
 ;   call esperar
    call man_game_update
-
+   
    call cpct_waitVSYNC_asm
    call man_game_render
    jr    loop
