@@ -46,6 +46,8 @@ $(eval $(call IMG2SP, SET_PALETTE_FW  , $(PALETTE)         ))
 $(eval $(call IMG2SP, CONVERT, img/garrapata.png , 8, 16, g_array, pal_main))
 $(eval $(call IMG2SP, CONVERT, img/hormiga.png , 8, 16, h_array, h_pal))
 
+$(eval $(call IMG2SP, CONVERT, img/spriteCaja.png , 8, 16, spriteCaja, caja_pal))
+
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles))
 $(eval $(call IMG2SP, CONVERT, img/tilemap/tileset_02.png , 8, 8, tiles, t_pal))
 
