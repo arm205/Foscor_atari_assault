@@ -21,10 +21,12 @@ player: .db t_player, cmp_collider | cmp_render | cmp_input, 4, 160, 4, 16, -1, 
 .db 0xCC, 0xCC, t_enemy | t_caja | t_salida
 
 
-caja: .db t_caja, cmp_collider | cmp_render, 50, 100, 2, 8, 0, 0, 0xF0, 0, 0, 0xCC, 0xCC, 0xCC, 0xCC, t_player
+caja: .db t_caja, cmp_collider | cmp_render, 32, 104, 4, 16, 0, 0, 0xF0, 0
+.dw #_spriteCaja
+.db 0xCC, 0xCC, 0xCC, t_player
 
 
-salida: .db t_salida, cmp_collider | cmp_render, 0, 0, 2, 8, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0xCC, 0xCC, t_player
+salida: .db t_salida, cmp_collider, 12, 0, 8, 10, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0xCC, 0xCC, t_player
 
 
 
