@@ -10,15 +10,15 @@
 
 enemy: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 10, 4, 16, 1, 0, 0, 0, 0xFF, 1
 .dw #_h_array
-.db 0xCC, 0xCC, t_player
+.db 0xCC, 0xCC, t_player | t_caja
 
 enemy2: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 42, 4, 16, 0, 0, 0, 0, 0xFF, 0
 .dw #_h_array
-.db 0xCC, 0xCC, t_player
+.db 0xCC, 0xCC, t_player | t_caja
 
 enemy3: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 42, 4, 16, 0, 2, 0, 0, 0xFF, 2
 .dw #_h_array
-.db 0xCC, 0xCC, t_player
+.db 0xCC, 0xCC, t_player | t_caja
 
 player: .db t_player, cmp_collider | cmp_render | cmp_input, 4, 160, 4, 16, -1, 0, 0, 0, 0x0F, 0
 .dw #_g_array_0
@@ -57,18 +57,18 @@ man_game_init::
     ld hl, #enemy2
     call man_game_entity_creator
 
+
+
+    ld hl, #enemy3
+    ld__ix_hl
+    ld e_x(ix), #12
+    call man_game_entity_creator
+
     ld hl, #caja
     call man_game_entity_creator
 
     ld hl, #salida
     call man_game_entity_creator
-
-
-    ld hl, #enemy3
-    ld__ix_hl
-    ld e_x(ix), #30
-    call man_game_entity_creator
-
 
 
 ret

@@ -77,19 +77,31 @@ collider_tilemap::
 
     ld a, e_vx(ix)
     or #0
-    jr z, no_diagonal
+    ret z
 
     ld a, e_vy(ix)
     or #0
-    jr z, no_diagonal
+    ret z
 
     ; HAY DIAGONAL!!!!!!!!!
 
+    ld a, e_vx_prev(ix)
+    or #0
+    jr nz, no_x
+        ld e_vx(ix), a
+        ret
     
+    no_x:
+    ld a, e_vy_prev(ix)
+    or #0
+    jr nz, no_y
+        ld e_vy(ix), a
 
+   
+    no_y:
+        xor a
+        ld e_vx(ix), a
 
-
-    no_diagonal:
 
 
 ret
@@ -202,7 +214,6 @@ our_position_foot:
 
     ld a, e_y(ix)
     add e_h(ix)
-    dec a
 
     ;A=ty(y/8)
     srl a
@@ -429,8 +440,8 @@ ret
 
 collider_check_type_iy::
 
-    ld a, #t_player
-    xor e_t(iy)
+    ld a, e_t(iy)
+    xor #t_player
     jr nz, no_player
 
         ld a, e_col(iy)
@@ -456,7 +467,7 @@ collider_check_type_iy::
         ; Compruebo si tiene el behavior de romper caja
         ld a, e_be(iy)
         xor #1
-        jr nz, for_x
+        jr nz, colisionar_caja
         ;tiene el behavior asi que la rompe
         ;;ld a, #0
         ;;ld e_c(ix), a
@@ -467,6 +478,7 @@ collider_check_type_iy::
         
         ret
 
+    colisionar_caja:
 ; No tiene el behavior asi que colisiona
 
         call colision_con_caja
@@ -482,77 +494,153 @@ collider_check_type_iy::
 
 no_player:  
 ;   DEJO ESTO POR SI EN UN FUTURO TENEMOS OTRAS ENTIDADES QUE COLISIONEN  
-;    ld a, e_t(iy)
-;    ld b, a
-;    ld a, (t_enemy)
-;    xor b
-;    jr nz, no_enemy
+    ld a, e_t(iy)
+    xor #t_enemy
+    jr nz, no_enemy
 
-;no_enemy:   
+        ld a, e_col(iy)
+        and e_t(ix)
+        ret z
+
+        ld a, e_t(ix)
+        xor #t_caja
+        jr nz, no_en_caja
+
+        call colision_con_caja
+        
+
+    no_en_caja:
+no_enemy:   
 pair_not_col:
 
 ret
 
 
 colision_con_caja::
-
-        for_x:
-            ld a, e_vx(iy)
-            or #0
-            jr z, cero_x
-
-            ld a, (x_ban)
-            and a
-            jr z, new_x_ban
-                ld b, a
-                ld a, e_vx(iy)
-                xor b
-                jr z, cero_x
-                move_x:
-                
-                    ld a, #0
-                    ld (x_ban), a
-                    jr for_y
-                    
-
-            new_x_ban:
-                ld a, e_vx(iy)
-                ld (x_ban), a
-
-
-
-            cero_x:
-                ld a, #0
-                ld e_vx(iy), a
-        for_y:
-
+    ; Compruebo si colisiona en x con que lado
+    ld a, e_x(iy)
+    xor e_x(ix)
+    jr nz, no_x_igual
+        ;;ambas entidades estan en la misma posicion x
+        ld a, e_y(iy)
+        cp e_y(ix)
+        jp m, yp_menor_yc
+        yp_mayor_yc:
             ld a, e_vy(iy)
-            or #0
-            jr z, cero_y
+            cp #0
+            jp m, ban_y_menor
+                ret
+            ban_y_menor:
+            xor a
+            ld e_vy(iy), a
+            ret
 
-            ld a, (y_ban)
-            and a
-            jr z, new_y_ban
-                ld b, a
-                ld a, e_vy(iy)
-                xor b
-                jr z, cero_y
-                move_y:
-                    ld a, #0
-                    ld (y_ban), a
-                    ret
-
-            new_y_ban:
-                ld a, e_vy(iy)
-                ld (y_ban), a
-
-            cero_y:
-                ld a, #0
+        yp_menor_yc:
+            ld a, e_vy(iy)
+            cp #0
+            jp m, not_ban_y_mayor
+                xor a
                 ld e_vy(iy), a
+                ret
+            not_ban_y_mayor:
+            ret
+
+
+    no_x_igual:
+    ; Compruebo si colisiona en y con que lado
+
+        ld a, e_y(iy)
+        xor e_y(ix)
+        jr nz, no_y_igual
+            ;;ambas entidades estan en la misma posicion x
+            ld a, e_x(iy)
+            cp e_x(ix)
+            jp m, xp_menor_xc
+            xp_mayor_xc:
+                ld a, e_vx(iy)
+                cp #0
+                jp m, ban_x_menor
+                    ret
+                ban_x_menor:
+                xor a
+                ld e_vx(iy), a
+                ret
+
+            xp_menor_xc:
+                ld a, e_vx(iy)
+                cp #0
+                jp m, not_ban_x_mayor
+                    xor a
+                    ld e_vx(iy), a
+                    ret
+                not_ban_x_mayor:
                 ret
 
 
+    no_y_igual:
 
+
+ret
+
+;colision_con_caja::
+;
+;        for_x:
+;            ld a, e_vx(iy)
+;            or #0
+;            jr z, cero_x
+;
+;            ld a, (x_ban)
+;            and a
+;            jr z, new_x_ban
+;                ld b, a
+;                ld a, e_vx(iy)
+;                xor b
+;                jr z, cero_x
+;                move_x:
+;                
+;                    ld a, #0
+;                    ld (x_ban), a
+;                    jr for_y
+;                    
+;
+;            new_x_ban:
+;                ld a, e_vx(iy)
+;                ld (x_ban), a
+;
+;
+;
+;            cero_x:
+;                ld a, #0
+;                ld e_vx(iy), a
+;        for_y:
+;
+;            ld a, e_vy(iy)
+;            or #0
+;            jr z, cero_y
+;
+;            ld a, (y_ban)
+;            and a
+;            jr z, new_y_ban
+;                ld b, a
+;                ld a, e_vy(iy)
+;                xor b
+;                jr z, cero_y
+;                move_y:
+;                    ld a, #0
+;                    ld (y_ban), a
+;                    ret
+;
+;            new_y_ban:
+;                ld a, e_vy(iy)
+;                ld (y_ban), a
+;
+;            cero_y:
+;                ld a, #0
+;                ld e_vy(iy), a
+;                ret
+;
+;
+;
 
 ;collider_check_type_ix::
 ;
