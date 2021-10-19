@@ -10,7 +10,7 @@
 .include "render.h.s"
 .include "collider.h.s"
 
-max_entities == 7
+max_entities == 30
 
 _num_entities:: .db 0
 _last_elem_ptr:: .dw _entity_array

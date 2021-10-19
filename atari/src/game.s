@@ -57,15 +57,17 @@ man_game_init::
     ld hl, #enemy2
     call man_game_entity_creator
 
-
-
     ld hl, #enemy3
-    ld__ix_hl
-    ld e_x(ix), #12
     call man_game_entity_creator
+    ld e_x(ix), #18
 
     ld hl, #caja
     call man_game_entity_creator
+
+
+    ld hl, #caja
+    call man_game_entity_creator
+    ld e_y(ix), #18
 
     ld hl, #salida
     call man_game_entity_creator
@@ -97,9 +99,7 @@ man_game_update::
     call physics_sys_update
    ret
 man_game_render::
-    ;;cpctm_setBorder_asm HW_RED
     call E_M_getEntityArray
-    
     call _render_sys_update 
     call E_M_checkDelete
 ret

@@ -57,7 +57,9 @@ e_spr = 12
 e_lastVP_l = 14
 e_lastVP_h = 15
 e_col = 16
-sizeof_e = 17
+e_lastVP_l2 = 17
+e_lastVP_h2 = 18
+sizeof_e = 19
 
 
 .macro DefineEntityArray _name, _N
