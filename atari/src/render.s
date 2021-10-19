@@ -1,30 +1,83 @@
 ;;
 ;; RENDER.S -- Dibuja por pantalla.
 ;;
+.include "render.h.s"
+.include "entity.h.s"
+.include "assets/tiles/tilemap_02.h.s"
 
 ;; instrucciones utiles
 .globl cpct_disableFirmware_asm
 .globl cpct_drawSolidBox_asm
 .globl cpct_getScreenPtr_asm
+.globl cpct_setVideoMode_asm
+.globl cpct_etm_drawTilemap4x8_ag_asm
+.globl cpct_etm_setDrawTilemap4x8_ag_asm
+
+screen_start = 0xC000
 
 ;; RENDER AN ENTITY
 ;;      INPUT: IX
 
-_render_Entity::
-
-    ld de, #0xC000
-    ld b, 2(ix) ;;pos_y
-    ld c, 1(ix) ;;pos_x
+_setScreenPTR:
+    ld de, #screen_start
+    ld b, e_y(ix) ;;pos_y
+    ld c, e_x(ix) ;;pos_x
     call cpct_getScreenPtr_asm ;;entidad que comenzara a dibujarse en la pos (x,y)
+    ret
+_render_Entity:: ;;importante: actualizar con la posibilidad de abrir sprites.
 
+    call _setScreenPTR
+    ld e, e_lastVP_l(ix)
+    ld d, e_lastVP_h(ix)
+    xor a
+    ld c, e_w(ix)
+    ld b, e_h(ix)
+    push bc
+    call cpct_drawSolidBox_asm
+    
+    call _setScreenPTR
+    ld e_lastVP_l(ix), l
+    ld e_lastVP_h(ix), h
+    ld a, e_c(ix)
     ex de, hl
-
-    ld a, 7(ix) ;;color
-    ld c, 3(ix) ;;ancho
-    ld b, 4(ix) ;;alto
-    call cpct_drawSolidBox_asm ;;dibuja un cuadrado con esas dimensiones.
+    pop bc
+    ld l, e_spr(ix)
+    ld h, e_spr+1(ix)
+    call cpct_drawSprite_asm ;;dibuja un cuadrado con esas dimensiones.
 
     ret
 
-_render_sys_update ::
+;; RENDER INIT (llamado desde GAME)
+_render_sys_init::
+    ld c, #0
+    call cpct_setVideoMode_asm
+    ld hl, #_pal_main
+    ld de, #16
+    call cpct_setPalette_asm
+
+    ;;SET THE TILEMAP
+    ld c, #_tilemap_W
+    ld b, #_tilemap_H
+    ld de, #_tilemap_W
+    ld hl, #_tiles_00
+    call cpct_etm_setDrawTilemap4x8_ag_asm
+
+    ;;DRAW THE TILEMAP
+    ld hl, #0xC000
+    ld de, #_tilemap
+    call cpct_etm_drawTilemap4x8_ag_asm
+ret
+
+;; RENDER ALL
+_render_sys_update::
+    call _render_ents_update
+ret
+;; RENDER ENTITIES
+;;      INPUT: IX
+;;      INPUT: A
+_render_ents_update::
+    ld d, a
+    ld a, #cmp_render
+    call E_M_for_all_matching
+_render_sys_terminate::
 ret
