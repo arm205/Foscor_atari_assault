@@ -2,6 +2,7 @@
 .include "cpctelera.h.s"
 .include "collider.h.s"
 .include "game.h.s"
+.include "ia.h.s"
 .include "assets/tiles/tilemap_02.h.s"
 
 
@@ -213,6 +214,13 @@ check_tile:
             ret z
                 ;; Collision detected
                 ld e_vx(ix), #0
+                ld a, e_t(ix)
+                xor #t_enemy
+                    jr nz, no_en
+                    ld a, #2
+                    call ia_colides_tilemap
+
+                no_en:    
                 ret
     no_derecha:
     ;; ABAJO    
@@ -250,6 +258,13 @@ check_tile:
         ret z
             ;; Collision detected
             ld e_vx(ix), #0
+            ld a, e_t(ix)
+            xor #t_enemy
+                jr nz, no_en_2
+                ld a, #8
+                call ia_colides_tilemap
+
+            no_en_2:  
             ret
     nada:
     ret

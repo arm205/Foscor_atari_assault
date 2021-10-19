@@ -30,7 +30,7 @@ ia_for_enemy:
         call ia_mario_ghost
         ret
 r_l:
-    call ia_right_left
+    ;call ia_right_left
 ret
 
 
@@ -157,23 +157,33 @@ ret
 
 ia_right_left:
 
-    ld a, #screen_width
-    sub e_w(ix)
-    ld  c, a
+    ld a, e
 
-    ld a, e_x(ix)
-    add e_vx(ix)
-    cp  c
-    jr nc, cambia_vx
-    jr no_cambia
+    cp #2
+    jr z, move_left
+        cp #8
+        jr z, move_right
 
-    cambia_vx:
-        ld  a, e_vx(ix)
-        neg
-        ld  e_vx(ix), a
-    no_cambia:
+        move_right:
+        ld e_vx(ix), #1
+        ret
+
+    move_left:
+        ld e_vx(ix), #-1
+
 
 ret
+
+ia_colides_tilemap::
+    ld e, a
+    ld a, e_be(ix)
+    cp  #1
+    jr z, ia_r_l
+        ret
+    ia_r_l:
+        call ia_right_left
+ret
+
 
 
 

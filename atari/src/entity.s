@@ -77,6 +77,12 @@ ret
 E_M_prepateToDelete::
 
     ld  e_c(ix), #0x0
+    ld__hl_ix
+    ld a, #e_c
+    add_hl_a
+
+    ld e_spr(ix), l
+    ld e_spr+1(ix), l
 
     ld__hl_ix
 
@@ -102,6 +108,11 @@ E_M_deleteEntity::
     ld  hl, (_last_start_entity_ptr)
     ld  a, l
     sub c
+;calculos por si estoy restando a l un numero menor que c
+    jr nc, no_se_pasa_c
+        inc b
+
+no_se_pasa_c:
     ld  l, a
     ld  a, h
     sub b
@@ -113,6 +124,11 @@ E_M_deleteEntity::
     ld  hl, (_last_elem_ptr)
     ld  a, l
     sub c
+    ;calculos por si estoy restando a l un numero menor que c
+    jr nc, no_se_pasa_c_2
+        inc b
+
+no_se_pasa_c_2:
     ld  l, a
     ld  a, h
     sub b
