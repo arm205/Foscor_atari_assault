@@ -73,24 +73,27 @@ man_game_entity_creator::
     call E_M_create
 ret
 man_game_update::
- 
+     
+    ;;cpctm_setBorder_asm HW_YELLOW
     call E_M_getEntityArray
     call input_update
 
-
+    ;;cpctm_setBorder_asm HW_GREEN
     call E_M_getEntityArray
     call ia_update
 
-
+    ;;cpctm_setBorder_asm HW_BLUE
     call E_M_getEntityArray
     call collider_update
 
-
+    ;;cpctm_setBorder_asm HW_PINK
     call E_M_getEntityArray
     call physics_sys_update
    ret
 man_game_render::
+    ;;cpctm_setBorder_asm HW_RED
     call E_M_getEntityArray
+    
     call _render_sys_update 
     call E_M_checkDelete
 ret
