@@ -3,7 +3,7 @@
 ;;
 .include "render.h.s"
 .include "entity.h.s"
-.include "assets/tiles/tilemap_02.h.s"
+.include "assets/tiles/level_01.h.s"
 
 ;; instrucciones utiles
 .globl cpct_disableFirmware_asm
@@ -12,6 +12,7 @@
 .globl cpct_setVideoMode_asm
 .globl cpct_etm_drawTilemap4x8_ag_asm
 .globl cpct_etm_setDrawTilemap4x8_ag_asm
+
 
 
 ;; RENDER AN ENTITY
@@ -77,15 +78,17 @@ _render_sys_init::
     ;;call setCTCR
 
     ;;SET THE TILEMAP
-    ld c, #_tilemap_W
-    ld b, #_tilemap_H
-    ld de, #_tilemap_W
+    ld c, #_level_01_W
+    ld b, #_level_01_H
+    ld de, #_level_01_W
     ld hl, #_tiles_00
     call cpct_etm_setDrawTilemap4x8_ag_asm
+ret
 
+_render_sys_drawTileMap::
     ;;DRAW THE TILEMAP
     ld hl, #0xC000
-    ld de, #_tilemap
+    ld de, (_current_tilemap)
     call cpct_etm_drawTilemap4x8_ag_asm
 ret
 
