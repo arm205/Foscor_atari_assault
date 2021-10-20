@@ -66,7 +66,7 @@ E_M_create::
 
     pop hl
 
-    ld (_last_start_entity_ptr), hl
+    ld (_last_start_entity_ptr), de
 
     ldir
 
@@ -103,22 +103,35 @@ E_M_deleteEntity::
     ld  de, (_entity_to_erase)
     ldir
 
-    ;;Decrementar _last_start_entity_ptr
+    ;;Decrementar _last_start_entity_ptr si es necesario
+    
+
     ld  bc, #sizeof_e
     ld  hl, (_last_start_entity_ptr)
+
+    ld  a, h
+    xor #_entity_array
+    jr  z, continuar
+
+    ld  a, l
+    xor #_entity_array
+    jr  z, continuar
+
     ld  a, l
     sub c
 ;calculos por si estoy restando a l un numero menor que c
     jr nc, no_se_pasa_c
         inc b
 
-no_se_pasa_c:
+    no_se_pasa_c:
     ld  l, a
     ld  a, h
     sub b
     ld  h, a
     ld  (_last_start_entity_ptr), hl
 
+
+    continuar:
     ;Decrementar _last_elem_ptr
     ld  bc, #sizeof_e
     ld  hl, (_last_elem_ptr)
@@ -128,7 +141,7 @@ no_se_pasa_c:
     jr nc, no_se_pasa_c_2
         inc b
 
-no_se_pasa_c_2:
+    no_se_pasa_c_2:
     ld  l, a
     ld  a, h
     sub b
@@ -424,8 +437,7 @@ E_M_destroyAllEntities::
     ld  a, (_num_entities)
     xor #0x00
     jr nz, destroy_loop
-
-    ld  hl, (_last_elem_ptr)
-    ld  (_last_start_entity_ptr), hl
-
+    
+    ld  hl, #0x0
+    ld  (_entity_to_erase), hl
 ret

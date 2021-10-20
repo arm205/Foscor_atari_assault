@@ -3,6 +3,7 @@
 _current_level_counter::    .db #0x0
 _current_level::            .dw #_level_1
 _current_tilemap::          .dw #0x0
+_current_level_size::       .dw 0
 
 _puntero::                 .dw 0
 
@@ -111,19 +112,32 @@ L_M_loadLevel::
         ld__iy_hl
         pop hl
 
-        ;;Set posicion de la salida
-        ld  a, (hl)
-        ld  e_x(iy), a
-        inc hl
-        ld  a, (hl)
-        ld  e_y(iy), a
-        inc hl
+        caja_loop:
 
-        ;;Crear salida
-        push hl
-        ld__hl_iy
-        call man_game_entity_creator
-        pop hl
+            ;;Set posicion de la caja
+            ld  a, (hl)
+            ld  e_x(iy), a
+            inc hl
+            ld  a, (hl)
+            ld  e_y(iy), a
+            inc hl
+
+            ;;Crear caja
+            push hl
+            ld__hl_iy
+            call man_game_entity_creator
+            pop hl
+
+            ld  a, (hl)
+            xor #0xFF
+            jr nz, caja_loop
+
+            inc hl
+
+    ;;-------------------------------------------------------
+    ;;LEVEL SIZE
+        ld  a, (hl)
+        ld  (_current_level_size), a
 
 
 ret
@@ -144,3 +158,20 @@ call _render_sys_drawTileMap
 
 ret
 
+
+L_M_levelPassed::
+
+;;Mostrar pantalla de video superado
+
+cpctm_clearScreen_asm #0
+ld  hl, (_current_level)
+ld  bc, (_current_level_size)
+add hl, bc
+ld  (_current_level), hl
+call E_M_destroyAllEntities
+call L_M_loadLevel
+
+
+call _render_sys_drawTileMap
+
+ret

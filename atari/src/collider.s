@@ -396,7 +396,7 @@ collider_check_type_iy::
 
         pl_salida:
 
-            call man_game_win
+            call L_M_levelPassed
         ret
 
 

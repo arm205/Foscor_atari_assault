@@ -2,6 +2,7 @@
 .globl L_M_changeLevel
 .globl L_M_loadLevel
 .globl L_M_resetCurrentLevel
+.globl L_M_levelPassed
 
 
 _level_1::
@@ -10,7 +11,18 @@ _level_1::
     .db     42,42                       ;;Pos enemigo
     .db     60,42                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos
-    .db     0,0                         ;;Salida
+    .db     10,10                        ;;Salida
     .db     50,100                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas
+    .db     15                          ;;Tamanyo nivel
 
+_level_2::
+    .dw     #_tilemap                   ;;TileMap
+    .db     20,160                      ;;Posicion Player
+    .db     42,42                       ;;Pos enemigo
+    ;;.db     60,42                       ;;Pos enemigo
+    .db     #0xFF                       ;;FIN enemigos
+    .db     10,10                        ;;Salida
+    .db     50,100                      ;;Pos caja
+    .db     #0xFF                       ;;FIN cajas
+    .db     15                          ;;Tamanyo nivel
