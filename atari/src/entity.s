@@ -99,22 +99,35 @@ E_M_deleteEntity::
     ld  de, (_entity_to_erase)
     ldir
 
-    ;;Decrementar _last_start_entity_ptr
+    ;;Decrementar _last_start_entity_ptr si es necesario
+    
+
     ld  bc, #sizeof_e
     ld  hl, (_last_start_entity_ptr)
+
+    ld  a, h
+    xor #_entity_array
+    jr  z, continuar
+
+    ld  a, l
+    xor #_entity_array
+    jr  z, continuar
+
     ld  a, l
     sub c
 ;calculos por si estoy restando a l un numero menor que c
     jr nc, no_se_pasa_c
         inc b
 
-no_se_pasa_c:
+    no_se_pasa_c:
     ld  l, a
     ld  a, h
     sub b
     ld  h, a
     ld  (_last_start_entity_ptr), hl
 
+
+    continuar:
     ;Decrementar _last_elem_ptr
     ld  bc, #sizeof_e
     ld  hl, (_last_elem_ptr)
@@ -124,7 +137,7 @@ no_se_pasa_c:
     jr nc, no_se_pasa_c_2
         inc b
 
-no_se_pasa_c_2:
+    no_se_pasa_c_2:
     ld  l, a
     ld  a, h
     sub b
@@ -384,3 +397,43 @@ E_M_for_all_pairs_matching::
             add ix, bc
             jr _renloop_pairs
 
+
+;;MODIFICA
+;;  HL: Direccion del player
+E_M_getPlayer::
+    ld  hl, #player
+ret
+
+;;MODIFICA
+;;  HL: Direccion del enemigo
+E_M_getEnemy::
+    ld  hl, #enemy2
+ret
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getSalida::
+    ld  hl, #salida
+ret
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getCaja::
+    ld  hl, #caja
+ret
+
+E_M_destroyAllEntities::
+
+    destroy_loop:
+    ld  hl, (_last_start_entity_ptr)
+    ld  (_entity_to_erase), hl
+
+    call E_M_deleteEntity
+
+    ld  a, (_num_entities)
+    xor #0x00
+    jr nz, destroy_loop
+    
+    ld  hl, #0x0
+    ld  (_entity_to_erase), hl
+ret

@@ -13,6 +13,12 @@
 .globl E_M_get_from_idx
 .globl E_M_checkDelete
 .globl E_M_prepateToDelete
+.globl E_M_destroyAllEntities
+
+.globl E_M_getPlayer
+.globl E_M_getEnemy
+.globl E_M_getSalida
+.globl E_M_getCaja
 
 
 ; ENTITY DEFINITION MACRO
@@ -43,8 +49,8 @@
 
 e_t = 0
 e_cmp = 1
-e_x = 2
-e_y = 3
+e_x == 2
+e_y == 3
 e_w = 4
 e_h = 5
 e_vx = 6

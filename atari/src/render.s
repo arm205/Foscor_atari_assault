@@ -14,6 +14,7 @@
 .globl cpct_etm_setDrawTilemap4x8_ag_asm
 
 
+
 ;; RENDER AN ENTITY
 ;;      INPUT: IX
 
@@ -82,10 +83,12 @@ _render_sys_init::
     ld de, #_tilemap_W
     ld hl, #_tiles_00
     call cpct_etm_setDrawTilemap4x8_ag_asm
+ret
 
+_render_sys_drawTileMap::
     ;;DRAW THE TILEMAP
     ld hl, #0xC000
-    ld de, #_tilemap
+    ld de, (_current_tilemap)
     call cpct_etm_drawTilemap4x8_ag_asm
 ret
 

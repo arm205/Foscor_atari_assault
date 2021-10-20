@@ -32,44 +32,29 @@ caja: .db t_caja, cmp_collider | cmp_render, 32, 104, 4, 16, 0, 0, 0, 0, 0xF0, 0
 
 salida: .db t_salida, cmp_collider, 12, 0, 8, 10, 0, 0, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0xCC, 0xCC, t_player
 
+salida:: .db t_salida, cmp_collider | cmp_render, 0, 0, 2, 8, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0xCC, 0xCC, t_player
 
 
-;;DefineEnemyEntity enemy, 20, 20, 4, 16, -1, 0, 0xFF, 1, #_h_array
-;;DefineEnemy2Entity enemy2, 20, 40, 4, 16, -1, 0, 0xFF, 1, #_h_array
-;;DefinePlayerEntity player, 20, 170, 4, 16, -1, 0, 0x0F, 0, #_g_array_00
-;;DefineCajaEntity caja, 50, 110, 2, 4, 0, 0, 0xF0, 0, 0
 final_text: .asciz "GAME OVER"
 win_text: .asciz "YOU WIN!!!"
 
+_game_regresive_clock:: .db #0x0
 
 man_game_init::
-    call E_M_init
-    call _render_sys_init
-    call physics_sys_init
-    call input_init
-
-    ld hl, #player
-    call man_game_entity_creator
-
-    ld hl, #enemy
-    call man_game_entity_creator
-
-    ld hl, #enemy2
-    call man_game_entity_creator
-
-
-
-    ld hl, #enemy3
-    ld__ix_hl
-    ld e_x(ix), #12
-    call man_game_entity_creator
-
-    ld hl, #caja
-    call man_game_entity_creator
-
-    ld hl, #salida
-    call man_game_entity_creator
-
+    ;;Inicializar Entity Manager
+    call    E_M_init
+    ;;Inicializar Level Manager
+    call    L_M_init
+    ;;Inicializar Render System
+    call    _render_sys_init
+    ;;Inicializar Physics System
+    call    physics_sys_init
+    ;;Inicializar Input System
+    call    input_init
+    
+    
+    ;;Render Tile Map
+    call _render_sys_drawTileMap
 
 ret
 
@@ -115,7 +100,10 @@ call cpct_getScreenPtr_asm
 ld iy, #final_text
 call cpct_drawStringM0_asm
 
-jr .
+;;jr .
+
+call L_M_resetCurrentLevel
+ret  
 
 man_game_win::
 call E_M_init

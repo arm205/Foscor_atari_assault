@@ -9,6 +9,8 @@ screen_width = 80
 screen_height = 200
 
 physics_sys_init::
+
+
 ret
 
 physics_sys_update::
