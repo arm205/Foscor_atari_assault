@@ -11,6 +11,10 @@ _level_1::
     .db     42,42                       ;;Pos enemigo
     .db     60,42                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos
+    .db     1,1                       ;;Pos enemigo2
+    .db     #0xFF                       ;;FIN enemigos2
+    .db     10,10                       ;;Pos enemigo3
+    .db     #0xFF                       ;;FIN enemigos3
     .db     117,150                     ;;Salida
     .db     50,100                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas

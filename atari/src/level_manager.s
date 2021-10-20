@@ -83,6 +83,64 @@ L_M_loadLevel::
             jr nz, enemy_loop
 
             inc hl
+        
+    ;;-------------------------------------------------------
+    ;;ENEMIGOS 2
+        push hl
+        call E_M_getEnemy2
+        ld__iy_hl
+        pop hl
+
+        enemy_loop2:
+
+            ;;Set posicion del enemigo
+            ld  a, (hl)
+            ld  e_x(iy), a
+            inc hl
+            ld  a, (hl)
+            ld  e_y(iy), a
+            inc hl
+
+            ;;Crear enemigo
+            push hl
+            ld__hl_iy
+            call man_game_entity_creator
+            pop hl
+
+            ld  a, (hl)
+            xor #0xFF
+            jr nz, enemy_loop2
+
+            inc hl
+        
+    ;;-------------------------------------------------------
+    ;;ENEMIGOS 3
+        push hl
+        call E_M_getEnemy3
+        ld__iy_hl
+        pop hl
+
+        enemy_loop3:
+
+            ;;Set posicion del enemigo
+            ld  a, (hl)
+            ld  e_x(iy), a
+            inc hl
+            ld  a, (hl)
+            ld  e_y(iy), a
+            inc hl
+
+            ;;Crear enemigo
+            push hl
+            ld__hl_iy
+            call man_game_entity_creator
+            pop hl
+
+            ld  a, (hl)
+            xor #0xFF
+            jr nz, enemy_loop3
+
+            inc hl
             
     ;;-------------------------------------------------------
     ;;SALIDA
