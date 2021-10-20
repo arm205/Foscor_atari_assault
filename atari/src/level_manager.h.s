@@ -1,8 +1,8 @@
 .globl L_M_init
-.globl L_M_changeLevel
 .globl L_M_loadLevel
 .globl L_M_resetCurrentLevel
 .globl L_M_levelPassed
+.globl L_M_loadMultiplesEntities
 
 
 _level_1::
@@ -13,7 +13,6 @@ _level_1::
     .db     #0xFF                       ;;FIN enemigos
     .db     1,1                       ;;Pos enemigo2
     .db     #0xFF                       ;;FIN enemigos2
-    .db     10,10                       ;;Pos enemigo3
     .db     #0xFF                       ;;FIN enemigos3
     .db     117,150                     ;;Salida
     .db     50,100                      ;;Pos caja

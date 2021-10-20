@@ -62,27 +62,13 @@ L_M_loadLevel::
         ld__iy_hl
         pop hl
 
-        enemy_loop:
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar1
 
-            ;;Set posicion del enemigo
-            ld  a, (hl)
-            ld  e_x(iy), a
-            inc hl
-            ld  a, (hl)
-            ld  e_y(iy), a
-            inc hl
-
-            ;;Crear enemigo
-            push hl
-            ld__hl_iy
-            call man_game_entity_creator
-            pop hl
-
-            ld  a, (hl)
-            xor #0xFF
-            jr nz, enemy_loop
-
-            inc hl
+        call L_M_loadMultiplesEntities
+    
+    continuar1:
         
     ;;-------------------------------------------------------
     ;;ENEMIGOS 2
@@ -91,27 +77,13 @@ L_M_loadLevel::
         ld__iy_hl
         pop hl
 
-        enemy_loop2:
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar2
 
-            ;;Set posicion del enemigo
-            ld  a, (hl)
-            ld  e_x(iy), a
-            inc hl
-            ld  a, (hl)
-            ld  e_y(iy), a
-            inc hl
-
-            ;;Crear enemigo
-            push hl
-            ld__hl_iy
-            call man_game_entity_creator
-            pop hl
-
-            ld  a, (hl)
-            xor #0xFF
-            jr nz, enemy_loop2
-
-            inc hl
+        call L_M_loadMultiplesEntities
+    
+    continuar2:
         
     ;;-------------------------------------------------------
     ;;ENEMIGOS 3
@@ -120,27 +92,13 @@ L_M_loadLevel::
         ld__iy_hl
         pop hl
 
-        enemy_loop3:
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar3
 
-            ;;Set posicion del enemigo
-            ld  a, (hl)
-            ld  e_x(iy), a
-            inc hl
-            ld  a, (hl)
-            ld  e_y(iy), a
-            inc hl
-
-            ;;Crear enemigo
-            push hl
-            ld__hl_iy
-            call man_game_entity_creator
-            pop hl
-
-            ld  a, (hl)
-            xor #0xFF
-            jr nz, enemy_loop3
-
-            inc hl
+        call L_M_loadMultiplesEntities
+    
+    continuar3:
             
     ;;-------------------------------------------------------
     ;;SALIDA
@@ -170,27 +128,13 @@ L_M_loadLevel::
         ld__iy_hl
         pop hl
 
-        caja_loop:
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar4
 
-            ;;Set posicion de la caja
-            ld  a, (hl)
-            ld  e_x(iy), a
-            inc hl
-            ld  a, (hl)
-            ld  e_y(iy), a
-            inc hl
-
-            ;;Crear caja
-            push hl
-            ld__hl_iy
-            call man_game_entity_creator
-            pop hl
-
-            ld  a, (hl)
-            xor #0xFF
-            jr nz, caja_loop
-
-            inc hl
+        call L_M_loadMultiplesEntities
+    
+    continuar4:
 
     ;;-------------------------------------------------------
     ;;LEVEL SIZE
@@ -198,10 +142,29 @@ L_M_loadLevel::
         ld  (_current_level_size), a
 
 
-ret
+L_M_loadMultiplesEntities::
 
-L_M_changeLevel::
+        load_entities_loop:
 
+            ;;Set posicion
+            ld  a, (hl)
+            ld  e_x(iy), a
+            inc hl
+            ld  a, (hl)
+            ld  e_y(iy), a
+            inc hl
+
+            ;;Crear entidad
+            push hl
+            ld__hl_iy
+            call man_game_entity_creator
+            pop hl
+
+            ld  a, (hl)
+            xor #0xFF
+            jr nz, load_entities_loop
+
+            inc hl
 
 ret
 
