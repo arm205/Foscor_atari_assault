@@ -25,4 +25,4 @@ _level_2::
     .db     10,10                        ;;Salida
     .db     50,100                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas
-    .db     15                          ;;Tamanyo nivel
+    .db     13                          ;;Tamanyo nivel
