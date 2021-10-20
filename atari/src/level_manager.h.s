@@ -6,7 +6,7 @@
 
 
 _level_1::
-    .dw     #_tilemap                   ;;TileMap
+    .dw     #_level_01                   ;;TileMap
     .db     20,160                      ;;Posicion Player
     .db     42,42                       ;;Pos enemigo
     .db     60,42                       ;;Pos enemigo
@@ -17,7 +17,7 @@ _level_1::
     .db     15                          ;;Tamanyo nivel
 
 _level_2::
-    .dw     #_tilemap                   ;;TileMap
+    .dw     #_level_02                   ;;TileMap
     .db     20,160                      ;;Posicion Player
     .db     42,42                       ;;Pos enemigo
     ;;.db     60,42                       ;;Pos enemigo
