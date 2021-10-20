@@ -407,7 +407,19 @@ ret
 ;;MODIFICA
 ;;  HL: Direccion del enemigo
 E_M_getEnemy::
+    ld  hl, #enemy
+ret
+
+;;MODIFICA
+;;  HL: Direccion del enemigo 2
+E_M_getEnemy2::
     ld  hl, #enemy2
+ret
+
+;;MODIFICA
+;;  HL: Direccion del enemigo 3
+E_M_getEnemy3::
+    ld  hl, #enemy3
 ret
 
 ;;MODIFICA
