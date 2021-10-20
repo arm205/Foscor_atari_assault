@@ -8,32 +8,29 @@
 .include "collider.h.s"
 
 
-enemy: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 10, 4, 16, 1, 0, 0, 0, 0xFF, 1
+enemy:: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 10, 4, 16, 1, 0, 0, 0, 0xFF, 1
 .dw #_h_array
 .db 0xCC, 0xCC, t_player | t_caja
 
-enemy2: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 42, 4, 16, 0, 0, 0, 0, 0xFF, 0
+enemy2:: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 42, 4, 16, 0, 0, 0, 0, 0xFF, 0
 .dw #_h_array
 .db 0xCC, 0xCC, t_player | t_caja
 
-enemy3: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 42, 4, 16, 0, 2, 0, 0, 0xFF, 2
+enemy3:: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 42, 4, 16, 0, 2, 0, 0, 0xFF, 2
 .dw #_h_array
 .db 0xCC, 0xCC, t_player | t_caja
 
-player: .db t_player, cmp_collider | cmp_render | cmp_input, 4, 160, 4, 16, -1, 0, 0, 0, 0x0F, 0
+player:: .db t_player, cmp_collider | cmp_render | cmp_input, 4, 160, 4, 16, -1, 0, 0, 0, 0x0F, 0
 .dw #_g_array_0
 .db 0xCC, 0xCC, t_enemy | t_caja | t_salida
 
 
-caja: .db t_caja, cmp_collider | cmp_render, 32, 104, 4, 16, 0, 0, 0, 0, 0xF0, 0
+caja:: .db t_caja, cmp_collider | cmp_render, 32, 104, 4, 16, 0, 0, 0, 0, 0xF0, 0
 .dw #_spriteCaja
 .db 0xCC, 0xCC, 0xCC, t_player
 
 
-salida: .db t_salida, cmp_collider, 12, 0, 8, 10, 0, 0, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0xCC, 0xCC, t_player
-
-salida:: .db t_salida, cmp_collider | cmp_render, 0, 0, 2, 8, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0xCC, 0xCC, t_player
-
+salida:: .db t_salida, cmp_collider, 12, 0, 8, 10, 0, 0, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0xCC, 0xCC, t_player
 
 final_text: .asciz "GAME OVER"
 win_text: .asciz "YOU WIN!!!"
