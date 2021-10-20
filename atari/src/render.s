@@ -3,7 +3,7 @@
 ;;
 .include "render.h.s"
 .include "entity.h.s"
-.include "assets/tiles/tilemap_02.h.s"
+.include "assets/tiles/level_01.h.s"
 
 ;; instrucciones utiles
 .globl cpct_disableFirmware_asm
@@ -78,9 +78,9 @@ _render_sys_init::
     ;;call setCTCR
 
     ;;SET THE TILEMAP
-    ld c, #_tilemap_W
-    ld b, #_tilemap_H
-    ld de, #_tilemap_W
+    ld c, #_level_01_W
+    ld b, #_level_01_H
+    ld de, #_level_01_W
     ld hl, #_tiles_00
     call cpct_etm_setDrawTilemap4x8_ag_asm
 ret
