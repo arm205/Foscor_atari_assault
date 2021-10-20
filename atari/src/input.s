@@ -47,6 +47,12 @@ key_actions:
     .dw Key_Q, move_up
     .dw Key_A, move_down
     .dw Key_Space, eat
+
+    .dw Joy0_Left, move_left
+    .dw Joy0_Right, move_right
+    .dw Joy0_Up, move_up
+    .dw Joy0_Down, move_down
+    .dw Joy0_Fire1, eat
     .dw 0
 
 

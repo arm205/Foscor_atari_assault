@@ -76,13 +76,9 @@ ret
 ;;  IX: Direccion de la entidad a eliminar
 E_M_prepateToDelete::
 
-    ld  e_c(ix), #0x0
-    ld__hl_ix
-    ld a, #e_c
-    add_hl_a
-
+    ld hl, #_spriteNegro
     ld e_spr(ix), l
-    ld e_spr+1(ix), l
+    ld e_spr+1(ix), h
 
     ld__hl_ix
 
