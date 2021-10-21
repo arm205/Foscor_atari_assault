@@ -69,6 +69,8 @@ L_M_loadLevel::
         call L_M_loadMultiplesEntities
     
     continuar1:
+
+        inc hl
         
     ;;-------------------------------------------------------
     ;;ENEMIGOS 2
@@ -84,6 +86,8 @@ L_M_loadLevel::
         call L_M_loadMultiplesEntities
     
     continuar2:
+
+        inc hl
         
     ;;-------------------------------------------------------
     ;;ENEMIGOS 3
@@ -97,9 +101,9 @@ L_M_loadLevel::
         jr z, continuar3
 
         call L_M_loadMultiplesEntities
-    
+
     continuar3:
-            
+         inc hl   
     ;;-------------------------------------------------------
     ;;SALIDA
         push hl
@@ -136,6 +140,8 @@ L_M_loadLevel::
     
     continuar4:
 
+        inc hl
+
     ;;-------------------------------------------------------
     ;;LEVEL SIZE
         ld  a, (hl)
@@ -163,8 +169,6 @@ L_M_loadMultiplesEntities::
             ld  a, (hl)
             xor #0xFF
             jr nz, load_entities_loop
-
-            inc hl
 
 ret
 
