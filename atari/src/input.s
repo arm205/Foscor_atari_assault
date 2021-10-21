@@ -3,6 +3,7 @@
 .include "cpctelera.h.s"
 .include "game.h.s"
 
+hungry: .db 0
 
 input_init::
 ret
@@ -41,6 +42,8 @@ eat:
 ret
 
 
+
+
 key_actions:
     .dw Key_O, move_left
     .dw Key_P, move_right
@@ -62,7 +65,36 @@ input_update::
     call E_M_for_all_matching
 ret
 
+
 input_update_one::
+    call check_keyboard_input
+    ld a, (hungry)
+    cp #1
+    jr z, saciado
+        ld a, e_be(ix)
+        cp #1
+        jr z, cambio_hungry
+            ret
+        cambio_hungry:
+        ld (hungry), a
+        ret
+
+
+    saciado:
+        ld a, e_be(ix)
+        cp #1
+        jr z, no_eat
+            xor a
+            ld (hungry), a
+            ret
+
+
+        no_eat:
+        ld e_be(ix), #0
+ret
+
+
+check_keyboard_input:
     ld e_vx(ix), #0
     ld e_vy(ix), #0
     ld e_be(ix), #0
@@ -72,6 +104,7 @@ input_update_one::
     ld iy, #key_actions-4
 
 loop_keys:
+
     ld bc, #4
     add iy, bc
 

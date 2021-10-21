@@ -339,6 +339,11 @@ check_tile:
     ;; IZQUIERDA 
     cp #8
     jr nz, nada   
+        ;; ESTOY A MITAD DE TILE??
+        call check_half_tile
+        or #0
+        ret z
+
         dec hl
         call check_type_tile
         ld b, a
@@ -346,19 +351,48 @@ check_tile:
         add_hl_a
         call check_type_tile
         or b
-        ret z
-            ;; Collision detected
-            ld e_vx(ix), #0
-            ld a, e_t(ix)
-            xor #t_enemy
-                jr nz, no_en_2
-                ld a, #8
-                call ia_colides_tilemap
 
-            no_en_2:  
-            ret
+        ret z
+                ;; Collision detected
+                ld e_vx(ix), #0
+                ld a, e_t(ix)
+                xor #t_enemy
+                    jr nz, no_en_2
+                    ld a, #8
+                    call ia_colides_tilemap
+
+                no_en_2:  
+                ret
     nada:
     ret
+
+
+
+
+
+check_half_tile:
+    ld a, e_x(ix)
+    ld b, #4
+
+contando_multiplos:
+
+    sub b
+
+    jr z, multiplo
+
+    jr c, moverse_mismo_tile
+
+
+    jr contando_multiplos
+
+multiplo:
+    ld a, #1
+ret
+
+moverse_mismo_tile:
+    ld a, #0
+ret
+
 
 
 ;Input: HL, pointer to de type to check to collide
@@ -438,6 +472,7 @@ ret
 
 
 
+
 collider_check_type_iy::
 
     ld a, e_t(iy)
@@ -475,7 +510,8 @@ collider_check_type_iy::
         ;;ld e_cmp(ix), a
         ;;ld e_be(iy), a
 
-        call E_M_prepateToDelete
+
+        call check_caja_stage
         
         ret
 
@@ -513,6 +549,59 @@ no_player:
     no_en_caja:
 no_enemy:   
 pair_not_col:
+
+ret
+
+
+
+; Input: IX: caja
+
+check_caja_stage:
+    ld a, e_be(ix)
+    dec a
+    jr z, eliminar_caja
+
+    cp #1
+    jr nz, no_caja_amarilla
+
+    ;CAJA 1 TOQUE: VERDE
+        ld e_be(ix), a
+        ld hl, #_spriteCaja_0
+        ld e_spr(ix), l
+        ld e_spr+1(ix), h
+
+
+    no_caja_amarilla:
+
+    cp #2
+    jr nz, no_caja_roja
+
+    ;CAJA 2 TOQUE: AMARILLA
+        ld e_be(ix), a
+        ld hl, #_spriteCaja_1
+        ld e_spr(ix), l
+        ld e_spr+1(ix), h
+
+
+
+    no_caja_roja:
+
+    cp #3
+    jr nz, no_caja_azul
+
+    ;CAJA 2 TOQUE: ROJA
+        ld e_be(ix), a
+        ld hl, #_spriteCaja_2
+        ld e_spr(ix), l
+        ld e_spr+1(ix), h
+
+
+    no_caja_azul:
+    ret
+    
+
+eliminar_caja:
+    call E_M_prepateToDelete
 
 ret
 
@@ -582,187 +671,3 @@ colision_con_caja::
 
 
 ret
-
-;colision_con_caja::
-;
-;        for_x:
-;            ld a, e_vx(iy)
-;            or #0
-;            jr z, cero_x
-;
-;            ld a, (x_ban)
-;            and a
-;            jr z, new_x_ban
-;                ld b, a
-;                ld a, e_vx(iy)
-;                xor b
-;                jr z, cero_x
-;                move_x:
-;                
-;                    ld a, #0
-;                    ld (x_ban), a
-;                    jr for_y
-;                    
-;
-;            new_x_ban:
-;                ld a, e_vx(iy)
-;                ld (x_ban), a
-;
-;
-;
-;            cero_x:
-;                ld a, #0
-;                ld e_vx(iy), a
-;        for_y:
-;
-;            ld a, e_vy(iy)
-;            or #0
-;            jr z, cero_y
-;
-;            ld a, (y_ban)
-;            and a
-;            jr z, new_y_ban
-;                ld b, a
-;                ld a, e_vy(iy)
-;                xor b
-;                jr z, cero_y
-;                move_y:
-;                    ld a, #0
-;                    ld (y_ban), a
-;                    ret
-;
-;            new_y_ban:
-;                ld a, e_vy(iy)
-;                ld (y_ban), a
-;
-;            cero_y:
-;                ld a, #0
-;                ld e_vy(iy), a
-;                ret
-;
-;
-;
-
-;collider_check_type_ix::
-;
-;    ;;VERIFICAR SI IX ES EL JUGADOR     
-;    ld b, e_t(ix)
-;    ld a, (t_player)
-;    xor b
-;
-;    ;;CASO: IX NO ES EL JUGADOR
-;    jr nz, no_player_2
-;
-;        ;;VERIFICAR SI HAY COLISION CON IY
-;        ld a, e_col(ix)
-;        and e_t(iy)
-;        ret z
-;        
-;        ;;VERIFIFICAR SI IX COLISIONA CON UN ENEMIGO O UNA CAJA
-;        ld b, e_t(iy)
-;        ld a, (t_enemy)
-;        xor b
-;
-;        ;;CASO: IX COLISIONA CON UNA CAJA
-;        jr nz, pl_caja_2
-;
-;        ;;CASO: IX COLISIONA CON UN ENEMIGO
-;        pl_en_2:
-;            ;;Aqui tendriamos que matar al jugador
-;            ld a, #0x00 
-;            ld e_c(ix), a
-;            call man_game_end
-;            ret
-;
-;
-;
-;        pl_caja_2:
-;            ;;VERIFICAR SI LA CAJA TIENE EL BEHAVIOUR
-;            ld a, e_be(ix)
-;            xor #1
-;
-;            ;;CASO: LA CAJA NO ES ROMPIBLE
-;            jr nz, for_x_2
-;
-;            ;;CASO: LA CAJA ES ROMPIBLE
-;            ld a, #0
-;            ld e_c(iy), a
-;            ld e_cmp(iy), a
-;            ld e_be(ix), a
-;        ret
-;
-;
-;; No tiene el behavior asi que colisiona
-;        for_x_2:
-;            ld a, e_vx(ix)
-;            or #0
-;            jr z, cero_x_2
-;
-;            ld a, (x_ban_2)
-;            and a
-;            jr z, new_x_ban_2
-;                ld b, a
-;                ld a, e_vx(ix)
-;                xor b
-;                jr z, cero_x_2
-;                move_x_2:
-;                
-;                    ld a, #0
-;                    ld (x_ban_2), a
-;                    jr for_y_2
-;                    
-;
-;            new_x_ban_2:
-;                ld a, e_vx(ix)
-;                ld (x_ban_2), a
-;
-;
-;
-;            cero_x_2:
-;                ld a, #0
-;                ld e_vx(ix), a
-;        for_y_2:
-;
-;            ld a, e_vy(ix)
-;            or #0
-;            jr z, cero_y_2
-;
-;            ld a, (y_ban_2)
-;            and a
-;            jr z, new_y_ban_2
-;                ld b, a
-;                ld a, e_vy(ix)
-;                xor b
-;                jr z, cero_y_2
-;                move_y_2:
-;                    ld a, #0
-;                    ld (y_ban_2), a
-;                    ret
-;
-;            new_y_ban_2:
-;                ld a, e_vy(ix)
-;                ld (y_ban_2), a
-;
-;            cero_y_2:
-;                ld a, #0
-;                ld e_vy(ix), a
-;                ret
-;
-;
-;no_player_2:  
-;;   DEJO ESTO POR SI EN UN FUTURO TENEMOS OTRAS ENTIDADES QUE COLISIONEN  
-;;    ld a, e_t(iy)
-;;    ld b, a
-;;    ld a, (t_enemy)
-;;    xor b
-;;    jr nz, no_enemy
-;
-;;no_enemy:   
-;pair_not_col_2:
-;
-;ret
-;
-;
-;
-;
-;
