@@ -370,6 +370,9 @@ E_M_for_all_pairs_matching::
 
                 cumple2_pairs:  
                     call collider_one_pair
+                    ld  a, (_level_reseted)
+                    xor #0x0
+                    ret nz
 
                 continua2_pairs:
                     _ent_counter_2 = .+1

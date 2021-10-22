@@ -62,6 +62,9 @@ man_game_entity_creator::
 ret
 man_game_update::
      
+    ld  a, #0x0
+    ld  (_level_reseted), a
+
     ;;cpctm_setBorder_asm HW_YELLOW
     call E_M_getEntityArray
     call input_update
@@ -75,6 +78,10 @@ man_game_update::
     call collider_update
 
     ;;cpctm_setBorder_asm HW_PINK
+    ld  a, (_level_reseted)
+    xor #0x0
+    ret nz
+
     call E_M_getEntityArray
     call physics_sys_update
    ret

@@ -18,6 +18,10 @@ loop:
 ;   call esperar
    call man_game_update
    
+   ld    a, (_level_reseted)
+   xor   #0x0
+   jr    nz, loop
+
    call cpct_waitVSYNC_asm
    call man_game_render
    jr    loop
