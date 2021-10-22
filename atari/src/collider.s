@@ -15,6 +15,11 @@ collider_update::
     call E_M_for_all_pairs_matching
     pop ix
     pop de
+
+    ld  a, (_level_reseted)
+    xor #0x0
+    ret nz
+    
     ld a, #cmp_collider
     call E_M_for_all_matching
 

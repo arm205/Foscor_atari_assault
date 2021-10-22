@@ -1,17 +1,14 @@
 .include "cpctelera.h.s"
 
-_current_level_counter::    .db #0x0
 _current_level::            .dw #_level_1
 _current_tilemap::          .dw #0x0
 _current_level_size::       .dw 0
 
+_level_reseted::             .db 0
+
 _puntero::                 .dw 0
 
 L_M_init::
-
-    ;;Contador de niveles
-    ld  a, #0x01
-    ld  (_current_level_counter), a
 
     ;;Cargar primer nivel
     call    L_M_loadLevel
@@ -52,7 +49,7 @@ L_M_loadLevel::
         ;;Crear player
         push hl
         ld__hl_iy
-        call man_game_entity_creator
+        call E_M_create
         pop hl
     
     ;;-------------------------------------------------------
@@ -62,27 +59,15 @@ L_M_loadLevel::
         ld__iy_hl
         pop hl
 
-        enemy_loop:
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar1
 
-            ;;Set posicion del enemigo
-            ld  a, (hl)
-            ld  e_x(iy), a
-            inc hl
-            ld  a, (hl)
-            ld  e_y(iy), a
-            inc hl
+        call L_M_loadMultiplesEntities
+    
+    continuar1:
 
-            ;;Crear enemigo
-            push hl
-            ld__hl_iy
-            call man_game_entity_creator
-            pop hl
-
-            ld  a, (hl)
-            xor #0xFF
-            jr nz, enemy_loop
-
-            inc hl
+        inc hl
         
     ;;-------------------------------------------------------
     ;;ENEMIGOS 2
@@ -91,27 +76,15 @@ L_M_loadLevel::
         ld__iy_hl
         pop hl
 
-        enemy_loop2:
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar2
 
-            ;;Set posicion del enemigo
-            ld  a, (hl)
-            ld  e_x(iy), a
-            inc hl
-            ld  a, (hl)
-            ld  e_y(iy), a
-            inc hl
+        call L_M_loadMultiplesEntities
+    
+    continuar2:
 
-            ;;Crear enemigo
-            push hl
-            ld__hl_iy
-            call man_game_entity_creator
-            pop hl
-
-            ld  a, (hl)
-            xor #0xFF
-            jr nz, enemy_loop2
-
-            inc hl
+        inc hl
         
     ;;-------------------------------------------------------
     ;;ENEMIGOS 3
@@ -120,28 +93,14 @@ L_M_loadLevel::
         ld__iy_hl
         pop hl
 
-        enemy_loop3:
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar3
 
-            ;;Set posicion del enemigo
-            ld  a, (hl)
-            ld  e_x(iy), a
-            inc hl
-            ld  a, (hl)
-            ld  e_y(iy), a
-            inc hl
+        call L_M_loadMultiplesEntities
 
-            ;;Crear enemigo
-            push hl
-            ld__hl_iy
-            call man_game_entity_creator
-            pop hl
-
-            ld  a, (hl)
-            xor #0xFF
-            jr nz, enemy_loop3
-
-            inc hl
-            
+    continuar3:
+         inc hl   
     ;;-------------------------------------------------------
     ;;SALIDA
         push hl
@@ -170,9 +129,28 @@ L_M_loadLevel::
         ld__iy_hl
         pop hl
 
-        caja_loop:
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar4
 
-            ;;Set posicion de la caja
+        call L_M_loadMultiplesEntities
+    
+    continuar4:
+
+        inc hl
+
+    ;;-------------------------------------------------------
+    ;;LEVEL SIZE
+        ld  a, (hl)
+        ld  (_current_level_size), a
+
+ret
+
+L_M_loadMultiplesEntities::
+
+        load_entities_loop:
+
+            ;;Set posicion
             ld  a, (hl)
             ld  e_x(iy), a
             inc hl
@@ -180,7 +158,7 @@ L_M_loadLevel::
             ld  e_y(iy), a
             inc hl
 
-            ;;Crear caja
+            ;;Crear entidad
             push hl
             ld__hl_iy
             call man_game_entity_creator
@@ -188,25 +166,15 @@ L_M_loadLevel::
 
             ld  a, (hl)
             xor #0xFF
-            jr nz, caja_loop
-
-            inc hl
-
-    ;;-------------------------------------------------------
-    ;;LEVEL SIZE
-        ld  a, (hl)
-        ld  (_current_level_size), a
-
-
-ret
-
-L_M_changeLevel::
-
+            jr nz, load_entities_loop
 
 ret
 
 
 L_M_resetCurrentLevel::
+
+ld  a, #0x01
+ld  (_level_reseted), a
 
 cpctm_clearScreen_asm #0
 call E_M_destroyAllEntities
@@ -219,17 +187,20 @@ ret
 
 L_M_levelPassed::
 
-;;Mostrar pantalla de video superado
+ld  a, #0x01
+ld  (_level_reseted), a
 
 cpctm_clearScreen_asm #0
 ld  hl, (_current_level)
 ld  bc, (_current_level_size)
 add hl, bc
 ld  (_current_level), hl
+
 call E_M_destroyAllEntities
 call L_M_loadLevel
 
 
 call _render_sys_drawTileMap
+
 
 ret
