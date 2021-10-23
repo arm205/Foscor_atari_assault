@@ -18,7 +18,10 @@
 .globl E_M_getPlayer
 .globl E_M_getEnemy
 .globl E_M_getSalida
-.globl E_M_getCaja
+.globl E_M_getCajaVerde
+.globl E_M_getCajaAmarilla
+.globl E_M_getCajaRoja
+.globl E_M_getCajaAzul
 
 
 ; ENTITY DEFINITION MACRO
@@ -35,6 +38,8 @@
     .db _b;     byte that we use for setting a special behavior to an entity (asi podemos tener dos cosas del mismo tipo que se comporten distinto)
     .dw _spr;   2Bytes for Sprite loading.
     .dw 0xCCCC; last video memory value to delate later
+    .dw 0x0 ; pointer to current animation
+    .db 0x0 ; Counter to change animation 
 .endm
 
 
@@ -62,8 +67,10 @@ e_be = 11
 e_spr = 12
 e_lastVP_l = 14
 e_lastVP_h = 15
-e_col = 16
-sizeof_e = 17
+e_animptr = 16
+e_animcont = 18
+e_col = 19
+sizeof_e = 20
 
 
 .macro DefineEntityArray _name, _N
@@ -85,6 +92,8 @@ cmp_ia = 0x02
 cmp_input = 0x04
 ;;  entidades con colisiones
 cmp_collider = 0x08
+;;  entidades con animaciones
+cmp_animation = 0x10
 
 
 ;; Tipos de las entidades
@@ -99,6 +108,8 @@ t_caja = 0x04
 t_salida = 0x08
 
 t_dead = 0x80
+
+animation_speed = 0x3
 
 
 

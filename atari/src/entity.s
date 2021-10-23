@@ -10,7 +10,7 @@
 .include "render.h.s"
 .include "collider.h.s"
 
-max_entities == 7
+max_entities == 12
 
 _num_entities:: .db 0
 _last_elem_ptr:: .dw _entity_array
@@ -201,6 +201,11 @@ buscando_idx:
 
 
 
+
+
+
+
+
 ;
 ;Input: A; type that we are looking for, D; num entity
 ;Desc: Buscamos todas las entidades validas cuyo tipo tenga el componente del signature(D en la amyoria del codigo) y se devuelve al sistema que lo ha llamado
@@ -216,22 +221,19 @@ _renloop:
     ld (_ent_counter), a
 
     ld a, e_t(ix)
-    ld e, #t_default
-    or e
+    or #t_default
     jr z, invalid_entity
 
     ;; erase previous istance
 ; para mover todo lo que tenga a 1 el bit de ia
     ld a, e_cmp(ix)
     and d
-    jr nz, cumple
-    jr continua
+    jr z, continua
     cumple:    
     pinta_cosas:
         ld a, #cmp_render
         xor d
-        jr z, render
-        jr ia
+        jr nz, ia
             render:
             push de
     ;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
@@ -242,8 +244,7 @@ _renloop:
         ia:
         ld a, #cmp_ia
         xor d
-        jr z, con_ia
-        jr input
+        jr nz, input
         con_ia:
             call ia_update_one_entity
             jr continua
@@ -251,8 +252,7 @@ _renloop:
         input:
             ld a, #cmp_input
             xor d
-            jr z, control
-            jr colisiona
+            jr nz, colisiona
                 control:
                 push de
 ;; Con esto modifico la velocidad del player dependiendo de la tecla pulsada
@@ -263,12 +263,11 @@ _renloop:
         colisiona:
             ld a, #cmp_collider
             xor d
-            jr z, colision
-            jr mover_cosas
+            jr nz, mover_cosas
                 colision:
                 push de
                 
-;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
+;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de colisionable
                 call collider_tilemap
                 pop de
                 jr continua
@@ -276,12 +275,22 @@ _renloop:
         mover_cosas:
             ld a, #cmp_input+#cmp_ia
             xor d
-            jr z, fisica
-            jr continua
+            jr nz, animar_cosas
                 fisica:
                 push de
-;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
+;; Llamo a que modifiquen la posicion todos los elementos que se muevan (ia o input)
                 call physics_sys_for_one
+                pop de
+                jr continua
+
+        animar_cosas:
+            ld a, #cmp_animation
+            xor d
+            jr nz, continua
+                animacion:
+                push de
+;; Llamo a que modifiquen la posicion todos los elementos que se muevan (ia o input)
+                call animation_update_one
                 pop de
                 jr continua
             
@@ -302,6 +311,7 @@ _ent_counter = .+1
     ld bc, #sizeof_e
     add ix, bc
     jr _renloop
+
 
 
 ;;INPUT
@@ -433,8 +443,26 @@ ret
 
 ;;MODIFICA
 ;;  HL: Direccion de la salida
-E_M_getCaja::
-    ld  hl, #caja
+E_M_getCajaVerde::
+    ld  hl, #caja_verde
+ret
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getCajaAmarilla::
+    ld  hl, #caja_amarilla
+ret
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getCajaRoja::
+    ld  hl, #caja_roja
+ret
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getCajaAzul::
+    ld  hl, #caja_azul
 ret
 
 E_M_destroyAllEntities::

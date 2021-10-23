@@ -10,31 +10,19 @@ ret
 
 move_left:
     ld e_vx(ix), #-2
-    ld hl, #_g_array_6
-    ld e_spr(ix), l
-    ld e_spr+1(ix), h
 ret
 
 move_right:
     ld e_vx(ix), #2
-    ld hl, #_g_array_4
-    ld e_spr(ix), l
-    ld e_spr+1(ix), h
 ret
 
 
 move_up:
     ld e_vy(ix), #-8
-    ld hl, #_g_array_0
-    ld e_spr(ix), l
-    ld e_spr+1(ix), h
 ret
 
 move_down:
     ld e_vy(ix), #8
-    ld hl, #_g_array_2
-    ld e_spr(ix), l
-    ld e_spr+1(ix), h
 ret
 
 eat:
