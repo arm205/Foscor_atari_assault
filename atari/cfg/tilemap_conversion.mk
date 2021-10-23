@@ -42,7 +42,11 @@ $(eval $(call TMX2DATA, SET_OUTPUTS, hs s))
 $(eval $(call TMX2DATA, SET_FOLDER, src/assets/tiles))
 $(eval $(call TMX2DATA, CONVERT, img/tilemap/level_01.tmx, level_01 ))  
 $(eval $(call TMX2DATA, CONVERT, img/tilemap/level_02.tmx, level_02 )) 
-$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_03.tmx, level_03 )) 
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_03.tmx, level_03 ))
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_04.tmx, level_04 )) 
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_05.tmx, level_05 )) 
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_06.tmx, level_06 )) 
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_07.tmx, level_07 ))  
 
 
 ##
