@@ -123,9 +123,9 @@ L_M_loadLevel::
         pop hl
 
     ;;-------------------------------------------------------
-    ;;CAJAS
+    ;;CAJAS VERDES
         push hl
-        call E_M_getCaja
+        call E_M_getCajaVerde
         ld__iy_hl
         pop hl
 
@@ -136,6 +136,57 @@ L_M_loadLevel::
         call L_M_loadMultiplesEntities
     
     continuar4:
+
+        inc hl
+
+    ;;-------------------------------------------------------
+    ;;CAJAS AMARILLAS
+        push hl
+        call E_M_getCajaAmarilla
+        ld__iy_hl
+        pop hl
+
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar5
+
+        call L_M_loadMultiplesEntities
+    
+    continuar5:
+
+        inc hl
+
+    ;;-------------------------------------------------------
+    ;;CAJAS ROJAS
+        push hl
+        call E_M_getCajaRoja
+        ld__iy_hl
+        pop hl
+
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar6
+
+        call L_M_loadMultiplesEntities
+    
+    continuar6:
+
+        inc hl
+
+    ;;-------------------------------------------------------
+    ;;CAJAS AZULES
+        push hl
+        call E_M_getCajaAzul
+        ld__iy_hl
+        pop hl
+
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar7
+
+        call L_M_loadMultiplesEntities
+    
+    continuar7:
 
         inc hl
 
