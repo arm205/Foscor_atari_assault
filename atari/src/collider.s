@@ -3,7 +3,6 @@
 .include "collider.h.s"
 .include "game.h.s"
 .include "ia.h.s"
-.include "assets/tiles/level_01.h.s"
 
 
 
