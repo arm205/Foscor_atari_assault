@@ -19,9 +19,11 @@ _level_1::
     .db     38,0                       ;;Posicion Player
 ;    .db     42,42                       ;;Pos enemigo
     .db     78,136                       ;;Pos enemigo
+;    .db     38,160                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
     .db     1,1                       ;;Pos enemigo2
     .db     #0xFF                       ;;FIN enemigos2
+
     .db     #0xFF                       ;;FIN enemigos3
     .db     36,180                     ;;Salida
     .db     20,32                      ;;Pos caja
