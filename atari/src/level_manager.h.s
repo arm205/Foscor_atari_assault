@@ -3,8 +3,6 @@
 .globl L_M_resetCurrentLevel
 .globl L_M_levelPassed
 .globl L_M_loadMultiplesEntities
-
-
 ;
 ;IMPORTANTE: CONSIDERACIONES A LA HORA DE PONER COSAS EN EL MAPA
 ; - TODOS LAS ENTIDADES TIENEN QUE ESTAR EN UN RANGO DE 0-80 EN X, 0-200 EN Y
@@ -15,7 +13,6 @@
 
 
 _level_1::
-    .dw     #_level_01                  ;;TileMap
     .db     38,0                       ;;Posicion Player
 ;    .db     42,42                       ;;Pos enemigo
     .db     78,136                       ;;Pos enemigo
@@ -30,10 +27,9 @@ _level_1::
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
     .db     #0xFF                       ;;FIN cajas azules
-    .db     22                          ;;Tamanyo nivel
+    ;;.db     22                          ;;Tamanyo nivel
 
 _level_2::
-    .dw     #_level_02                  ;;TileMap
     .db     38,0                       ;;Posicion Player
 ;    .db     42,42                       ;;Pos enemigo
     .db     78,136                       ;;Pos enemigo
@@ -48,10 +44,9 @@ _level_2::
     .db     #0xFF                       ;;FIN cajas rojas
     .db     16,32                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
-    .db     22                          ;;Tamanyo nivel
+    ;;.db     22                          ;;Tamanyo nivel
 
 _level_3::
-    .dw     #_level_03                  ;;TileMap
     .db     38,0                       ;;Posicion Player
 ;    .db     42,42                       ;;Pos enemigo
     .db     78,136                       ;;Pos enemigo
@@ -68,4 +63,4 @@ _level_3::
     .db     #0xFF                       ;;FIN cajas rojas
     .db     16,32                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
-    .db     22                          ;;Tamanyo nivel
+    ;;.db     22                          ;;Tamanyo nivel
