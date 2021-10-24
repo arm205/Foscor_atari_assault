@@ -60,6 +60,11 @@ endif_x:
         ld  e_vy(ix), a
 endif_y:
 
+
+; comprobamos que haya alguna velocidad que no sea 0 antes de guardarlas
+    ld a, e_vx(ix)
+    or e_vy(ix)
+    ret z
     ld a, e_vx(ix)
     ld e_vx_prev(ix), a
     ld a, e_vy(ix)
