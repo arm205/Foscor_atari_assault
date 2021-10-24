@@ -61,6 +61,8 @@ man_game_init::
     call    physics_sys_init
     ;;Inicializar Input System
     call    input_init
+    ;;Inicializar Animation System
+    call    animation_init
     
     
     ;;Render Tile Map

@@ -3,5 +3,7 @@
 .globl player_moving_right
 .globl player_moving_left
 
+.globl animation_init
 .globl animation_update
 .globl animation_update_one
+
