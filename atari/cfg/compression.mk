@@ -38,8 +38,26 @@
 #$(eval $(call ADD2PACK,mygraphics,gfx/background.bin))
 #$(eval $(call PACKZX7B,mygraphics,src/))
 
+$(eval $(call ADD2PACK,level_01_pack,src/assets/tiles/level_01.bin))
+$(eval $(call PACKZX7B,level_01_pack,src/assets/tiles/compressed_tiles/))
 
+$(eval $(call ADD2PACK,level_02_pack,src/assets/tiles/level_02.bin))
+$(eval $(call PACKZX7B,level_02_pack,src/assets/tiles/compressed_tiles/))
 
+$(eval $(call ADD2PACK,level_03_pack,src/assets/tiles/level_03.bin))
+$(eval $(call PACKZX7B,level_03_pack,src/assets/tiles/compressed_tiles/))
+
+$(eval $(call ADD2PACK,level_04_pack,src/assets/tiles/level_04.bin))
+$(eval $(call PACKZX7B,level_04_pack,src/assets/tiles/compressed_tiles/))
+
+$(eval $(call ADD2PACK,level_05_pack,src/assets/tiles/level_05.bin))
+$(eval $(call PACKZX7B,level_05_pack,src/assets/tiles/compressed_tiles/))
+
+$(eval $(call ADD2PACK,level_06_pack,src/assets/tiles/level_06.bin))
+$(eval $(call PACKZX7B,level_06_pack,src/assets/tiles/compressed_tiles/))
+
+$(eval $(call ADD2PACK,level_07_pack,src/assets/tiles/level_07.bin))
+$(eval $(call PACKZX7B,level_07_pack,src/assets/tiles/compressed_tiles/))
 
 ############################################################################
 ##              DETAILED INSTRUCTIONS AND PARAMETERS                      ##
