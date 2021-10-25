@@ -12,10 +12,6 @@
 
 _main::
    call cpct_disableFirmware_asm
-
-   ld hl, #Key_Enter
-   call wait_keyPressed
-
    call man_game_init
 
 loop:

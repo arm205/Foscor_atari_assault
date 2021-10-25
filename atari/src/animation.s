@@ -5,13 +5,6 @@ still_eating:: .db 0
 vengo_de_comer:: .db 0
 
 
-
-ant_moving::
-.dw  _h_array_0
-.dw  _h_array_1
-.dw 0x0
-.dw ant_moving
-
 player_moving_up::
 .dw  _g_array_00
 .dw  _g_array_01
@@ -117,7 +110,6 @@ animation_update_one::
     ret
 ;
     no_player:
-
 ;
     ld a, e_vx(ix)
     or #0
@@ -140,8 +132,6 @@ animation_update_one::
     xor e_vy_prev(ix)
     jr nz, distinta_direccion
 
-
-
     ld a, (vengo_de_comer)
     or #0
     jr nz, distinta_direccion
@@ -151,15 +141,8 @@ animation_update_one::
         ret
 
     distinta_direccion:
-
-    ld a, e_t(ix)
-    xor #t_player
-    jr nz, no_reset_vengo_comer
-
     xor a
     ld (vengo_de_comer), a
-
-    no_reset_vengo_comer:
     call check_new_direction
 
 ret
@@ -190,19 +173,8 @@ ret
 
 check_new_direction:
 
-    ld a, e_t(ix)
-    xor #t_player
-    jr z, cargar_moves_player
-; Lo que no sea player
-
-
-    ld hl, #ant_moving
-    call cargar_sprite_pack
-    ret
-
-
-
-cargar_moves_player:
+;;  DE MOMENTO ESTA PARA EL PLAYER SOLO     
+;;
 ;; EJE X
 
     ld a, e_vx(ix)
@@ -213,13 +185,30 @@ cargar_moves_player:
 
     derecha:
 
+;    ld a, e_be(ix)
+;    or #0
+;    jr z, solo_derecha
+;
+;    call check_new_direction_eating
+;    ret
+;
+;
+;    solo_derecha:
     ld hl, #player_moving_right
     call cargar_sprite_pack
 
     ret
 
     izquierda:
-    
+;    ld a, e_be(ix)
+;    or #0
+;    jr z, solo_izquieda
+;
+;    call check_new_direction_eating
+;    ret
+;
+;
+;    solo_izquieda:
     ld hl, #player_moving_left
     call cargar_sprite_pack
 
@@ -236,6 +225,15 @@ cargar_moves_player:
 
 
     abajo:
+;    ld a, e_be(ix)
+;    or #0
+;    jr z, solo_abajo
+;
+;    call check_new_direction_eating
+;    ret
+;
+;
+;    solo_abajo:
 
     ld hl, #player_moving_down
     call cargar_sprite_pack
@@ -243,6 +241,15 @@ cargar_moves_player:
     ret
 
     arriba:
+;    ld a, e_be(ix)
+;    or #0
+;    jr z, solo_arriba
+;
+;    call check_new_direction_eating
+;    ret
+;
+;
+;    solo_arriba:
 ;
     ld hl, #player_moving_up
     call cargar_sprite_pack
@@ -250,6 +257,7 @@ cargar_moves_player:
 
     todo_cero:
 
+;    call check_new_direction_eating
 
 ret
 
