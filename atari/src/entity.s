@@ -237,6 +237,10 @@ _renloop:
             render:
             push de
     ;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
+            ;;ld e_lastVP_l(ix), #0x00
+            ;;ld e_lastVP_h(ix), #0xC0
+            ;;ld e_lastVP_l2(ix), #0x00
+            ;;ld e_lastVP_h2(ix), #0x80
             call _render_Entity
             pop de
         jr continua
