@@ -38,7 +38,7 @@
 # Conversion 
 #$(eval $(call TMX2DATA, CONVERT, tmxfile, array )) 
 
-$(eval $(call TMX2DATA, SET_OUTPUTS, bin))
+$(eval $(call TMX2DATA, SET_OUTPUTS, hs s))
 $(eval $(call TMX2DATA, SET_FOLDER, src/assets/tiles))
 $(eval $(call TMX2DATA, CONVERT, img/tilemap/level_01.tmx, level_01 ))  
 $(eval $(call TMX2DATA, CONVERT, img/tilemap/level_02.tmx, level_02 )) 

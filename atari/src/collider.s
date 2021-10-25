@@ -3,6 +3,7 @@
 .include "collider.h.s"
 .include "game.h.s"
 .include "ia.h.s"
+.include "assets/tiles/level_01.h.s"
 
 
 
@@ -10,18 +11,21 @@ collider_update::
     ld d, a
     push de
     push ix
+
     ld a, #cmp_collider
-    call E_M_for_all_pairs_matching
+    call E_M_for_all_matching
+
     pop ix
     pop de
 
     ld  a, (_level_reseted)
     xor #0x0
     ret nz
-    
-    ld a, #cmp_collider
-    call E_M_for_all_matching
 
+
+    ld a, #cmp_collider
+    call E_M_for_all_pairs_matching
+    
 
 ret
 
@@ -151,7 +155,7 @@ our_position_start:
     srl a
 
     add_hl_a
-    ld de, #0x40
+    ld de, (_current_tilemap)
     add hl, de
 
 
@@ -199,7 +203,7 @@ our_position_end:
     srl a
 
     add_hl_a
-    ld de, #0x40
+    ld de, (_current_tilemap)
     add hl, de
 
 
@@ -247,7 +251,7 @@ our_position_foot:
     srl a
 
     add_hl_a
-    ld de, #0x40
+    ld de, (_current_tilemap)
     add hl, de
 
 
@@ -516,6 +520,11 @@ collider_check_type_iy::
 
 
         call check_caja_stage
+        ;; returns in A = 0 if box is destroyed
+        and a
+        ret z
+
+        call colision_con_caja
         
         ret
 
@@ -601,11 +610,13 @@ check_caja_stage:
 
 
     no_caja_azul:
+    ld a, #1
     ret
     
 
 eliminar_caja:
     call E_M_prepateToDelete
+    xor a
 
 ret
 
