@@ -79,7 +79,7 @@ _render_sys_drawTileMap::
     ;;DRAW THE TILEMAP
     
     ;; en lugar de cargar directamente, aqui es donde se almacenara en la 0x40 nuestro nivel
-    ld hl, #_level_01_pack_end
+    ld hl, (_current_tilemap)
     ld de, #decompress_buffer_end
     call cpct_zx7b_decrunch_s_asm
     
