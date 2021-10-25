@@ -15,15 +15,13 @@
 
 
 _level_1::
-    .dw     #_level_01                  ;;TileMap
+    .dw     #_level_01_pack_end                  ;;TileMap
     .db     38,0                       ;;Posicion Player
 ;    .db     42,42                       ;;Pos enemigo
     .db     78,136                       ;;Pos enemigo
-;    .db     38,160                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
     .db     1,1                       ;;Pos enemigo2
     .db     #0xFF                       ;;FIN enemigos2
-
     .db     #0xFF                       ;;FIN enemigos3
     .db     36,180                     ;;Salida
     .db     20,32                      ;;Pos caja
@@ -35,7 +33,7 @@ _level_1::
     .db     22                          ;;Tamanyo nivel
 
 _level_2::
-    .dw     #_level_02                  ;;TileMap
+    .dw     #_level_02_pack_end                  ;;TileMap
     .db     38,0                       ;;Posicion Player
 ;    .db     42,42                       ;;Pos enemigo
     .db     78,136                       ;;Pos enemigo
@@ -53,7 +51,7 @@ _level_2::
     .db     22                          ;;Tamanyo nivel
 
 _level_3::
-    .dw     #_level_03                  ;;TileMap
+    .dw     #_level_03_pack_end                  ;;TileMap
     .db     38,0                       ;;Posicion Player
 ;    .db     42,42                       ;;Pos enemigo
     .db     78,136                       ;;Pos enemigo

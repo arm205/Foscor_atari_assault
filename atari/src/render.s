@@ -3,7 +3,6 @@
 ;;
 .include "render.h.s"
 .include "entity.h.s"
-.include "assets/tiles/level_01.h.s"
 
 ;; instrucciones utiles
 .globl cpct_disableFirmware_asm
@@ -12,6 +11,11 @@
 .globl cpct_setVideoMode_asm
 .globl cpct_etm_drawTilemap4x8_ag_asm
 .globl cpct_etm_setDrawTilemap4x8_ag_asm
+.globl cpct_zx7b_decrunch_s_asm
+
+decompress_buffer = 0x40
+level_max_size = 0x1F4
+decompress_buffer_end = decompress_buffer+level_max_size-1
 
 
 
@@ -63,32 +67,24 @@ _render_sys_init::
     ld de, #16
     call cpct_setPalette_asm
 
-    ;;CAMBIO DE RESOLUCION
-    ;;  R1 = 32 (Ancho que mostramos)
-    ;;;;ld de, #0x0120
-    ;;call setCTCR
-    ;;;;  R2 = 42 (inicio del HSYNC)
-    ;;ld de, #0x022A
-    ;;call setCTCR
-    ;;;;  R6 = 16 (Alto en caracteres)
-    ;;ld de, #0x0610
-    ;;call setCTCR
-    ;;;;  R7 = 26 (inicio del VSYNC)
-    ;;ld de, #0x071A
-    ;;call setCTCR
-
     ;;SET THE TILEMAP
-    ld c, #_level_01_W
-    ld b, #_level_01_H
-    ld de, #_level_01_W
+    ld c, #20
+    ld b, #25
+    ld de, #20
     ld hl, #_tiles_00
     call cpct_etm_setDrawTilemap4x8_ag_asm
 ret
 
 _render_sys_drawTileMap::
     ;;DRAW THE TILEMAP
+    
+    ;; en lugar de cargar directamente, aqui es donde se almacenara en la 0x40 nuestro nivel
+    ld hl, (_current_tilemap)
+    ld de, #decompress_buffer_end
+    call cpct_zx7b_decrunch_s_asm
+    
     ld hl, #0xC000
-    ld de, (_current_tilemap)
+    ld de, #0x40
     call cpct_etm_drawTilemap4x8_ag_asm
 ret
 
