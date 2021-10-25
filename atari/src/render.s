@@ -30,7 +30,7 @@ setCTCR:
 ret
 _render_Entity:: ;;importante: actualizar con la posibilidad de abrir sprites.
 back_buffer = .+2 
-    ld de, #0x8000
+    ld de, #0xC000
     ld b, e_y(ix) ;;pos_y
     ld c, e_x(ix) ;;pos_x
     call getScreenPtr_32x16
@@ -99,38 +99,38 @@ _render_ents_update::
     ld d, a
     ld a, #cmp_render
     call E_M_for_all_matching
-    call change_screen
+    ;;call change_screen
 ret
 _render_sys_terminate::
 ret
 
-change_screen:
-    f_change_screen = .+1
-    jp change_screen_to_8000
-    
-change_screen_to_8000:
-    ;;ld de, #0x0C32
-    ;;DE: 
-    ;;  REGISTRO Y VALOR
-    ;;call setCTCR
-
-    ld a, #0xC0
-    ld (back_buffer), a
-    ld hl, #change_screen_to_C000
-    ld (f_change_screen), hl
-ret
-
-change_screen_to_C000:
-    ;;ld de, #0x0C30
-    ;;DE: 
-    ;;  REGISTRO Y VALOR
-    ;;call setCTCR
-
-    ld a, #0x80
-    ld (back_buffer), a
-    ld hl, #change_screen_to_8000
-    ld (f_change_screen), hl
-ret
+;;change_screen:
+;;    f_change_screen = .+1
+;;    jp change_screen_to_8000
+;;    
+;;change_screen_to_8000:
+;;    ;;ld de, #0x0C32
+;;    ;;DE: 
+;;    ;;  REGISTRO Y VALOR
+;;    ;;call setCTCR
+;;
+;;    ld a, #0xC0
+;;    ld (back_buffer), a
+;;    ld hl, #change_screen_to_C000
+;;    ld (f_change_screen), hl
+;;ret
+;;
+;;change_screen_to_C000:
+;;    ;;ld de, #0x0C30
+;;    ;;DE: 
+;;    ;;  REGISTRO Y VALOR
+;;    ;;call setCTCR
+;;
+;;    ld a, #0x80
+;;    ld (back_buffer), a
+;;    ld hl, #change_screen_to_8000
+;;    ld (f_change_screen), hl
+;;ret
 
 getScreenPtr_32x16:
    ;; Before starting, some terminology to understand comments,
