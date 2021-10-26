@@ -3,7 +3,6 @@
 .include "collider.h.s"
 .include "game.h.s"
 .include "ia.h.s"
-.include "assets/tiles/level_01.h.s"
 
 
 
@@ -152,7 +151,7 @@ our_position_start:
     srl a
 
     add_hl_a
-    ld de, (_current_tilemap)
+    ld de, #0x40
     add hl, de
 
 
@@ -200,7 +199,7 @@ our_position_end:
     srl a
 
     add_hl_a
-    ld de, (_current_tilemap)
+    ld de, #0x40
     add hl, de
 
 
@@ -248,7 +247,7 @@ our_position_foot:
     srl a
 
     add_hl_a
-    ld de, (_current_tilemap)
+    ld de, #0x40
     add hl, de
 
 

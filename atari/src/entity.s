@@ -42,7 +42,7 @@ E_M_new::
     inc (hl)
 
 ;   Increment Array end pointer to point to the next
-;   free element in the array
+;   free element in thecpct_drawSolidBox_asm array
     ld hl, (_last_elem_ptr)
 
     ld d, h
@@ -79,6 +79,26 @@ E_M_prepateToDelete::
     ld hl, #_spriteNegro
     ld e_spr(ix), l
     ld e_spr+1(ix), h
+    
+    ld de, #0x8000
+    ld b, e_y(ix) ;;pos_y
+    ld c, e_x(ix) ;;pos_x
+    call cpct_getScreenPtr_asm
+    ex de, hl
+    ld c, e_w(ix)
+    ld b, e_h(ix)
+    xor a
+    call cpct_drawSolidBox_asm
+
+    ld de, #0xC000
+    ld b, e_y(ix) ;;pos_y
+    ld c, e_x(ix) ;;pos_x
+    call cpct_getScreenPtr_asm
+    ex de, hl
+    ld c, e_w(ix)
+    ld b, e_h(ix)
+    xor a
+    call cpct_drawSolidBox_asm
 
     ld__hl_ix
 
