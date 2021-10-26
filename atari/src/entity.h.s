@@ -40,6 +40,7 @@
     .dw 0xCCCC; last video memory value to delate later
     .dw 0x0 ; pointer to current animation
     .db 0x0 ; Counter to change animation 
+    .dw 0xC000
 .endm
 
 
