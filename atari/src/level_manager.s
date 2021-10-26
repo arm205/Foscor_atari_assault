@@ -2,7 +2,8 @@
 
 _current_level::            .dw #_level_1
 _current_tilemap::          .dw #0x0
-_current_level_size::       .dw 0
+
+_next_level_ptr::           .dw 0
 
 _level_reseted::             .db 0
 
@@ -192,8 +193,8 @@ L_M_loadLevel::
 
     ;;-------------------------------------------------------
     ;;LEVEL SIZE
-        ld  a, (hl)
-        ld  (_current_level_size), a
+        ld__de_hl
+        ld  (_next_level_ptr), de
 
 ret
 
@@ -242,9 +243,8 @@ ld  a, #0x01
 ld  (_level_reseted), a
 
 cpctm_clearScreen_asm #0
-ld  hl, (_current_level)
-ld  bc, (_current_level_size)
-add hl, bc
+
+ld  hl, (_next_level_ptr)
 ld  (_current_level), hl
 
 call E_M_destroyAllEntities

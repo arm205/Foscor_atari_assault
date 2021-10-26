@@ -26,7 +26,7 @@ _level_1::
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
     .db     #0xFF                       ;;FIN cajas azules
-    .db     22                          ;;Tamanyo nivel
+    ;;.db     22                          ;;Tamanyo nivel
 
 _level_2::
     .dw     #_level_02_pack_end                  ;;TileMap
@@ -44,7 +44,7 @@ _level_2::
     .db     #0xFF                       ;;FIN cajas rojas
     .db     16,32                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
-    .db     22                          ;;Tamanyo nivel
+    ;;.db     22                          ;;Tamanyo nivel
 
 _level_3::
     .dw     #_level_03_pack_end                  ;;TileMap
@@ -64,4 +64,4 @@ _level_3::
     .db     #0xFF                       ;;FIN cajas rojas
     .db     16,32                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
-    .db     22                          ;;Tamanyo nivel
+    ;;.db     22                          ;;Tamanyo nivel
