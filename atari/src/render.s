@@ -3,6 +3,7 @@
 ;;
 .include "render.h.s"
 .include "entity.h.s"
+.include "cpctelera.h.s"
 
 ;; instrucciones utiles
 .globl cpct_disableFirmware_asm
@@ -74,6 +75,7 @@ _render_sys_init::
     ld hl, #_pal_main
     ld de, #16
     call cpct_setPalette_asm
+    cpctm_setBorder_asm HW_BLACK
 
     ;;SET THE TILEMAP
     ld c, #20
