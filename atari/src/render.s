@@ -29,6 +29,7 @@ setCTCR:
     out (c), e
 ret
 _render_Entity:: ;;importante: actualizar con la posibilidad de abrir sprites.
+<<<<<<< HEAD
 back_buffer = .+2 
     ld de, #0xC000
     ld b, e_y(ix) ;;pos_y
@@ -37,26 +38,35 @@ back_buffer = .+2
 
     ld e, e_lastVP_l(ix)
     ld d, e_lastVP_h(ix)
+=======
+    ld e, l
+    ld d, h
+>>>>>>> doble-buffer_continuacion
     xor a
     ld c, e_w(ix)
     ld b, e_h(ix)
     push bc
     call cpct_drawSolidBox_asm
     
-    ld de, #0xC000
+back_buffer = .+2
+    ld de, #0x8000
     ld b, e_y(ix) ;;pos_y
     ld c, e_x(ix) ;;pos_x
-    call getScreenPtr_32x16
+    call cpct_getScreenPtr_asm
+
+    ld a, e_lastVP_l(ix)
+    ld e_lastVP_l2(ix), a
+    ld a, e_lastVP_h(ix)
+    ld e_lastVP_h2(ix), a
 
     ld e_lastVP_l(ix), l
     ld e_lastVP_h(ix), h
-    ld a, e_c(ix)
+
     ex de, hl
     pop bc
     ld l, e_spr(ix)
     ld h, e_spr+1(ix)
-    call cpct_drawSprite_asm ;;dibuja un cuadrado con esas dimensiones.
-
+    call cpct_drawSprite_asm
     ret
 
 ;; RENDER INIT (llamado desde GAME)
@@ -77,12 +87,13 @@ ret
 
 _render_sys_drawTileMap::
     ;;DRAW THE TILEMAP
-    
     ;; en lugar de cargar directamente, aqui es donde se almacenara en la 0x40 nuestro nivel
     ld hl, (_current_tilemap)
     ld de, #decompress_buffer_end
     call cpct_zx7b_decrunch_s_asm
-    
+    ld hl, #0x8000
+    ld de, #0x40
+    call cpct_etm_drawTilemap4x8_ag_asm
     ld hl, #0xC000
     ld de, #0x40
     call cpct_etm_drawTilemap4x8_ag_asm
@@ -91,6 +102,8 @@ ret
 ;; RENDER ALL
 _render_sys_update::
     call _render_ents_update
+
+
 ret
 ;; RENDER ENTITIES
 ;;      INPUT: IX
@@ -104,6 +117,7 @@ ret
 _render_sys_terminate::
 ret
 
+<<<<<<< HEAD
 ;;change_screen:
 ;;    f_change_screen = .+1
 ;;    jp change_screen_to_8000
@@ -195,3 +209,26 @@ getScreenPtr_32x16:
 
    ;; HL now contains the pointer to the byte in the video buffer. Just return it
    ret            ;; [3] return rHL = Pointer to the video buffer at (X,Y) byte coordinates
+=======
+change_screen:
+    f_change_screen = .+1
+    jp change_screen_to_8000
+    
+change_screen_to_8000:
+    ld de, #0x0C20
+    call setCTCR
+    ld a, #0xC0
+    ld (back_buffer), a
+    ld hl, #change_screen_to_C000
+    ld (f_change_screen), hl
+ret
+change_screen_to_C000:
+    
+    ld de, #0x0C30
+    call setCTCR
+    ld a, #0x80
+    ld (back_buffer), a
+    ld hl, #change_screen_to_8000
+    ld (f_change_screen), hl
+ret
+>>>>>>> doble-buffer_continuacion
