@@ -10,15 +10,15 @@
 
 
 enemy:: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 10, 4, 16, 0, 0, 0, 0, 0xFF, 0
-.dw #_h_array_0, 0x0, 0x0
+.dw #_h_array_0, 0x0, ant_moving
 .db animation_speed, 0x00, 0x10, t_player | t_caja
 
 enemy2:: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 42, 4, 16, 1, 0, 0, 0, 0xFF, 1
-.dw #_h_array_0, 0x0, 0x0
+.dw #_h_array_0, 0x0, ant_moving
 .db  animation_speed, 0x00, 0x10, t_player | t_caja
 
 enemy3:: .db t_enemy, cmp_collider | cmp_render | cmp_ia, 4, 42, 4, 16, 0, 2, 0, 0, 0xFF, 2
-.dw #_h_array_0, 0x0, 0x0
+.dw #_h_array_0, 0x0, ant_moving
 .db animation_speed, 0x00, 0x10, t_player | t_caja
 
 player:: .db t_player, cmp_collider | cmp_render | cmp_input | cmp_animation, 40, 0, 4, 16, 0, 0, 0, 0, 0x0F, 0
