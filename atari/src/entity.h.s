@@ -23,6 +23,8 @@
 .globl E_M_getCajaRoja
 .globl E_M_getCajaAzul
 
+.globl cpct_drawSolidBox_asm
+
 
 ; ENTITY DEFINITION MACRO
 .macro CommonDefine _x, _y, _w, _h, _vx, _vy, _vx_prev, _vy_prev, _c, _b, _spr
