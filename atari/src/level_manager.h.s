@@ -104,9 +104,9 @@ _level_5::
     .db     60,180                      ;;Salida
     .db     52,16                       ;;Pos caja
     .db     #0xFF                       ;;FIN cajas verdes
-    .db     12,152                      ;;Pos caja
-    .db     #0xFF                       ;;FIN cajas amarillas
     .db     48,104                      ;;Pos caja
+    .db     #0xFF                       ;;FIN cajas amarillas
+    .db     12,152                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas rojas
     .db     #0xFF                       ;;FIN cajas azules
     .db     38,0                       ;;Posicion Nada
@@ -155,6 +155,5 @@ _level_7::
     .db     16,32                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
     .db     #0xFF                       ;;FIN Nada
-    ;;.db     22                          ;;Tamanyo nivel
 
 
