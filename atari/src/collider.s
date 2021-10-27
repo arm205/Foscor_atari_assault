@@ -7,7 +7,6 @@
 
 
 collider_update::
-    ld d, a
     push de
     push ix
 
@@ -17,9 +16,9 @@ collider_update::
     pop ix
     pop de
 
-    ld  a, (_level_reseted)
-    xor #0x0
-    ret nz
+;    ld  a, (_level_reseted)
+;    xor #0x0
+;    ret nz
 
 
     ld a, #cmp_collider
@@ -278,14 +277,15 @@ check_tile:
         ret z
 
             ;; Collision detected
-            ld e_vy(ix), #0
             ld a, e_t(ix)
             xor #t_enemy
                 jr nz, no_en_3
                 ld a, #1
                 call ia_colides_tilemap
+                ret
 
             no_en_3:  
+            ld e_vy(ix), #0
             ret
 
 
@@ -305,14 +305,15 @@ check_tile:
             or b
             ret z
                 ;; Collision detected
-                ld e_vx(ix), #0
                 ld a, e_t(ix)
                 xor #t_enemy
                     jr nz, no_en
                     ld a, #2
                     call ia_colides_tilemap
+                    ret
 
                 no_en:    
+                ld e_vx(ix), #0
                 ret
     no_derecha:
     ;; ABAJO    
@@ -331,14 +332,15 @@ check_tile:
             or b
             ret z
                 ;; Collision detected
-                ld e_vy(ix), #0
                 ld a, e_t(ix)
                 xor #t_enemy
                     jr nz, no_en_4
                     ld a, #4
                     call ia_colides_tilemap
+                    ret
 
                 no_en_4:  
+                ld e_vy(ix), #0
                 ret
 
     no_abajo:
@@ -361,14 +363,15 @@ check_tile:
 
         ret z
                 ;; Collision detected
-                ld e_vx(ix), #0
                 ld a, e_t(ix)
                 xor #t_enemy
                     jr nz, no_en_2
                     ld a, #8
                     call ia_colides_tilemap
+                    ret
 
                 no_en_2:  
+                ld e_vx(ix), #0
                 ret
     nada:
     ret
@@ -554,8 +557,25 @@ no_player:
         ld a, e_t(ix)
         xor #t_caja
         jr nz, no_en_caja
+            ld a, e_be(iy)
 
-        call colision_con_caja
+            or #0
+            jr z, es_ghost
+
+             	ex__hl_ix
+ 	            ex__hl_iy
+                ex__hl_ix
+            
+                call ia_colides_tilemap
+
+
+             	ex__hl_ix
+ 	            ex__hl_iy
+                ex__hl_ix
+                ret
+
+            es_ghost:
+            call colision_con_caja
         
 
     no_en_caja:

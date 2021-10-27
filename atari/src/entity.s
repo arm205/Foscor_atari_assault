@@ -200,6 +200,7 @@ ret
 E_M_getEntityArray::
     ld ix, #_entity_array
     ld a, (_num_entities)
+    ld d, a
 ret
 
 
@@ -483,6 +484,13 @@ ret
 ;;  HL: Direccion de la salida
 E_M_getCajaAzul::
     ld  hl, #caja_azul
+ret
+
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getNada::
+    ld  hl, #nada
 ret
 
 E_M_destroyAllEntities::
