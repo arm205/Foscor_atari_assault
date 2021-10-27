@@ -157,45 +157,43 @@ ret
 
 ia_right_left:
 
-    ld a, e
+    ld a, e_vx(ix)
+    cp #-1
+    jr z, cambia_x_positivo 
 
-    cp #2
-    jr z, move_left
-        cp #8
-        jr z, move_right
+        cp #1
+        jr z, cambia_x_negativo 
 
-        move_right:
-        ld e_vx(ix), #1
-        ret
 
-    move_left:
-        ld e_vx(ix), #-1
+        cambia_x_negativo:
+            ld e_vx(ix), #-1
+            ret
 
+    cambia_x_positivo:
+    ld e_vx(ix), #1
 
 ret
 
 
 ia_up_down:
+    ld a, e_vy(ix)
+    cp #-2
+    jr z, cambia_y_positivo 
 
-    ld a, e
+        cp #2
+        jr z, cambia_y_negativo 
 
-    cp #1
-    jr z, move_down
-        cp #4
-        jr z, move_up
 
-        move_up:
-        ld e_vy(ix), #-2
-        ret
+        cambia_y_negativo:
+            ld e_vy(ix), #-2
+            ret
 
-    move_down:
-        ld e_vy(ix), #2
-
+    cambia_y_positivo:
+    ld e_vy(ix), #2
 
 ret
 
 ia_colides_tilemap::
-    ld e, a
     ld a, e_be(ix)
     cp  #1
     jr z, ia_r_l
