@@ -264,6 +264,11 @@ check_tile:
 ;; ARRIBA
     cp #1
     jr nz, no_arriba
+    ;; ESTOY A MITAD DE TILE??
+        call check_half_tile_up
+        or #0
+        ret z
+
         ld a, #20
         sub_hl_a
         call check_type_tile
@@ -280,9 +285,11 @@ check_tile:
             ld a, e_t(ix)
             xor #t_enemy
                 jr nz, no_en_3
-                ld a, #1
-                call ia_colides_tilemap
-                ret
+                ld a, e_be(ix)
+                or #0
+                jr z, no_en_3
+                    call ia_colides_tilemap
+                    ret
 
             no_en_3:  
             ld e_vy(ix), #0
@@ -308,9 +315,12 @@ check_tile:
                 ld a, e_t(ix)
                 xor #t_enemy
                     jr nz, no_en
-                    ld a, #2
-                    call ia_colides_tilemap
-                    ret
+
+                    ld a, e_be(ix)
+                    or #0
+                    jr z, no_en
+                        call ia_colides_tilemap
+                        ret
 
                 no_en:    
                 ld e_vx(ix), #0
@@ -335,9 +345,12 @@ check_tile:
                 ld a, e_t(ix)
                 xor #t_enemy
                     jr nz, no_en_4
-                    ld a, #4
-                    call ia_colides_tilemap
-                    ret
+
+                    ld a, e_be(ix)
+                    or #0
+                    jr z, no_en_4
+                        call ia_colides_tilemap
+                        ret
 
                 no_en_4:  
                 ld e_vy(ix), #0
@@ -366,9 +379,12 @@ check_tile:
                 ld a, e_t(ix)
                 xor #t_enemy
                     jr nz, no_en_2
-                    ld a, #8
-                    call ia_colides_tilemap
-                    ret
+
+                    ld a, e_be(ix)
+                    or #0
+                    jr z, no_en_2
+                        call ia_colides_tilemap
+                        ret
 
                 no_en_2:  
                 ld e_vx(ix), #0
@@ -378,6 +394,28 @@ check_tile:
 
 
 
+check_half_tile_up:
+    ld a, e_y(ix)
+    ld b, #8
+
+contando_multiplos_up:
+
+    sub b
+
+    jr z, multiplo_up
+
+    jr c, moverse_mismo_tile_up
+
+
+    jr contando_multiplos_up
+
+multiplo_up:
+    ld a, #1
+ret
+
+moverse_mismo_tile_up:
+    ld a, #0
+ret
 
 
 check_half_tile:

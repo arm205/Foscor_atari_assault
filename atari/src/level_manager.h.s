@@ -95,8 +95,8 @@ _level_4::
 _level_5::
     .dw     #_level_05_pack_end                  ;;TileMap
     .db     38,0                       ;;Posicion Player
-    .db     #0xFF                       ;;FIN enemigos
     .db     20,72                       ;;Pos enemigo
+    .db     #0xFF                       ;;FIN enemigos
     .db     #0xFF                       ;;FIN enemigos2
     .db     12,16                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
