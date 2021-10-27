@@ -45,10 +45,14 @@ caja_verde:: .db t_caja, cmp_collider | cmp_render, 0, 0, 4, 16, 0, 0, 0, 0, 0xF
 
 salida:: .db t_salida, cmp_collider, 12, 0, 8, 10, 0, 0, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0x0, 0x0, 0x0, 0x0, animation_speed, 0x00, 0x10, t_player
 
+
+nada:: .db t_nada,  cmp_collider, 12, 0, 8, 10, 0, 0, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0x0, 0x0, 0x0, 0x0, animation_speed, 0x00, 0x10, 0
+
 final_text: .asciz "GAME OVER"
 win_text: .asciz "YOU WIN!!!"
 
 _game_regresive_clock:: .db #0x0
+
 
 man_game_init::
     ;;Inicializar Entity Manager
@@ -63,6 +67,7 @@ man_game_init::
     call    input_init
     ;;Inicializar Animation System
     call    animation_init
+
     
     
     ;;Render Tile Map
@@ -79,6 +84,7 @@ man_game_update::
      
     ld  a, #0x0
     ld  (_level_reseted), a
+
 
     ;;cpctm_setBorder_asm HW_YELLOW
     call E_M_getEntityArray
@@ -102,6 +108,7 @@ man_game_update::
 
     call E_M_getEntityArray
     call physics_sys_update
+
    ret
 
 

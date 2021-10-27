@@ -7,7 +7,6 @@
 
 
 collider_update::
-    ld d, a
     push de
     push ix
 
@@ -17,9 +16,9 @@ collider_update::
     pop ix
     pop de
 
-    ld  a, (_level_reseted)
-    xor #0x0
-    ret nz
+;    ld  a, (_level_reseted)
+;    xor #0x0
+;    ret nz
 
 
     ld a, #cmp_collider

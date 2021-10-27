@@ -9,6 +9,7 @@ _level_reseted::             .db 0
 
 _puntero::                 .dw 0
 
+
 L_M_init::
 
     ;;Cargar primer nivel
@@ -190,6 +191,23 @@ L_M_loadLevel::
     continuar7:
 
         inc hl
+
+    ;;-------------------------------------------------------
+    ;;ADD NADA ENTITIES TO BALANCE SPEED
+        push hl
+        call E_M_getNada
+        ld__iy_hl
+        pop hl
+
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar8
+        call L_M_loadMultiplesEntities
+    
+    continuar8:
+
+        inc hl
+
 
     ;;-------------------------------------------------------
     ;;LEVEL SIZE

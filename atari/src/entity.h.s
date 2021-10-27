@@ -114,6 +114,8 @@ t_salida = 0x08
 
 t_dead = 0x80
 
+t_nada = 0x10
+
 animation_speed = 0x5
 
 

@@ -48,7 +48,6 @@ key_actions:
 
 
 input_update::
-    ld d, a
     ld a, #cmp_input
     call E_M_for_all_matching
 ret

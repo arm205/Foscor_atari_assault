@@ -79,7 +79,6 @@ animation_init::
 ret
 
 animation_update::
-    ld d, a
     ld a, #cmp_animation
     call E_M_for_all_matching
 ret

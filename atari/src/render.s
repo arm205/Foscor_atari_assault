@@ -107,9 +107,8 @@ _render_sys_update::
 ret
 ;; RENDER ENTITIES
 ;;      INPUT: IX
-;;      INPUT: A
+;;      INPUT: D
 _render_ents_update::
-    ld d, a
     ld a, #cmp_render
     call E_M_for_all_matching
     call change_screen

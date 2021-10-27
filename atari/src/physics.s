@@ -5,16 +5,15 @@
 .module entity_sys_physics
 
 
+
 screen_width = 80
 screen_height = 200
 
 physics_sys_init::
 
-
 ret
 
 physics_sys_update::
-    ld d, a
     ld a, #cmp_ia+#cmp_input
     call E_M_for_all_matching
 ret
