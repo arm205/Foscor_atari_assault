@@ -11,6 +11,7 @@
 ; - TANTO ENEMIGOS COMO PLAYER COMO CAJAS TIENEN QUE ESTAR EN X MULTIPLO DE 4
 ; - TANTO ENEMIGOS COMO PLAYER COMO CAJAS TIENEN QUE ESTAR EN Y MULTIPLO DE 8
 ; TODO ESTO ES PARA ASEGURAR LAS CORRECTAS COLISIONES YA QUE CADA ENTIDAD EMPIEZA COMO EN UN TILE ASIGNADO
+; SI VA MUY RAPIDO AÑADE ENTIDADES NADA
 ;
 
 
@@ -70,6 +71,7 @@ _level_3::
     .db     #0xFF                       ;;FIN cajas rojas
     .db     #0xFF                       ;;FIN cajas azules
     .db     38,0                       ;;Posicion Nada
+    .db     38,0                       ;;Posicion Nada
     .db     #0xFF                       ;;FIN Nada
 
 
@@ -85,6 +87,7 @@ _level_4::
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
     .db     #0xFF                       ;;FIN cajas azules
+    .db     38,0                       ;;Posicion Nada
     .db     #0xFF                       ;;FIN Nada
 
 
@@ -106,6 +109,7 @@ _level_5::
     .db     #0xFF                       ;;FIN cajas rojas
     .db     16,32                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
+    .db     38,0                       ;;Posicion Nada
     .db     #0xFF                       ;;FIN Nada
     ;;.db     22                          ;;Tamanyo nivel
 
@@ -128,6 +132,7 @@ _level_6::
     .db     #0xFF                       ;;FIN cajas rojas
     .db     16,32                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
+    .db     38,0                       ;;Posicion Nada
     .db     #0xFF                       ;;FIN Nada
     ;;.db     22                          ;;Tamanyo nivel
 
