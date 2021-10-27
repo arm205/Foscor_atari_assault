@@ -62,8 +62,9 @@ _level_4::
     .dw     #_level_04_pack_end                  ;;TileMap
     .db     38,0                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
-    .db     38, 95
+    .db     38, 28
     .db     #0xFF                       ;;FIN enemigos2
+    .db     44, 100
     .db     #0xFF                       ;;FIN enemigos3
     .db     36,180                     ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
@@ -75,20 +76,18 @@ _level_4::
 _level_5::
     .dw     #_level_05_pack_end                  ;;TileMap
     .db     38,0                       ;;Posicion Player
-;    .db     42,42                       ;;Pos enemigo
-    .db     78,136                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos
-    .db     1,1                       ;;Pos enemigo2
+    .db     20,72                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos2
+    .db     12,16                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     36,180                     ;;Salida
-    .db     40,56                      ;;Pos caja
+    .db     20,180                      ;;Salida
+    .db     52,16                       ;;Pos caja
     .db     #0xFF                       ;;FIN cajas verdes
-    .db     36,104                      ;;Pos caja
+    .db     12,120                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas amarillas
-    .db     40,152                      ;;Pos caja
+    .db     48,88                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas rojas
-    .db     16,32                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
     ;;.db     22                          ;;Tamanyo nivel
 
@@ -103,7 +102,7 @@ _level_6::
     .db     #0xFF                       ;;FIN enemigos2
     .db     #0xFF                       ;;FIN enemigos3
     .db     36,180                     ;;Salida
-    .db     40,56                      ;;Pos caja
+    .db     34,56                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas verdes
     .db     36,104                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas amarillas
