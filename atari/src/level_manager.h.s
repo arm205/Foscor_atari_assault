@@ -96,16 +96,17 @@ _level_5::
     .dw     #_level_05_pack_end                  ;;TileMap
     .db     38,0                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
-    .db     20,72                       ;;Pos enemigo
+    .db     56,48                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos2
     .db     12,16                       ;;Pos enemigo
+    .db     48,124                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     20,180                      ;;Salida
+    .db     60,180                      ;;Salida
     .db     52,16                       ;;Pos caja
     .db     #0xFF                       ;;FIN cajas verdes
-    .db     12,120                      ;;Pos caja
+    .db     12,152                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas amarillas
-    .db     48,88                      ;;Pos caja
+    .db     48,104                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas rojas
     .db     #0xFF                       ;;FIN cajas azules
     .db     38,0                       ;;Posicion Nada
