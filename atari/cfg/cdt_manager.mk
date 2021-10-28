@@ -24,7 +24,8 @@
 ############################################################################
 
 ## Set the name of your main game file in the CDT here
-$(eval $(call CDTMAN, SET_FILENAME, Game))
+$(eval $(call CDTMAN, SET_FILENAME   , InsideTheAnthill))                      
+$(eval $(call CDTMAN, GEN_MINILOADER , img/titulo_prov.png))                 
 
 ###############################################################################
 ##                    CASSETE FILE MANAGER HELP INDEX                        ##
