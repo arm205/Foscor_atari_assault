@@ -3,7 +3,8 @@
 .globl L_M_resetCurrentLevel
 .globl L_M_levelPassed
 .globl L_M_loadMultiplesEntities
-
+.globl L_M_loadFirstLevel
+.globl L_M_showMenuScreen
 
 ;
 ;IMPORTANTE: CONSIDERACIONES A LA HORA DE PONER COSAS EN EL MAPA

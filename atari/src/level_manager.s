@@ -1,6 +1,6 @@
 .include "cpctelera.h.s"
 
-_current_level::            .dw #_level_4
+_current_level::            .dw #_level_1
 _current_tilemap::          .dw #0x0
 
 _next_level_ptr::           .dw 0
@@ -271,5 +271,26 @@ call L_M_loadLevel
 
 call _render_sys_drawTileMap
 
+
+ret
+
+L_M_loadFirstLevel::
+
+ld hl, #_level_1
+ld (_current_level), hl
+
+call L_M_resetCurrentLevel
+
+ret
+
+L_M_showMenuScreen::
+
+    cpctm_clearScreen_asm #0
+    
+
+    ld hl, #Key_Enter
+    call wait_keyPressed
+
+   call L_M_loadFirstLevel
 
 ret
