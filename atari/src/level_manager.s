@@ -286,7 +286,10 @@ ret
 L_M_showMenuScreen::
 
     cpctm_clearScreen_asm #0
-    
+
+    ;;DIBUJAR LA PANTALLA DE INICIO
+
+
 
     ld hl, #Key_Enter
     call wait_keyPressed
