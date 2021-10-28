@@ -1,6 +1,6 @@
 .include "cpctelera.h.s"
 
-_current_level::            .dw #_level_1
+_current_level::            .dw #_level_4
 _current_tilemap::          .dw #0x0
 
 _next_level_ptr::           .dw 0
@@ -8,6 +8,7 @@ _next_level_ptr::           .dw 0
 _level_reseted::             .db 0
 
 _puntero::                 .dw 0
+
 
 L_M_init::
 
@@ -190,6 +191,23 @@ L_M_loadLevel::
     continuar7:
 
         inc hl
+
+    ;;-------------------------------------------------------
+    ;;ADD NADA ENTITIES TO BALANCE SPEED
+        push hl
+        call E_M_getNada
+        ld__iy_hl
+        pop hl
+
+        ld  a, (hl)
+        xor #0xFF
+        jr z, continuar8
+        call L_M_loadMultiplesEntities
+    
+    continuar8:
+
+        inc hl
+
 
     ;;-------------------------------------------------------
     ;;LEVEL SIZE

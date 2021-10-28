@@ -1,4 +1,5 @@
 .include "entity.h.s"
+.include "cpctelera.h.s"
 
 
 still_eating:: .db 0
@@ -72,6 +73,20 @@ player_eating_left::
 .dw player_eating_left
 
 
+
+key_pack_sprites:
+    .dw Key_O, player_moving_left
+    .dw Key_P, player_moving_right
+    .dw Key_Q, player_moving_up
+    .dw Key_A, player_moving_down
+
+    .dw Joy0_Left, player_moving_left
+    .dw Joy0_Right, player_moving_right
+    .dw Joy0_Up, player_moving_up
+    .dw Joy0_Down, player_moving_down
+    .dw 0
+
+
 animation_init::
     xor a
     ld (still_eating), a
@@ -79,7 +94,6 @@ animation_init::
 ret
 
 animation_update::
-    ld d, a
     ld a, #cmp_animation
     call E_M_for_all_matching
 ret
@@ -126,6 +140,13 @@ animation_update_one::
     ld a, e_vy(ix)
     or #0
     jr nz, no_parado
+
+    ld a, e_t(ix)
+    xor #t_player
+    jr nz, no_player2
+    
+    call check_change_parado
+    no_player2:
 ;; Player parado
     ret
 
@@ -161,6 +182,45 @@ animation_update_one::
 
     no_reset_vengo_comer:
     call check_new_direction
+
+ret
+
+
+
+
+check_change_parado:
+    call cpct_scanKeyboard_f_asm
+
+    ld iy, #key_pack_sprites-4
+
+loop_keys:
+
+    ld bc, #4
+    add iy, bc
+
+    ld l, 0(iy)
+    ld h, 1(iy)
+
+    ld a, l
+    or h
+    ret z
+
+    call cpct_isKeyPressed_asm
+    jr z, loop_keys
+
+
+    ld l, 2(iy)
+    ld h, 3(iy)
+
+    ld e_animptr+1(ix), h
+    ld e_animptr(ix), l
+    
+    ld c, (hl)
+    inc hl
+    ld b, (hl)
+
+    ld e_spr(ix), c
+    ld e_spr+1(ix), b
 
 ret
 

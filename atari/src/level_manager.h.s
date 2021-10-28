@@ -11,6 +11,7 @@
 ; - TANTO ENEMIGOS COMO PLAYER COMO CAJAS TIENEN QUE ESTAR EN X MULTIPLO DE 4
 ; - TANTO ENEMIGOS COMO PLAYER COMO CAJAS TIENEN QUE ESTAR EN Y MULTIPLO DE 8
 ; TODO ESTO ES PARA ASEGURAR LAS CORRECTAS COLISIONES YA QUE CADA ENTIDAD EMPIEZA COMO EN UN TILE ASIGNADO
+; SI VA MUY RAPIDO AÑADE ENTIDADES NADA
 ;
 
 
@@ -27,6 +28,14 @@ _level_1::
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
     .db     #0xFF                       ;;FIN cajas azules
+
+    .db     38,0                       ;;Posicion Nada
+    .db     38,0                       ;;Posicion Nada
+    .db     38,0                       ;;Posicion Nada
+    .db     38,0                       ;;Posicion Nada
+    .db     38,0                       ;;Posicion Nada
+    
+    .db     #0xFF                       ;;FIN Nada
     ;;.db     22                          ;;Tamanyo nivel
 
 _level_2::
@@ -40,6 +49,11 @@ _level_2::
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
     .db     #0xFF                       ;;FIN cajas azules
+    .db     38,0                       ;;Posicion Nada
+    .db     38,0                       ;;Posicion Nada
+    .db     38,0                       ;;Posicion Nada
+    
+    .db     #0xFF                       ;;FIN Nada
     ;;.db     22                          ;;Tamanyo nivel
 
 _level_3::
@@ -56,40 +70,47 @@ _level_3::
     .db     40,152                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas rojas
     .db     #0xFF                       ;;FIN cajas azules
+    .db     38,0                       ;;Posicion Nada
+    .db     38,0                       ;;Posicion Nada
+    .db     #0xFF                       ;;FIN Nada
 
 
 _level_4::
     .dw     #_level_04_pack_end                  ;;TileMap
     .db     38,0                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
-    .db     38, 95
+    .db     38, 28
     .db     #0xFF                       ;;FIN enemigos2
+    .db     44, 100
     .db     #0xFF                       ;;FIN enemigos3
     .db     36,180                     ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
     .db     #0xFF                       ;;FIN cajas azules
+    .db     38,0                       ;;Posicion Nada
+    .db     #0xFF                       ;;FIN Nada
 
 
 _level_5::
     .dw     #_level_05_pack_end                  ;;TileMap
     .db     38,0                       ;;Posicion Player
-;    .db     42,42                       ;;Pos enemigo
-    .db     78,136                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos
-    .db     1,1                       ;;Pos enemigo2
+    .db     56,48                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos2
+    .db     12,16                       ;;Pos enemigo
+    .db     48,124                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     36,180                     ;;Salida
-    .db     40,56                      ;;Pos caja
+    .db     60,180                      ;;Salida
+    .db     52,16                       ;;Pos caja
     .db     #0xFF                       ;;FIN cajas verdes
-    .db     36,104                      ;;Pos caja
+    .db     48,104                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas amarillas
-    .db     40,152                      ;;Pos caja
+    .db     12,152                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas rojas
-    .db     16,32                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
+    .db     38,0                       ;;Posicion Nada
+    .db     #0xFF                       ;;FIN Nada
     ;;.db     22                          ;;Tamanyo nivel
 
 
@@ -103,7 +124,7 @@ _level_6::
     .db     #0xFF                       ;;FIN enemigos2
     .db     #0xFF                       ;;FIN enemigos3
     .db     36,180                     ;;Salida
-    .db     40,56                      ;;Pos caja
+    .db     34,56                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas verdes
     .db     36,104                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas amarillas
@@ -111,6 +132,8 @@ _level_6::
     .db     #0xFF                       ;;FIN cajas rojas
     .db     16,32                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
+    .db     38,0                       ;;Posicion Nada
+    .db     #0xFF                       ;;FIN Nada
     ;;.db     22                          ;;Tamanyo nivel
 
 _level_7::
@@ -131,6 +154,6 @@ _level_7::
     .db     #0xFF                       ;;FIN cajas rojas
     .db     16,32                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
-    ;;.db     22                          ;;Tamanyo nivel
+    .db     #0xFF                       ;;FIN Nada
 
 

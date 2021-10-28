@@ -4,10 +4,10 @@
 .include "game.h.s"
 .include "ia.h.s"
 
-
+ w_favorable = 2
+ h_favorable = 12
 
 collider_update::
-    ld d, a
     push de
     push ix
 
@@ -17,9 +17,9 @@ collider_update::
     pop ix
     pop de
 
-    ld  a, (_level_reseted)
-    xor #0x0
-    ret nz
+;    ld  a, (_level_reseted)
+;    xor #0x0
+;    ret nz
 
 
     ld a, #cmp_collider
@@ -265,6 +265,11 @@ check_tile:
 ;; ARRIBA
     cp #1
     jr nz, no_arriba
+    ;; ESTOY A MITAD DE TILE??
+        call check_half_tile_up
+        or #0
+        ret z
+
         ld a, #20
         sub_hl_a
         call check_type_tile
@@ -278,14 +283,17 @@ check_tile:
         ret z
 
             ;; Collision detected
-            ld e_vy(ix), #0
             ld a, e_t(ix)
             xor #t_enemy
                 jr nz, no_en_3
-                ld a, #1
-                call ia_colides_tilemap
+                ld a, e_be(ix)
+                or #0
+                jr z, no_en_3
+                    call ia_colides_tilemap
+                    ret
 
             no_en_3:  
+            ld e_vy(ix), #0
             ret
 
 
@@ -305,14 +313,18 @@ check_tile:
             or b
             ret z
                 ;; Collision detected
-                ld e_vx(ix), #0
                 ld a, e_t(ix)
                 xor #t_enemy
                     jr nz, no_en
-                    ld a, #2
-                    call ia_colides_tilemap
+
+                    ld a, e_be(ix)
+                    or #0
+                    jr z, no_en
+                        call ia_colides_tilemap
+                        ret
 
                 no_en:    
+                ld e_vx(ix), #0
                 ret
     no_derecha:
     ;; ABAJO    
@@ -331,14 +343,18 @@ check_tile:
             or b
             ret z
                 ;; Collision detected
-                ld e_vy(ix), #0
                 ld a, e_t(ix)
                 xor #t_enemy
                     jr nz, no_en_4
-                    ld a, #4
-                    call ia_colides_tilemap
+
+                    ld a, e_be(ix)
+                    or #0
+                    jr z, no_en_4
+                        call ia_colides_tilemap
+                        ret
 
                 no_en_4:  
+                ld e_vy(ix), #0
                 ret
 
     no_abajo:
@@ -361,20 +377,46 @@ check_tile:
 
         ret z
                 ;; Collision detected
-                ld e_vx(ix), #0
                 ld a, e_t(ix)
                 xor #t_enemy
                     jr nz, no_en_2
-                    ld a, #8
-                    call ia_colides_tilemap
+
+                    ld a, e_be(ix)
+                    or #0
+                    jr z, no_en_2
+                        call ia_colides_tilemap
+                        ret
 
                 no_en_2:  
+                ld e_vx(ix), #0
                 ret
     nada:
     ret
 
 
 
+check_half_tile_up:
+    ld a, e_y(ix)
+    ld b, #8
+
+contando_multiplos_up:
+
+    sub b
+
+    jr z, multiplo_up
+
+    jr c, moverse_mismo_tile_up
+
+
+    jr contando_multiplos_up
+
+multiplo_up:
+    ld a, #1
+ret
+
+moverse_mismo_tile_up:
+    ld a, #0
+ret
 
 
 check_half_tile:
@@ -420,7 +462,22 @@ collider_one_pair::
     or b
     jr z, no_colisionan
 
+; COMPRUEBO SI LA COLISION ES DE PLAYER-ENEMY PARA SABER SI HACER LA COMPROBACION NORMAL O CON HITBOX FAVORABLE 
+        ld a, e_t(iy)
+        and #t_player
+        jr z, colision_normal
+            ld a, e_t(ix)
+            and #t_enemy
+            jr z, colision_normal
+            call check_collision_favorable
+            jr elegido_tipo_colision
+
+
+
+; COLISION NORMAL
+        colision_normal:
         call check_collision
+    elegido_tipo_colision:    
         jr c, no_colisionan
             ;cpctm_setBorder_asm HW_WHITE
 
@@ -476,6 +533,47 @@ check_collision::
     sub e_y(iy)
     ret c
 ret
+
+
+check_collision_favorable::
+
+;COLISIONES CON EL EJE X
+; if (e_x(iy)+e_w(iy)-e_x(ix) < 0) No_col
+    ld a, e_x(iy)
+    add #1
+    add #w_favorable
+    sub e_x(ix)
+    ret c
+
+
+; if (e_x(ix)+e_w(ix)-e_x(iy) < 0) No_col
+
+    ld a, e_x(ix)
+    add #1
+    add #w_favorable
+    sub e_x(iy)
+    ret c
+
+
+
+;COLISIONES CON EL EJE Y
+; if (e_x(iy)+e_w(iy)-e_x(ix) < 0) No_col
+    ld a, e_y(iy)
+    add #2
+    add #h_favorable
+    sub e_y(ix)
+    ret c
+
+
+; if (e_x(ix)+e_w(ix)-e_x(iy) < 0) No_col
+
+    ld a, e_y(ix)
+    add #2
+    add #h_favorable
+    sub e_y(iy)
+    ret c
+ret
+
 
 
 
@@ -554,8 +652,25 @@ no_player:
         ld a, e_t(ix)
         xor #t_caja
         jr nz, no_en_caja
+            ld a, e_be(iy)
 
-        call colision_con_caja
+            or #0
+            jr z, es_ghost
+
+             	ex__hl_ix
+ 	            ex__hl_iy
+                ex__hl_ix
+            
+                call ia_colides_tilemap
+
+
+             	ex__hl_ix
+ 	            ex__hl_iy
+                ex__hl_ix
+                ret
+
+            es_ghost:
+            call colision_con_caja
         
 
     no_en_caja:
