@@ -7,6 +7,12 @@ vengo_de_comer:: .db 0
 
 
 
+ghost_moving::
+.dw  _h2_array_0
+.dw  _h2_array_1
+.dw 0x0
+.dw ghost_moving
+
 ant_moving::
 .dw  _h_array_0
 .dw  _h_array_1
@@ -346,7 +352,16 @@ check_new_direction:
 ; Lo que no sea player
 
 
+    ld a, e_be(ix)
+    and a
+    jr z, direction_ghost
+
     ld hl, #ant_moving
+    call cargar_sprite_pack
+    ret
+
+    direction_ghost:
+    ld hl, #ghost_moving
     call cargar_sprite_pack
     ret
 
