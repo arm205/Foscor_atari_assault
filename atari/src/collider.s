@@ -4,7 +4,8 @@
 .include "game.h.s"
 .include "ia.h.s"
 
-
+ w_favorable = 2
+ h_favorable = 12
 
 collider_update::
     push de
@@ -461,7 +462,22 @@ collider_one_pair::
     or b
     jr z, no_colisionan
 
+; COMPRUEBO SI LA COLISION ES DE PLAYER-ENEMY PARA SABER SI HACER LA COMPROBACION NORMAL O CON HITBOX FAVORABLE 
+        ld a, e_t(iy)
+        and #t_player
+        jr z, colision_normal
+            ld a, e_t(ix)
+            and #t_enemy
+            jr z, colision_normal
+            call check_collision_favorable
+            jr elegido_tipo_colision
+
+
+
+; COLISION NORMAL
+        colision_normal:
         call check_collision
+    elegido_tipo_colision:    
         jr c, no_colisionan
             ;cpctm_setBorder_asm HW_WHITE
 
@@ -517,6 +533,47 @@ check_collision::
     sub e_y(iy)
     ret c
 ret
+
+
+check_collision_favorable::
+
+;COLISIONES CON EL EJE X
+; if (e_x(iy)+e_w(iy)-e_x(ix) < 0) No_col
+    ld a, e_x(iy)
+    add #1
+    add #w_favorable
+    sub e_x(ix)
+    ret c
+
+
+; if (e_x(ix)+e_w(ix)-e_x(iy) < 0) No_col
+
+    ld a, e_x(ix)
+    add #1
+    add #w_favorable
+    sub e_x(iy)
+    ret c
+
+
+
+;COLISIONES CON EL EJE Y
+; if (e_x(iy)+e_w(iy)-e_x(ix) < 0) No_col
+    ld a, e_y(iy)
+    add #2
+    add #h_favorable
+    sub e_y(ix)
+    ret c
+
+
+; if (e_x(ix)+e_w(ix)-e_x(iy) < 0) No_col
+
+    ld a, e_y(ix)
+    add #2
+    add #h_favorable
+    sub e_y(iy)
+    ret c
+ret
+
 
 
 
