@@ -1,6 +1,6 @@
 .include "cpctelera.h.s"
 
-_current_level::            .dw #_level_4
+_current_level::            .dw #_level_1
 _current_tilemap::          .dw #0x0
 
 _next_level_ptr::           .dw 0
