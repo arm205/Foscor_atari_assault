@@ -5,15 +5,23 @@ _current_tilemap::          .dw #0x0
 
 _next_level_ptr::           .dw 0
 
-_level_reseted::             .db 0
+_level_reseted::            .db 0
 
-_puntero::                 .dw 0
+_puntero::                  .dw 0
+
+_num_level::                .db 0
+
+;;MODIFICAR CADA VEZ QUE SE AGREGA UN NIVEL
+_num_total_levels::         .db 7
 
 
 L_M_init::
 
     ;;Cargar primer nivel
     call    L_M_loadLevel
+
+    ld  a, (_num_total_levels)
+    ld (_num_level), a
 
 ret
 
@@ -257,6 +265,15 @@ ret
 
 L_M_levelPassed::
 
+ld  a, (_num_level)
+dec a
+ld  (_num_level), a
+jr  nz, salta
+
+call L_M_showWinScreen
+
+salta:
+
 ld  a, #0x01
 ld  (_level_reseted), a
 
@@ -275,6 +292,9 @@ call _render_sys_drawTileMap
 ret
 
 L_M_loadFirstLevel::
+
+ld  a, (_num_total_levels)
+ld (_num_level), a
 
 ld hl, #_level_1
 ld (_current_level), hl
@@ -295,5 +315,19 @@ L_M_showMenuScreen::
     call wait_keyPressed
 
    call L_M_loadFirstLevel
+
+ret
+
+L_M_showWinScreen::
+
+    cpctm_clearScreen_asm #0
+
+    ;;DIBUJAR LA PANTALLA DE VICTORIA
+
+
+    ld hl, #Key_Enter
+    call wait_keyPressed
+
+   call L_M_showMenuScreen
 
 ret
