@@ -45,6 +45,7 @@ $(eval $(call IMG2SP, SET_FOLDER      , src/assets/sprites ))
 $(eval $(call IMG2SP, SET_PALETTE_FW  , $(PALETTE)         ))
 $(eval $(call IMG2SP, CONVERT, img/garrapata.png , 8, 16, g_array, pal_main))
 $(eval $(call IMG2SP, CONVERT, img/hormiga.png , 8, 16, h_array, h_pal))
+$(eval $(call IMG2SP, CONVERT, img/hormiga_ghost.png , 8, 16, h2_array, h2_pal))
 
 $(eval $(call IMG2SP, CONVERT, img/spriteCaja.png , 8, 16, spriteCaja, caja_pal))
 $(eval $(call IMG2SP, CONVERT, img/spriteNegro.png , 8, 16, spriteNegro, negro_pal))

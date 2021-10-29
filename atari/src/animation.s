@@ -7,6 +7,12 @@ vengo_de_comer:: .db 0
 
 
 
+ghost_moving::
+.dw  _h2_array_0
+.dw  _h2_array_1
+.dw 0x0
+.dw ghost_moving
+
 ant_moving::
 .dw  _h_array_0
 .dw  _h_array_1
@@ -75,16 +81,111 @@ player_eating_left::
 
 
 key_pack_sprites:
-    .dw Key_O, player_moving_left
-    .dw Key_P, player_moving_right
-    .dw Key_Q, player_moving_up
-    .dw Key_A, player_moving_down
+    .dw Key_O, player_moving_left_stoped
+    .dw Key_P, player_moving_right_stoped
+    .dw Key_Q, player_moving_up_stoped
+    .dw Key_A, player_moving_down_stoped
 
-    .dw Joy0_Left, player_moving_left
-    .dw Joy0_Right, player_moving_right
-    .dw Joy0_Up, player_moving_up
-    .dw Joy0_Down, player_moving_down
+    .dw Joy0_Left, player_moving_left_stoped
+    .dw Joy0_Right, player_moving_right_stoped
+    .dw Joy0_Up, player_moving_up_stoped
+    .dw Joy0_Down, player_moving_down_stoped
     .dw 0
+
+
+player_moving_left_stoped:
+
+
+    ld hl, #player_moving_left
+
+    ld e_animptr+1(ix), h
+    ld e_animptr(ix), l
+    
+    ld c, (hl)
+    inc hl
+    ld b, (hl)
+
+    ld e_spr(ix), c
+    ld e_spr+1(ix), b
+
+    ld a, #-2
+
+    ld e_vx_prev(ix), a
+    xor a
+    ld e_vy_prev(ix), a
+
+ret
+
+player_moving_right_stoped:
+
+
+    ld hl, #player_moving_right
+
+    ld e_animptr+1(ix), h
+    ld e_animptr(ix), l
+    
+    ld c, (hl)
+    inc hl
+    ld b, (hl)
+
+    ld e_spr(ix), c
+    ld e_spr+1(ix), b
+
+    ld a, #2
+
+    ld e_vx_prev(ix), a
+    xor a
+    ld e_vy_prev(ix), a
+
+ret
+
+player_moving_up_stoped:
+
+
+    ld hl, #player_moving_up
+
+    ld e_animptr+1(ix), h
+    ld e_animptr(ix), l
+    
+    ld c, (hl)
+    inc hl
+    ld b, (hl)
+
+    ld e_spr(ix), c
+    ld e_spr+1(ix), b
+
+    ld a, #-8
+    ld e_vy_prev(ix), a
+    xor a
+    ld e_vx_prev(ix), a
+
+
+ret
+
+player_moving_down_stoped:
+
+
+    ld hl, #player_moving_down
+
+    ld e_animptr+1(ix), h
+    ld e_animptr(ix), l
+    
+    ld c, (hl)
+    inc hl
+    ld b, (hl)
+
+    ld e_spr(ix), c
+    ld e_spr+1(ix), b
+
+    ld a, #8
+
+    ld e_vy_prev(ix), a
+    xor a
+    ld e_vx_prev(ix), a
+
+ret
+
+
 
 
 animation_init::
@@ -207,20 +308,15 @@ loop_keys:
 
     call cpct_isKeyPressed_asm
     jr z, loop_keys
+    ld hl, #loop_keys
+    push hl
 
 
     ld l, 2(iy)
     ld h, 3(iy)
 
-    ld e_animptr+1(ix), h
-    ld e_animptr(ix), l
-    
-    ld c, (hl)
-    inc hl
-    ld b, (hl)
+    jp (hl)
 
-    ld e_spr(ix), c
-    ld e_spr+1(ix), b
 
 ret
 
@@ -256,7 +352,16 @@ check_new_direction:
 ; Lo que no sea player
 
 
+    ld a, e_be(ix)
+    and a
+    jr z, direction_ghost
+
     ld hl, #ant_moving
+    call cargar_sprite_pack
+    ret
+
+    direction_ghost:
+    ld hl, #ghost_moving
     call cargar_sprite_pack
     ret
 
@@ -348,6 +453,7 @@ check_new_direction_eating:
  
     ld a, e_vy_prev(ix)
     cp #0
+    jr z, dont_eat
     jp m, arriba_eat
 
 
@@ -364,7 +470,9 @@ check_new_direction_eating:
     ld a, #1
     ld (still_eating), a
     call cargar_sprite_pack
-    ret
+dont_eat:
+ret
+
 
 
 
