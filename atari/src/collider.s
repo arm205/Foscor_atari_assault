@@ -469,13 +469,30 @@ collider_one_pair::
             ld a, e_t(ix)
             and #t_enemy
             jr z, colision_normal
-            call check_collision_favorable
+            
+            ld h, #h_favorable
+            ld l, #w_favorable
+            ld d, #h_favorable
+            ld e, #w_favorable
+            ld b, #1
+            ld c, #2
+            call check_collision
             jr elegido_tipo_colision
 
 
 
 ; COLISION NORMAL
         colision_normal:
+        ld a, e_h(iy)
+        ld h, a
+        ld a, e_w(iy)
+        ld l, a
+        ld a, e_h(ix)
+        ld d, a
+        ld a, e_w(ix)
+        ld e, a
+        ld b, #0
+        ld c, #0
         call check_collision
     elegido_tipo_colision:    
         jr c, no_colisionan
@@ -499,12 +516,18 @@ no_colisionan:
 ret
 
 
+; H: alto1, L: ancho1
+; D: alto2, E: ancho2
+; B: sumar x, C: sumar y
+
 check_collision::
 
+
 ;COLISIONES CON EL EJE X
 ; if (e_x(iy)+e_w(iy)-e_x(ix) < 0) No_col
     ld a, e_x(iy)
-    add e_w(iy)
+    add a, b
+    add a, l
     sub e_x(ix)
     ret c
 
@@ -512,7 +535,8 @@ check_collision::
 ; if (e_x(ix)+e_w(ix)-e_x(iy) < 0) No_col
 
     ld a, e_x(ix)
-    add e_w(ix)
+    add a, b
+    add a, e
     sub e_x(iy)
     ret c
 
@@ -521,7 +545,8 @@ check_collision::
 ;COLISIONES CON EL EJE Y
 ; if (e_x(iy)+e_w(iy)-e_x(ix) < 0) No_col
     ld a, e_y(iy)
-    add e_h(iy)
+    add a, c
+    add a, h
     sub e_y(ix)
     ret c
 
@@ -529,47 +554,8 @@ check_collision::
 ; if (e_x(ix)+e_w(ix)-e_x(iy) < 0) No_col
 
     ld a, e_y(ix)
-    add e_h(ix)
-    sub e_y(iy)
-    ret c
-ret
-
-
-check_collision_favorable::
-
-;COLISIONES CON EL EJE X
-; if (e_x(iy)+e_w(iy)-e_x(ix) < 0) No_col
-    ld a, e_x(iy)
-    add #1
-    add #w_favorable
-    sub e_x(ix)
-    ret c
-
-
-; if (e_x(ix)+e_w(ix)-e_x(iy) < 0) No_col
-
-    ld a, e_x(ix)
-    add #1
-    add #w_favorable
-    sub e_x(iy)
-    ret c
-
-
-
-;COLISIONES CON EL EJE Y
-; if (e_x(iy)+e_w(iy)-e_x(ix) < 0) No_col
-    ld a, e_y(iy)
-    add #2
-    add #h_favorable
-    sub e_y(ix)
-    ret c
-
-
-; if (e_x(ix)+e_w(ix)-e_x(iy) < 0) No_col
-
-    ld a, e_y(ix)
-    add #2
-    add #h_favorable
+    add a, c
+    add a, d
     sub e_y(iy)
     ret c
 ret

@@ -92,12 +92,9 @@ key_pack_sprites:
     .dw Joy0_Down, player_moving_down_stoped
     .dw 0
 
+    ; HL: Pack to charge
 
-player_moving_left_stoped:
-
-
-    ld hl, #player_moving_left
-
+charge_new_pack_stoped:
     ld e_animptr+1(ix), h
     ld e_animptr(ix), l
     
@@ -107,6 +104,14 @@ player_moving_left_stoped:
 
     ld e_spr(ix), c
     ld e_spr+1(ix), b
+ret
+
+player_moving_left_stoped:
+
+
+    ld hl, #player_moving_left
+
+    call charge_new_pack_stoped
 
     ld a, #-2
 
@@ -121,15 +126,7 @@ player_moving_right_stoped:
 
     ld hl, #player_moving_right
 
-    ld e_animptr+1(ix), h
-    ld e_animptr(ix), l
-    
-    ld c, (hl)
-    inc hl
-    ld b, (hl)
-
-    ld e_spr(ix), c
-    ld e_spr+1(ix), b
+    call charge_new_pack_stoped
 
     ld a, #2
 
@@ -144,15 +141,7 @@ player_moving_up_stoped:
 
     ld hl, #player_moving_up
 
-    ld e_animptr+1(ix), h
-    ld e_animptr(ix), l
-    
-    ld c, (hl)
-    inc hl
-    ld b, (hl)
-
-    ld e_spr(ix), c
-    ld e_spr+1(ix), b
+    call charge_new_pack_stoped
 
     ld a, #-8
     ld e_vy_prev(ix), a
@@ -167,15 +156,7 @@ player_moving_down_stoped:
 
     ld hl, #player_moving_down
 
-    ld e_animptr+1(ix), h
-    ld e_animptr(ix), l
-    
-    ld c, (hl)
-    inc hl
-    ld b, (hl)
-
-    ld e_spr(ix), c
-    ld e_spr+1(ix), b
+    call charge_new_pack_stoped
 
     ld a, #8
 
