@@ -59,6 +59,22 @@ $(eval $(call PACKZX7B,level_06_pack,src/assets/tiles/compressed_tiles/))
 $(eval $(call ADD2PACK,level_07_pack,src/assets/tiles/level_07.bin))
 $(eval $(call PACKZX7B,level_07_pack,src/assets/tiles/compressed_tiles/))
 
+$(eval $(call ADD2PACK,level_08_pack,src/assets/tiles/level_08.bin))
+$(eval $(call PACKZX7B,level_08_pack,src/assets/tiles/compressed_tiles/))
+
+$(eval $(call ADD2PACK,level_09_pack,src/assets/tiles/level_09.bin))
+$(eval $(call PACKZX7B,level_09_pack,src/assets/tiles/compressed_tiles/))
+
+$(eval $(call ADD2PACK,level_10_pack,src/assets/tiles/level_10.bin))
+$(eval $(call PACKZX7B,level_10_pack,src/assets/tiles/compressed_tiles/))
+
+$(eval $(call ADD2PACK,level_11_pack,src/assets/tiles/level_11.bin))
+$(eval $(call PACKZX7B,level_11_pack,src/assets/tiles/compressed_tiles/))
+
+$(eval $(call ADD2PACK,level_12_pack,src/assets/tiles/level_12.bin))
+$(eval $(call PACKZX7B,level_12_pack,src/assets/tiles/compressed_tiles/))
+
+
 ############################################################################
 ##              DETAILED INSTRUCTIONS AND PARAMETERS                      ##
 ##------------------------------------------------------------------------##
