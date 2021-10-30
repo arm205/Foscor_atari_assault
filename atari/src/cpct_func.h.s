@@ -10,3 +10,5 @@
 .globl cpct_scanKeyboard_f_asm
 .globl cpct_isAnyKeyPressed_f_asm
 .globl cpct_memset_asm
+
+.globl cpct_zx7b_decrunch_s_asm

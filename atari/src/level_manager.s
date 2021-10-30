@@ -1,4 +1,5 @@
 .include "cpctelera.h.s"
+.include "assets/screens/screenmenu_z.h.s"
 
 _current_level::            .dw #_level_1
 _current_tilemap::          .dw #0x0
@@ -305,13 +306,17 @@ ret
 
 L_M_showMenuScreen::
 
-    cpctm_clearScreen_asm #0
+    ld  a, #0x01
+    ld  (_level_reseted), a
+
 
     ;;DIBUJAR LA PANTALLA DE INICIO
+    ld  hl, #_screenmenu_z_end
+    ld  de, #0xFFFF
+    call cpct_zx7b_decrunch_s_asm
 
 
-
-    ld hl, #Key_Enter
+    ld hl, #Key_Space
     call wait_keyPressed
 
    call L_M_loadFirstLevel
@@ -325,7 +330,7 @@ L_M_showWinScreen::
     ;;DIBUJAR LA PANTALLA DE VICTORIA
 
 
-    ld hl, #Key_Enter
+    ld hl, #Key_Space
     call wait_keyPressed
 
    call L_M_showMenuScreen

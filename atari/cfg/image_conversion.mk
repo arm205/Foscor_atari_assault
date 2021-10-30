@@ -50,11 +50,14 @@ $(eval $(call IMG2SP, CONVERT, img/hormiga_ghost.png , 8, 16, h2_array, h2_pal))
 $(eval $(call IMG2SP, CONVERT, img/spriteCaja.png , 8, 16, spriteCaja, caja_pal))
 $(eval $(call IMG2SP, CONVERT, img/spriteNegro.png , 8, 16, spriteNegro, negro_pal))
 
-#$(eval $(call IMG2SP, CONVERT, img/menuTitle.png , 320, 200, sptiteTitle, p_main))
 
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles))
 $(eval $(call IMG2SP, CONVERT, img/tilemap/tileset_02.png , 8, 8, tiles, t_pal))
 
+$(eval $(call IMG2SP, SET_FOLDER      , src/assets/screens/))
+$(eval $(call IMG2SP, SET_IMG_FORMAT  , screen))
+$(eval $(call IMG2SP, SET_OUTPUT      , bin))
+$(eval $(call IMG2SP, CONVERT, img/menuScreenV2.png , 0, 0, screen_menu))
 
 ##
 ## OLD MACROS (For compatibility)

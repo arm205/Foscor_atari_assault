@@ -59,6 +59,10 @@ $(eval $(call PACKZX7B,level_06_pack,src/assets/tiles/compressed_tiles/))
 $(eval $(call ADD2PACK,level_07_pack,src/assets/tiles/level_07.bin))
 $(eval $(call PACKZX7B,level_07_pack,src/assets/tiles/compressed_tiles/))
 
+
+$(eval $(call ADD2PACK,screenmenu_z,src/assets/screens/menuScreenV2.bin))
+$(eval $(call PACKZX7B,screenmenu_z,src/assets/screens/))
+
 ############################################################################
 ##              DETAILED INSTRUCTIONS AND PARAMETERS                      ##
 ##------------------------------------------------------------------------##

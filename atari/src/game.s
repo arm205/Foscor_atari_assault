@@ -87,8 +87,8 @@ man_game_update::
     ld  a, #0x0
     ld  (_level_reseted), a
 
-    ld hl, #Key_Esc
-    call check_keyPressed
+    ;;ld hl, #Key_Esc
+    ;;call check_keyPressed
 
     ;;cpctm_setBorder_asm HW_YELLOW
     call E_M_getEntityArray
