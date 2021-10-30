@@ -400,7 +400,9 @@ E_M_for_all_pairs_matching::
                 jr continua2_pairs
 
                 cumple2_pairs:  
+                    push de
                     call collider_one_pair
+                    pop de
                     ld  a, (_level_reseted)
                     xor #0x0
                     ret nz
