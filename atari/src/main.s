@@ -12,6 +12,7 @@
 
 _main::
    call cpct_disableFirmware_asm
+
    call man_game_init
 
 loop:
