@@ -93,7 +93,7 @@ _level_4::
 
 
 _level_5::
-    .dw     #_level_05_pack_end                  ;;TileMap
+    .dw     #_level_05_pack_end        ;;TileMap
     .db     38,0                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
     .db     16,16                       ;;Pos enemigo
@@ -102,7 +102,7 @@ _level_5::
 
     .db     52,112                      ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     60,180                      ;;Salida
+    .db     32,180                      ;;Salida
     .db     57,80                      ;;SPos caja
     .db    28,160                      ;;SPos caja
     .db    40,160                      ;;SPos caja
@@ -112,12 +112,12 @@ _level_5::
 
     .db     #0xFF                       ;;FIN cajas rojas
     .db     #0xFF                       ;;FIN cajas azules
-    .db     38,0                       ;;Posicion Nada
+    .db     38,0                        ;;Posicion Nada
     .db     #0xFF                       ;;FIN Nada
 
 
 _level_6::
-    .dw     #_level_06_pack_end                  ;;TileMap
+    .dw     #_level_06_pack_end         ;;TileMap
     .db     38,0                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
     .db     56,48                       ;;Pos enemigo
@@ -126,7 +126,7 @@ _level_6::
     .db     12,16                       ;;Pos enemigo
     .db     48,124                      ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     60,180                      ;;Salida
+    .db     56,180                      ;;Salida
     .db     52,16                       ;;Pos caja
     .db     #0xFF                       ;;FIN cajas verdes
     .db     48,104                      ;;Pos caja
@@ -136,7 +136,6 @@ _level_6::
     .db     #0xFF                       ;;FIN cajas azules
     .db     38,0                       ;;Posicion Nada
     .db     #0xFF                       ;;FIN Nada
-    ;;.db     22                          ;;Tamanyo nivel
 
 
 _level_7::
