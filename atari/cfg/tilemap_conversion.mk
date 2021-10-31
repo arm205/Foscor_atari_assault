@@ -51,7 +51,10 @@ $(eval $(call TMX2DATA, CONVERT, img/tilemap/level_08.tmx, level_08 ))
 $(eval $(call TMX2DATA, CONVERT, img/tilemap/level_09.tmx, level_09 )) 
 $(eval $(call TMX2DATA, CONVERT, img/tilemap/level_10.tmx, level_10 )) 
 $(eval $(call TMX2DATA, CONVERT, img/tilemap/level_11.tmx, level_11 )) 
-$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_12.tmx, level_12 ))  
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_12.tmx, level_12 ))
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_13.tmx, level_13 ))  
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_14.tmx, level_14 ))  
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_15.tmx, level_15 ))    
 
 
 ##
