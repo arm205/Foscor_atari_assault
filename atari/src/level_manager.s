@@ -13,7 +13,7 @@ _puntero::                  .dw 0
 _num_level::                .db 0
 
 ;;MODIFICAR CADA VEZ QUE SE AGREGA UN NIVEL
-_num_total_levels::         .db 15
+_num_total_levels::         .db 5
 
 
 L_M_init::
@@ -272,6 +272,7 @@ ld  (_num_level), a
 jr  nz, salta
 
 call L_M_showWinScreen
+ret
 
 salta:
 
@@ -302,6 +303,7 @@ ld (_current_level), hl
 
 call L_M_resetCurrentLevel
 
+
 ret
 
 L_M_showMenuScreen::
@@ -330,6 +332,8 @@ L_M_showWinScreen::
 
     cpctm_clearScreen_asm #0
 
+
+
     ;;DIBUJAR LA PANTALLA DE VICTORIA
     ld  hl, #_screenend_z_end
     ld  de, #0xFFFF
@@ -338,6 +342,6 @@ L_M_showWinScreen::
     ld hl, #Key_Space
     call wait_keyPressed
 
-   call L_M_showMenuScreen
+   call man_game_init
 
 ret
