@@ -120,3 +120,41 @@ loop_keys:
     jp (hl)
 
 ret
+
+
+wait_keyPressed::
+
+    push hl
+    call cpct_scanKeyboard_f_asm
+    pop hl
+    push hl
+    call cpct_isKeyPressed_asm
+    pop hl
+
+    jr  nz, wait_keyPressed
+
+    loop2:
+    push hl
+    call cpct_scanKeyboard_f_asm
+    pop hl
+    push hl
+    call cpct_isKeyPressed_asm
+    pop hl
+    jr z, loop2
+ret
+
+check_keyPressed::
+
+    push hl
+    call cpct_scanKeyboard_f_asm
+    pop hl
+    push hl
+    call cpct_isKeyPressed_asm
+    pop hl
+
+    jr  z, continuar
+
+    call L_M_showMenuScreen
+
+    continuar:
+ret

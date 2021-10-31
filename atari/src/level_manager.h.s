@@ -3,7 +3,8 @@
 .globl L_M_resetCurrentLevel
 .globl L_M_levelPassed
 .globl L_M_loadMultiplesEntities
-
+.globl L_M_loadFirstLevel
+.globl L_M_showMenuScreen
 
 ;
 ;IMPORTANTE: CONSIDERACIONES A LA HORA DE PONER COSAS EN EL MAPA
@@ -118,7 +119,7 @@ _level_5::
 
 _level_6::
     .dw     #_level_06_pack_end         ;;TileMap
-    .db     38,0                       ;;Posicion Player
+    .db     36,0                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
     .db     56,48                       ;;Pos enemigo
     .db     48,124                       ;;Pos enemigo

@@ -55,6 +55,8 @@ _game_regresive_clock:: .db #0x0
 
 
 man_game_init::
+
+
     ;;Inicializar Entity Manager
     call    E_M_init
     ;;Inicializar Level Manager
@@ -68,7 +70,7 @@ man_game_init::
     ;;Inicializar Animation System
     call    animation_init
 
-    
+    call L_M_showMenuScreen
     
     ;;Render Tile Map
     call _render_sys_drawTileMap
@@ -85,6 +87,8 @@ man_game_update::
     ld  a, #0x0
     ld  (_level_reseted), a
 
+    ;;ld hl, #Key_Esc
+    ;;call check_keyPressed
 
     ;;cpctm_setBorder_asm HW_YELLOW
     call E_M_getEntityArray
@@ -120,33 +124,33 @@ man_game_render::
     call _render_sys_update 
     call E_M_checkDelete
 ret
-
-man_game_end::
-call E_M_init
-cpctm_clearScreen_asm #0
-
-ld de, #0xC000
-ld c, #20
-ld b, #92
-call cpct_getScreenPtr_asm
-ld iy, #final_text
-call cpct_drawStringM0_asm
-
-;;jr .
-
-call L_M_resetCurrentLevel
-ret  
-
-man_game_win::
-call E_M_init
-cpctm_clearScreen_asm #0
-
-ld de, #0xC000
-ld c, #20
-ld b, #92
-call cpct_getScreenPtr_asm
-ld iy, #win_text
-call cpct_drawStringM0_asm
-
-jr .
+;
+;man_game_end::
+;call E_M_init
+;cpctm_clearScreen_asm #0
+;
+;ld de, #0xC000
+;ld c, #20
+;ld b, #92
+;call cpct_getScreenPtr_asm
+;ld iy, #final_text
+;call cpct_drawStringM0_asm
+;
+;;;jr .
+;
+;call L_M_resetCurrentLevel
+;ret  
+;
+;man_game_win::
+;call E_M_init
+;cpctm_clearScreen_asm #0
+;
+;ld de, #0xC000
+;ld c, #20
+;ld b, #92
+;call cpct_getScreenPtr_asm
+;ld iy, #win_text
+;call cpct_drawStringM0_asm
+;
+;jr .
 
