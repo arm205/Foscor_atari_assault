@@ -261,6 +261,7 @@ call L_M_loadLevel
 
 call _render_sys_drawTileMap
 
+
 ret
 
 
@@ -299,6 +300,7 @@ ld (_num_level), a
 
 ld hl, #_level_1
 ld (_current_level), hl
+
 
 call L_M_resetCurrentLevel
 
