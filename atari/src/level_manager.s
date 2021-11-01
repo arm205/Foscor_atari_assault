@@ -13,7 +13,7 @@ _puntero::                  .dw 0
 _num_level::                .db 0
 
 ;;MODIFICAR CADA VEZ QUE SE AGREGA UN NIVEL
-_num_total_levels::         .db 15
+_num_total_levels::         .db 5
 
 
 L_M_init::
@@ -270,6 +270,7 @@ call L_M_loadLevel
 
 call _render_sys_drawTileMap
 
+
 ret
 
 
@@ -281,6 +282,7 @@ ld  (_num_level), a
 jr  nz, salta
 
 call L_M_showWinScreen
+ret
 
 salta:
 
@@ -309,21 +311,22 @@ ld (_num_level), a
 ld hl, #_level_1
 ld (_current_level), hl
 
+
 call L_M_resetCurrentLevel
+
 
 ret
 
 L_M_showMenuScreen::
 
-    ld  a, #0x01
-    ld  (_level_reseted), a
+    cpctm_clearScreen_asm #0
 
-
+    call change_screen_to_C000
+    
     ;;DIBUJAR LA PANTALLA DE INICIO
     ld  hl, #_screenmenu_z_end
     ld  de, #0xFFFF
     call cpct_zx7b_decrunch_s_asm
-
 
     ld hl, #Key_Space
     call wait_keyPressed
@@ -336,7 +339,12 @@ L_M_showWinScreen::
 
     cpctm_clearScreen_asm #0
 
+    call change_screen_to_C000
+
     ;;DIBUJAR LA PANTALLA DE VICTORIA
+    ld  hl, #_screenend_z_end
+    ld  de, #0xFFFF
+    call cpct_zx7b_decrunch_s_asm
 
 
     ld hl, #Key_Space

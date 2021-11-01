@@ -16,7 +16,7 @@
 
 decompress_buffer = 0x40
 level_max_size = 0x1F4
-decompress_buffer_end = decompress_buffer+level_max_size-1
+decompress_buffer_end == decompress_buffer+level_max_size-1
 
 
 
@@ -103,7 +103,6 @@ ret
 _render_sys_update::
     call _render_ents_update
 
-
 ret
 ;; RENDER ENTITIES
 ;;      INPUT: IX
@@ -111,7 +110,9 @@ ret
 _render_ents_update::
     ld a, #cmp_render
     call E_M_for_all_matching
+
     call change_screen
+
 ret
 _render_sys_terminate::
 ret
@@ -128,7 +129,7 @@ change_screen_to_8000:
     ld hl, #change_screen_to_C000
     ld (f_change_screen), hl
 ret
-change_screen_to_C000:
+change_screen_to_C000::
     
     ld de, #0x0C30
     call setCTCR
