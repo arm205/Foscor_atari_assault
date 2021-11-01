@@ -310,15 +310,14 @@ ret
 
 L_M_showMenuScreen::
 
-    ld  a, #0x01
-    ld  (_level_reseted), a
+    cpctm_clearScreen_asm #0
 
+    call change_screen_to_C000
     
     ;;DIBUJAR LA PANTALLA DE INICIO
     ld  hl, #_screenmenu_z_end
     ld  de, #0xFFFF
     call cpct_zx7b_decrunch_s_asm
-
 
     ld hl, #Key_Space
     call wait_keyPressed
@@ -327,23 +326,21 @@ L_M_showMenuScreen::
 
 ret
 
-L_M_showWinScreen:: 
-
-    ld  a, #0x01
-    ld  (_level_reseted), a
+L_M_showWinScreen::
 
     cpctm_clearScreen_asm #0
 
-
+    call change_screen_to_C000
 
     ;;DIBUJAR LA PANTALLA DE VICTORIA
     ld  hl, #_screenend_z_end
     ld  de, #0xFFFF
     call cpct_zx7b_decrunch_s_asm
 
+
     ld hl, #Key_Space
     call wait_keyPressed
 
-   call man_game_init
+   call L_M_showMenuScreen
 
 ret

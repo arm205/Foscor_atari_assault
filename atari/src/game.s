@@ -78,9 +78,6 @@ man_game_init::
 
     call L_M_showMenuScreen
     
-    ;;Render Tile Map
-    call _render_sys_drawTileMap
-
 ret
 
 ;;INPUT:HL: Puntero al tipo de entidad que se quiera crear
@@ -92,9 +89,9 @@ man_game_update::
      
     ld  a, #0x0
     ld  (_level_reseted), a
-
-    ;;ld hl, #Key_Esc
-    ;;call check_keyPressed
+    
+    ld hl, #Key_Esc
+    call check_keyPressed
 
     ;;cpctm_setBorder_asm HW_YELLOW
     call E_M_getEntityArray
