@@ -18,6 +18,7 @@
 .globl E_M_getPlayer
 .globl E_M_getEnemy
 .globl E_M_getSalida
+.globl E_M_getMandibula
 .globl E_M_getCajaVerde
 .globl E_M_getCajaAmarilla
 .globl E_M_getCajaRoja
@@ -116,7 +117,6 @@ t_dead = 0x80
 
 t_nada = 0x10
 
-t_final = 0x20
 
 animation_speed = 0x5
 
