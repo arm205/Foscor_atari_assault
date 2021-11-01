@@ -115,9 +115,18 @@ L_M_loadLevel::
     ;;-------------------------------------------------------
     ;;SALIDA
         push hl
-        call E_M_getSalida
-        ld__iy_hl
+        ld  a, (hl)
+        or #0
+        jr z, arcoiris
+                call E_M_getMandibula
+                ld__iy_hl
+                jr ya_tengo_salida
+            arcoiris:
+            call E_M_getSalida
+            ld__iy_hl
+        ya_tengo_salida:
         pop hl
+        inc hl
 
         ;;Set posicion de la salida
         ld  a, (hl)

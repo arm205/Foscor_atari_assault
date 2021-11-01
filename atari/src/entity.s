@@ -466,6 +466,13 @@ ret
 
 ;;MODIFICA
 ;;  HL: Direccion de la salida
+E_M_getMandibula::
+    ld  hl, #mandibula
+ret
+
+
+;;MODIFICA
+;;  HL: Direccion de la salida
 E_M_getCajaVerde::
     ld  hl, #caja_verde
 ret
