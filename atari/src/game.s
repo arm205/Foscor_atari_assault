@@ -23,7 +23,7 @@ enemy3:: .db t_enemy, cmp_collider | cmp_render | cmp_ia | cmp_animation, 4, 42,
 
 player:: .db t_player, cmp_collider | cmp_render | cmp_input | cmp_animation, 40, 0, 4, 16, 0, 0, 0, 0, 0x0F, 0
 .dw #_g_array_04, 0x0, player_moving_down
-.db animation_speed, 0x00, 0x10, t_enemy | t_caja | t_salida
+.db animation_speed, 0x00, 0x10, t_enemy | t_caja | t_salida | t_final
 
 
 caja_azul:: .db t_caja, cmp_collider | cmp_render, 0, 0, 4, 16, 0, 0, 0, 0, 0xF0, 4
@@ -47,6 +47,12 @@ salida:: .db t_salida, cmp_collider, 12, 0, 8, 10, 0, 0, 0, 0, 0xF0, 0, 0xCC, 0x
 
 
 nada:: .db t_nada,  cmp_collider, 12, 0, 8, 10, 0, 0, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0x0, 0x0, 0x0, 0x0, animation_speed, 0x00, 0x10, 0
+
+
+mandibulas:: .db t_final, cmp_collider | cmp_render, 0, 0, 4, 16, 0, 0, 0, 0, 0xF0, 0
+.dw #_mandibulas, 0x0, 0x0
+.db animation_speed, 0x00, 0x10, t_player
+
 
 final_text: .asciz "GAME OVER"
 win_text: .asciz "YOU WIN!!!"

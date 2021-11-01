@@ -49,6 +49,7 @@ $(eval $(call IMG2SP, CONVERT, img/hormiga_ghost.png , 8, 16, h2_array, h2_pal))
 
 $(eval $(call IMG2SP, CONVERT, img/spriteCaja.png , 8, 16, spriteCaja, caja_pal))
 $(eval $(call IMG2SP, CONVERT, img/spriteNegro.png , 8, 16, spriteNegro, negro_pal))
+$(eval $(call IMG2SP, CONVERT, img/mandibulas.png , 8, 16, mandibulas, man_pal))
 
 
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles))

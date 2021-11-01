@@ -116,6 +116,8 @@ t_dead = 0x80
 
 t_nada = 0x10
 
+t_final = 0x20
+
 animation_speed = 0x5
 
 
