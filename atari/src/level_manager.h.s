@@ -24,7 +24,7 @@ _level_1::
     .db     #0xFF                       ;;FIN enemigos2
 
     .db     #0xFF                       ;;FIN enemigos3
-    .db     36,180                     ;;Salida
+    .db     0,36,180                     ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
@@ -45,7 +45,7 @@ _level_2::
     .db     #0xFF                       ;;FIN enemigos
     .db     #0xFF                       ;;FIN enemigos2
     .db     #0xFF                       ;;FIN enemigos3
-    .db     36,180                     ;;Salida
+    .db      0,36,180                     ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
@@ -63,7 +63,7 @@ _level_3::
     .db     #0xFF                       ;;FIN enemigos
     .db     #0xFF                       ;;FIN enemigos2
     .db     #0xFF                       ;;FIN enemigos3
-    .db     36,180                      ;;Salida
+    .db      0,36,180                      ;;Salida
     .db     40,56                       ;;Pos caja
     .db     #0xFF                       ;;FIN cajas verdes
     .db     36,104                      ;;Pos caja
@@ -84,7 +84,7 @@ _level_4::
     .db     #0xFF                       ;;FIN enemigos2
     .db     44, 100
     .db     #0xFF                       ;;FIN enemigos3
-    .db     36,180                     ;;Salida
+    .db     0,36,180                     ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
@@ -100,7 +100,7 @@ _level_5::
     .db     #0xFF                       ;;FIN enemigos2
     .db     24,96                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     64,180                      ;;Salida
+    .db     0,64,180                      ;;Salida
     .db     48,112                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas verdes
     
@@ -120,7 +120,7 @@ _level_14::
     .db     #0xFF                       ;;FIN enemigos2
     .db     48,40                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     52,180                      ;;Salida
+    .db     0,52,180                      ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     48,88                       ;;Pos enemigo
@@ -136,7 +136,7 @@ _level_6::
     .db    36,160                      ;;SPos enemigo
     .db     #0xFF                       ;;FIN enemigos2
     .db     #0xFF                       ;;FIN enemigos3
-    .db     32,180                      ;;Salida
+    .db     0,32,180                      ;;Salida
 
     .db    28,160                      ;;SPos caja
     .db    40,160                      ;;SPos caja
@@ -161,7 +161,7 @@ _level_7::
     .db     12,16                       ;;Pos enemigo
     .db     48,124                      ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     56,180                      ;;Salida
+    .db     0,56,180                      ;;Salida
     .db     52,16                       ;;Pos caja
     .db     #0xFF                       ;;FIN cajas verdes
     .db     48,104                      ;;Pos caja
@@ -183,7 +183,7 @@ _level_8::
     .db     #0xFF                       ;;FIN enemigos2
     .db     68,144                      ;;Pos enemigo2
     .db     #0xFF                       ;;FIN enemigos3
-    .db     16,180                     ;;Salida
+    .db     0,16,180                     ;;Salida
     .db     20,128                      ;;Pos caja
     .db     8,128                       ;;Pos caja
     .db     #0xFF                       ;;FIN cajas verdes
@@ -202,7 +202,7 @@ _level_9::
     .db     12,80                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos2
     .db     #0xFF                       ;;FIN enemigos3
-    .db     64,180                      ;;Salida
+    .db     0,64,180                      ;;Salida
     .db     40,88                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
@@ -219,7 +219,7 @@ _level_10::
     .db     #0xFF                     ;;FIN enemigos
     .db     #0xFF                       ;;FIN enemigos2
     .db     #0xFF                       ;;FIN enemigos3
-    .db     36,188                      ;;Salida
+    .db     0,36,188                      ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
     .db     40,144                     ;;Pos caja
     .db     #0xFF                       ;;FIN cajas amarillas
@@ -238,7 +238,7 @@ _level_11::
     .db     #0xFF                       ;;FIN enemigos2
     .db     68,100                      ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     36,188                      ;;Salida
+    .db     0,36,188                      ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
@@ -257,7 +257,7 @@ _level_12::
     .db     36,130                       ;;Pos enemigo
     .db     52,56                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     60,180                      ;;Salida
+    .db     0,60,180                      ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
     .db     56,176                      ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas amarillas
@@ -276,7 +276,7 @@ _level_13::
     .db     20,80                       ;;Pos enemigo
     .db     52,64                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     64,180                      ;;Salida
+    .db     0,52,180                      ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     52,96                       ;;Pos enemigo
@@ -296,7 +296,7 @@ _level_15::
     .db     #0xFF                       ;;FIN enemigos2
     .db     56,80                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     38,180                      ;;Salida
+    .db     1,38,180                      ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     24,144                     ;;Pos enemigo
