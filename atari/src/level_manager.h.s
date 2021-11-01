@@ -91,10 +91,44 @@ _level_4::
     .db     #0xFF                       ;;FIN cajas azules
     .db     38,0                       ;;Posicion Nada
     .db     #0xFF                       ;;FIN Nada
-
-
 _level_5::
-    .dw     #_level_05_pack_end        ;;TileMap
+    .dw     #_level_05_pack_end         ;;TileMap
+    .db     38,0                      ;;Posicion Player
+    .db     #0xFF                     ;;FIN enemigos
+    .db     20,32                       ;;Pos enemigo
+    .db     68,48                       ;;Pos enemigo
+    .db     #0xFF                       ;;FIN enemigos2
+    .db     24,96                       ;;Pos enemigo
+    .db     #0xFF                       ;;FIN enemigos3
+    .db     64,180                      ;;Salida
+    .db     48,112                       ;;Pos enemigo
+    .db     #0xFF                       ;;FIN cajas verdes
+    
+    .db     #0xFF                       ;;FIN cajas amarillas
+    .db     #0xFF                       ;;FIN cajas rojas
+;    .db     64,168                      ;;Pos caja
+    .db     #0xFF                       ;;FIN cajas azules
+    .db     #0xFF                       ;;FIN Nada
+
+;;AQUI FALTAN LOS ENEMIGOS Y PERFILAR
+_level_14::
+    .dw     #_level_14_pack_end         ;;TileMap
+    .db     38,0                      ;;Posicion Player
+    .db     #0xFF                     ;;FIN enemigos
+    .db     8,120                       ;;Pos enemigo
+    .db     24,136                       ;;Pos enemigo
+    .db     #0xFF                       ;;FIN enemigos2
+    .db     48,40                       ;;Pos enemigo
+    .db     #0xFF                       ;;FIN enemigos3
+    .db     52,180                      ;;Salida
+    .db     #0xFF                       ;;FIN cajas verdes
+    .db     #0xFF                       ;;FIN cajas amarillas
+    .db     48,88                       ;;Pos enemigo
+    .db     #0xFF                       ;;FIN cajas rojas
+    .db     #0xFF                       ;;FIN cajas azules
+    .db     #0xFF                       ;;FIN Nada 
+_level_6::
+    .dw     #_level_06_pack_end        ;;TileMap
     .db     38,0                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
     .db     40,16                       ;;Pos enemigo
@@ -117,8 +151,8 @@ _level_5::
     .db     #0xFF                       ;;FIN Nada
 
 
-_level_6::
-    .dw     #_level_06_pack_end         ;;TileMap
+_level_7::
+    .dw     #_level_07_pack_end         ;;TileMap
     .db     36,0                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
     .db     56,48                       ;;Pos enemigo
@@ -139,8 +173,8 @@ _level_6::
     .db     #0xFF                       ;;FIN Nada
 
 
-_level_7::
-    .dw     #_level_07_pack_end                  ;;TileMap
+_level_8::
+    .dw     #_level_08_pack_end                  ;;TileMap
     .db     58,0                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
     .db     16,56                      ;;Pos enemigo2
@@ -160,8 +194,8 @@ _level_7::
     .db     38,0                       ;;Posicion Nada
     .db     #0xFF                       ;;FIN Nada
 
-_level_8::
-    .dw     #_level_08_pack_end         ;;TileMap
+_level_9::
+    .dw     #_level_09_pack_end         ;;TileMap
     .db     16,0                      ;;Posicion Player
     .db     32,42                     ;;Pos enemigo
     .db     #0xFF                     ;;FIN enemigos
@@ -169,6 +203,7 @@ _level_8::
     .db     #0xFF                       ;;FIN enemigos2
     .db     #0xFF                       ;;FIN enemigos3
     .db     64,180                      ;;Salida
+    .db     40,88                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
@@ -176,8 +211,8 @@ _level_8::
     .db     #0xFF                       ;;FIN cajas azules
     .db     #0xFF                       ;;FIN Nada
 
-_level_9::
-    .dw     #_level_09_pack_end         ;;TileMap
+_level_10::
+    .dw     #_level_10_pack_end         ;;TileMap
     .db     60,0                      ;;Posicion Player
     .db     20,160                     ;;Pos enemigo
     .db     40,64                     ;;Pos enemigo
@@ -192,8 +227,8 @@ _level_9::
     .db     #0xFF                       ;;FIN cajas azules
     .db     #0xFF                       ;;FIN Nada
 
-_level_10::
-    .dw     #_level_10_pack_end         ;;TileMap
+_level_11::
+    .dw     #_level_11_pack_end         ;;TileMap
     .db     38,0                      ;;Posicion Player
     .db     20,40                     ;;Pos enemigo
     .db     36,176                     ;;Pos enemigo
@@ -211,8 +246,8 @@ _level_10::
     .db     #0xFF                       ;;FIN cajas azules
     .db     #0xFF                       ;;FIN Nada
 
-_level_11::
-    .dw     #_level_11_pack_end         ;;TileMap
+_level_12::
+    .dw     #_level_12_pack_end         ;;TileMap
     .db     38,0                      ;;Posicion Player
     .db     8,56                     ;;Pos enemigo
     .db     8,144                     ;;Pos enemigo
@@ -230,66 +265,42 @@ _level_11::
     .db     #0xFF                       ;;FIN cajas azules
     .db     #0xFF                       ;;FIN Nada
 
-_level_12::
-    .dw     #_level_12_pack_end         ;;TileMap
-    .db     16,0                      ;;Posicion Player
-    .db     32,42                     ;;Pos enemigo
-    .db     #0xFF                     ;;FIN enemigos
-    .db     12,80                       ;;Pos enemigo
-    .db     #0xFF                       ;;FIN enemigos2
-    .db     #0xFF                       ;;FIN enemigos3
-    .db     64,180                      ;;Salida
-    .db     #0xFF                       ;;FIN cajas verdes
-    .db     #0xFF                       ;;FIN cajas amarillas
-    .db     #0xFF                       ;;FIN cajas rojas
-    .db     64,168                      ;;Pos caja
-    .db     #0xFF                       ;;FIN cajas azules
-    .db     #0xFF                       ;;FIN Nada
-
 _level_13::
     .dw     #_level_13_pack_end         ;;TileMap
-    .db     16,0                      ;;Posicion Player
-    .db     32,42                     ;;Pos enemigo
+    .db     38,0                      ;;Posicion Player
     .db     #0xFF                     ;;FIN enemigos
-    .db     12,80                       ;;Pos enemigo
+    .db     28,16                       ;;Pos enemigo
+    .db     48,32                       ;;Pos enemigo
+    .db     40,128                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos2
+    .db     20,80                       ;;Pos enemigo
+    .db     52,64                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     64,180                      ;;Salida
+    .db     36,188                      ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
+    .db     52,96                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas rojas
-    .db     64,168                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
     .db     #0xFF                       ;;FIN Nada
 
-_level_14::
-    .dw     #_level_14_pack_end         ;;TileMap
-    .db     16,0                      ;;Posicion Player
-    .db     32,42                     ;;Pos enemigo
-    .db     #0xFF                     ;;FIN enemigos
-    .db     12,80                       ;;Pos enemigo
-    .db     #0xFF                       ;;FIN enemigos2
-    .db     #0xFF                       ;;FIN enemigos3
-    .db     64,180                      ;;Salida
-    .db     #0xFF                       ;;FIN cajas verdes
-    .db     #0xFF                       ;;FIN cajas amarillas
-    .db     #0xFF                       ;;FIN cajas rojas
-    .db     64,168                      ;;Pos caja
-    .db     #0xFF                       ;;FIN cajas azules
-    .db     #0xFF                       ;;FIN Nada
-
+;;AQUI FALTA REDISEÑO, NO ME CONVENCE
 _level_15::
     .dw     #_level_15_pack_end         ;;TileMap
-    .db     16,0                      ;;Posicion Player
-    .db     32,42                     ;;Pos enemigo
+    .db     38,0                      ;;Posicion Player
+    .db     32,160                     ;;Pos enemigo
+    .db     44,160                     ;;Pos enemigo
     .db     #0xFF                     ;;FIN enemigos
-    .db     12,80                       ;;Pos enemigo
+    .db     48,72                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos2
     .db     #0xFF                       ;;FIN enemigos3
-    .db     64,180                      ;;Salida
+    .db     38,180                      ;;Salida
+    .db     24,72                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas verdes
+    .db     52,72                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas amarillas
+    .db     20,144                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas rojas
-    .db     64,168                      ;;Pos caja
+    .db     56,144                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas azules
     .db     #0xFF                       ;;FIN Nada
