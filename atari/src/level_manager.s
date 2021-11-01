@@ -13,7 +13,7 @@ _puntero::                  .dw 0
 _num_level::                .db 0
 
 ;;MODIFICAR CADA VEZ QUE SE AGREGA UN NIVEL
-_num_total_levels::         .db 5
+_num_total_levels::         .db 15
 
 
 L_M_init::
