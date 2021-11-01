@@ -299,8 +299,8 @@ _level_15::
     .db     #0xFF                       ;;FIN cajas verdes
     .db     52,72                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas amarillas
-    .db     24,168                     ;;Pos enemigo
+    .db     20,144                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas rojas
-    .db     52,168                       ;;Pos enemigo
+    .db     56,144                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas azules
     .db     #0xFF                       ;;FIN Nada
