@@ -276,7 +276,7 @@ _level_13::
     .db     20,80                       ;;Pos enemigo
     .db     52,64                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
-    .db     64,180                      ;;Salida
+    .db     36,188                      ;;Salida
     .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     52,96                       ;;Pos enemigo
