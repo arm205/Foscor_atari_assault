@@ -287,20 +287,20 @@ _level_13::
 ;;AQUI FALTA REDISEÑO, NO ME CONVENCE
 _level_15::
     .dw     #_level_15_pack_end         ;;TileMap
-    .db     54,0                      ;;Posicion Player
-    .db     20,72                     ;;Pos enemigo
-
+    .db     38,0                      ;;Posicion Player
+    .db     32,160                     ;;Pos enemigo
+    .db     44,160                     ;;Pos enemigo
     .db     #0xFF                     ;;FIN enemigos
-    .db     56,40                       ;;Pos enemigo
-    .db     32,144                     ;;Pos enemigo
+    .db     48,72                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos2
-    .db     56,80                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos3
     .db     38,180                      ;;Salida
+    .db     24,72                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas verdes
+    .db     52,72                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas amarillas
-    .db     24,144                     ;;Pos enemigo
+    .db     24,168                     ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas rojas
-    .db     56,144                       ;;Pos enemigo
+    .db     52,168                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN cajas azules
     .db     #0xFF                       ;;FIN Nada
