@@ -107,7 +107,7 @@ _level_5::
     
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
-    .db     64,168                      ;;Pos caja
+;    .db     64,168                      ;;Pos caja
     .db     #0xFF                       ;;FIN cajas azules
     .db     #0xFF                       ;;FIN Nada
 _level_6::
@@ -230,7 +230,7 @@ _level_11::
     .db     #0xFF                       ;;FIN Nada
 
 _level_12::
-    .dw     #_level_11_pack_end         ;;TileMap
+    .dw     #_level_12_pack_end         ;;TileMap
     .db     38,0                      ;;Posicion Player
     .db     8,56                     ;;Pos enemigo
     .db     8,144                     ;;Pos enemigo
