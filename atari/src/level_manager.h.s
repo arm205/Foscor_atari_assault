@@ -177,7 +177,7 @@ _level_8::
     .dw     #_level_08_pack_end                  ;;TileMap
     .db     58,0                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
-    .db     16,56                      ;;Pos enemigo2
+;    .db     16,56                      ;;Pos enemigo2
     .db     50,80                       ;;Pos enemigo2
     .db     13,128                      ;;Pos enemigo2
     .db     #0xFF                       ;;FIN enemigos2
@@ -250,7 +250,7 @@ _level_12::
     .dw     #_level_12_pack_end         ;;TileMap
     .db     38,0                      ;;Posicion Player
     .db     8,56                     ;;Pos enemigo
-    .db     8,144                     ;;Pos enemigo
+    .db     8,176                     ;;Pos enemigo
     .db     #0xFF                     ;;FIN enemigos
     .db     12,88                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos2
