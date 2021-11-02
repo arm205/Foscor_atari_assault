@@ -1,3 +1,6 @@
+
+
+
 ;;
 ;; RENDER.S -- Dibuja por pantalla.
 ;;

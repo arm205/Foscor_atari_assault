@@ -1,3 +1,20 @@
+;;Inside The Anthill - Videogame
+;;
+   ;; Copyright (C) 2021 Alba Ruiz, Javier Sibada and Miguel Teruel.
+;;
+   ;; This program is free software: you can redistribute it and/or modify
+   ;; it under the terms of the GNU General Public License as published by
+   ;; the Free Software Foundation, either version 3 of the License, or
+   ;; (at your option) any later version.
+;;
+   ;; This program is distributed in the hope that it will be useful,
+   ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+   ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   ;; GNU General Public License for more details.
+;;
+   ;; You should have received a copy of the GNU General Public License
+   ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 .include "cpctelera.h.s"
 .include "cpct_func.h.s"
 .include "entity.h.s"
@@ -7,6 +24,7 @@
 .include "ia.h.s"
 .include "collider.h.s"
 .include "animation.h.s"
+.include "interrupt.h.s"
 
 
 enemy:: .db t_enemy, cmp_collider | cmp_render | cmp_ia | cmp_animation, 4, 10, 4, 16, 0, 0, 0, 0, 0xFF, 0
