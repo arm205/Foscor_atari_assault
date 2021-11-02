@@ -156,7 +156,7 @@ _level_7::
     .db     36,0                       ;;Posicion Player
     .db     #0xFF                       ;;FIN enemigos
     .db     56,48                       ;;Pos enemigo
-    .db     48,124                       ;;Pos enemigo
+;    .db     48,124                       ;;Pos enemigo
     .db     #0xFF                       ;;FIN enemigos2
     .db     12,16                       ;;Pos enemigo
     .db     48,124                      ;;Pos enemigo
@@ -295,9 +295,9 @@ _level_15::
     .db     #0xFF                       ;;FIN enemigos2
     .db     #0xFF                       ;;FIN enemigos3
     .db     1,38,180                      ;;Salida
-    .db     #0xFF                       ;;FIN cajas verdes
     .db     24,72                     ;;Pos enemigo
     .db     52,72                     ;;Pos enemigo
+    .db     #0xFF                       ;;FIN cajas verdes
     .db     #0xFF                       ;;FIN cajas amarillas
     .db     #0xFF                       ;;FIN cajas rojas
     .db     20,144                     ;;Pos enemigo
