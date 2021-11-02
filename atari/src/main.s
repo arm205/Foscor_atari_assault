@@ -21,7 +21,9 @@
 .include "game.h.s"
 .include "entity.h.s"
 .include "render.h.s"
+.include "music/Inside_the_anthill_3.h.s"
 
+.globl cpct_akp_musicInit_asm
 
 .area _DATA
 .area _CODE
@@ -29,19 +31,19 @@
 
 
 _main::
+   ld sp, #0x8000
    call cpct_disableFirmware_asm
-
+   ld de, #_musica
+   call cpct_akp_musicInit_asm
+   call man_ir_init
    call man_game_init
-
-loop:
-;   call esperar
-   call man_game_update
    
+loop:
+   call man_game_update
+
    ld    a, (_level_reseted)
    xor   #0x0
    jr    nz, loop
-
-   call cpct_waitVSYNC_asm
    call man_game_render
    jr    loop
 

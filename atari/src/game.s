@@ -24,6 +24,7 @@
 .include "ia.h.s"
 .include "collider.h.s"
 .include "animation.h.s"
+.include "interrupt.h.s"
 
 
 enemy:: .db t_enemy, cmp_collider | cmp_render | cmp_ia | cmp_animation, 4, 10, 4, 16, 0, 0, 0, 0, 0xFF, 0
