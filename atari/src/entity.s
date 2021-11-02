@@ -10,7 +10,7 @@
 .include "render.h.s"
 .include "collider.h.s"
 
-max_entities == 7
+max_entities == 12
 
 _num_entities:: .db 0
 _last_elem_ptr:: .dw _entity_array
@@ -42,7 +42,7 @@ E_M_new::
     inc (hl)
 
 ;   Increment Array end pointer to point to the next
-;   free element in the array
+;   free element in thecpct_drawSolidBox_asm array
     ld hl, (_last_elem_ptr)
 
     ld d, h
@@ -79,6 +79,26 @@ E_M_prepateToDelete::
     ld hl, #_spriteNegro
     ld e_spr(ix), l
     ld e_spr+1(ix), h
+    
+    ld de, #0x8000
+    ld b, e_y(ix) ;;pos_y
+    ld c, e_x(ix) ;;pos_x
+    call cpct_getScreenPtr_asm
+    ex de, hl
+    ld c, e_w(ix)
+    ld b, e_h(ix)
+    xor a
+    call cpct_drawSolidBox_asm
+
+    ld de, #0xC000
+    ld b, e_y(ix) ;;pos_y
+    ld c, e_x(ix) ;;pos_x
+    call cpct_getScreenPtr_asm
+    ex de, hl
+    ld c, e_w(ix)
+    ld b, e_h(ix)
+    xor a
+    call cpct_drawSolidBox_asm
 
     ld__hl_ix
 
@@ -99,22 +119,35 @@ E_M_deleteEntity::
     ld  de, (_entity_to_erase)
     ldir
 
-    ;;Decrementar _last_start_entity_ptr
+    ;;Decrementar _last_start_entity_ptr si es necesario
+    
+
     ld  bc, #sizeof_e
     ld  hl, (_last_start_entity_ptr)
+
+    ld  a, h
+    xor #_entity_array
+    jr  z, continuar
+
+    ld  a, l
+    xor #_entity_array
+    jr  z, continuar
+
     ld  a, l
     sub c
 ;calculos por si estoy restando a l un numero menor que c
     jr nc, no_se_pasa_c
         inc b
 
-no_se_pasa_c:
+    no_se_pasa_c:
     ld  l, a
     ld  a, h
     sub b
     ld  h, a
     ld  (_last_start_entity_ptr), hl
 
+
+    continuar:
     ;Decrementar _last_elem_ptr
     ld  bc, #sizeof_e
     ld  hl, (_last_elem_ptr)
@@ -124,7 +157,7 @@ no_se_pasa_c:
     jr nc, no_se_pasa_c_2
         inc b
 
-no_se_pasa_c_2:
+    no_se_pasa_c_2:
     ld  l, a
     ld  a, h
     sub b
@@ -167,6 +200,7 @@ ret
 E_M_getEntityArray::
     ld ix, #_entity_array
     ld a, (_num_entities)
+    ld d, a
 ret
 
 
@@ -188,6 +222,11 @@ buscando_idx:
 
 
 
+
+
+
+
+
 ;
 ;Input: A; type that we are looking for, D; num entity
 ;Desc: Buscamos todas las entidades validas cuyo tipo tenga el componente del signature(D en la amyoria del codigo) y se devuelve al sistema que lo ha llamado
@@ -203,22 +242,19 @@ _renloop:
     ld (_ent_counter), a
 
     ld a, e_t(ix)
-    ld e, #t_default
-    or e
+    or #t_default
     jr z, invalid_entity
 
     ;; erase previous istance
 ; para mover todo lo que tenga a 1 el bit de ia
     ld a, e_cmp(ix)
     and d
-    jr nz, cumple
-    jr continua
+    jr z, continua
     cumple:    
     pinta_cosas:
         ld a, #cmp_render
         xor d
-        jr z, render
-        jr ia
+        jr nz, ia
             render:
             push de
     ;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
@@ -229,8 +265,7 @@ _renloop:
         ia:
         ld a, #cmp_ia
         xor d
-        jr z, con_ia
-        jr input
+        jr nz, input
         con_ia:
             call ia_update_one_entity
             jr continua
@@ -238,8 +273,7 @@ _renloop:
         input:
             ld a, #cmp_input
             xor d
-            jr z, control
-            jr colisiona
+            jr nz, colisiona
                 control:
                 push de
 ;; Con esto modifico la velocidad del player dependiendo de la tecla pulsada
@@ -250,12 +284,11 @@ _renloop:
         colisiona:
             ld a, #cmp_collider
             xor d
-            jr z, colision
-            jr mover_cosas
+            jr nz, mover_cosas
                 colision:
                 push de
                 
-;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
+;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de colisionable
                 call collider_tilemap
                 pop de
                 jr continua
@@ -263,12 +296,22 @@ _renloop:
         mover_cosas:
             ld a, #cmp_input+#cmp_ia
             xor d
-            jr z, fisica
-            jr continua
+            jr nz, animar_cosas
                 fisica:
                 push de
-;; Llamo a que modifiquen la posicion todos los elementos que tengan el bit de render
+;; Llamo a que modifiquen la posicion todos los elementos que se muevan (ia o input)
                 call physics_sys_for_one
+                pop de
+                jr continua
+
+        animar_cosas:
+            ld a, #cmp_animation
+            xor d
+            jr nz, continua
+                animacion:
+                push de
+;; Llamo a que modifiquen la posicion todos los elementos que se muevan (ia o input)
+                call animation_update_one
                 pop de
                 jr continua
             
@@ -289,6 +332,7 @@ _ent_counter = .+1
     ld bc, #sizeof_e
     add ix, bc
     jr _renloop
+
 
 
 ;;INPUT
@@ -356,7 +400,12 @@ E_M_for_all_pairs_matching::
                 jr continua2_pairs
 
                 cumple2_pairs:  
+                    push de
                     call collider_one_pair
+                    pop de
+                    ld  a, (_level_reseted)
+                    xor #0x0
+                    ret nz
 
                 continua2_pairs:
                     _ent_counter_2 = .+1
@@ -384,3 +433,87 @@ E_M_for_all_pairs_matching::
             add ix, bc
             jr _renloop_pairs
 
+
+;;MODIFICA
+;;  HL: Direccion del player
+E_M_getPlayer::
+    ld  hl, #player
+ret
+
+;;MODIFICA
+;;  HL: Direccion del enemigo
+E_M_getEnemy::
+    ld  hl, #enemy
+ret
+
+;;MODIFICA
+;;  HL: Direccion del enemigo 2
+E_M_getEnemy2::
+    ld  hl, #enemy2
+ret
+
+;;MODIFICA
+;;  HL: Direccion del enemigo 3
+E_M_getEnemy3::
+    ld  hl, #enemy3
+ret
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getSalida::
+    ld  hl, #salida
+ret
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getMandibula::
+    ld  hl, #mandibula
+ret
+
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getCajaVerde::
+    ld  hl, #caja_verde
+ret
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getCajaAmarilla::
+    ld  hl, #caja_amarilla
+ret
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getCajaRoja::
+    ld  hl, #caja_roja
+ret
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getCajaAzul::
+    ld  hl, #caja_azul
+ret
+
+
+;;MODIFICA
+;;  HL: Direccion de la salida
+E_M_getNada::
+    ld  hl, #nada
+ret
+
+E_M_destroyAllEntities::
+
+    destroy_loop:
+    ld  hl, (_last_start_entity_ptr)
+    ld  (_entity_to_erase), hl
+
+    call E_M_deleteEntity
+
+    ld  a, (_num_entities)
+    xor #0x00
+    jr nz, destroy_loop
+    
+    ld  hl, #0x0
+    ld  (_entity_to_erase), hl
+ret

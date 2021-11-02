@@ -13,6 +13,18 @@
 .globl E_M_get_from_idx
 .globl E_M_checkDelete
 .globl E_M_prepateToDelete
+.globl E_M_destroyAllEntities
+
+.globl E_M_getPlayer
+.globl E_M_getEnemy
+.globl E_M_getSalida
+.globl E_M_getMandibula
+.globl E_M_getCajaVerde
+.globl E_M_getCajaAmarilla
+.globl E_M_getCajaRoja
+.globl E_M_getCajaAzul
+
+.globl cpct_drawSolidBox_asm
 
 
 ; ENTITY DEFINITION MACRO
@@ -29,6 +41,9 @@
     .db _b;     byte that we use for setting a special behavior to an entity (asi podemos tener dos cosas del mismo tipo que se comporten distinto)
     .dw _spr;   2Bytes for Sprite loading.
     .dw 0xCCCC; last video memory value to delate later
+    .dw 0x0 ; pointer to current animation
+    .db 0x0 ; Counter to change animation 
+    .dw 0xC000
 .endm
 
 
@@ -43,8 +58,8 @@
 
 e_t = 0
 e_cmp = 1
-e_x = 2
-e_y = 3
+e_x == 2
+e_y == 3
 e_w = 4
 e_h = 5
 e_vx = 6
@@ -56,8 +71,12 @@ e_be = 11
 e_spr = 12
 e_lastVP_l = 14
 e_lastVP_h = 15
-e_col = 16
-sizeof_e = 17
+e_animptr = 16
+e_animcont = 18
+e_lastVP_l2 = 19
+e_lastVP_h2 = 20
+e_col = 21
+sizeof_e = 22
 
 
 .macro DefineEntityArray _name, _N
@@ -79,6 +98,8 @@ cmp_ia = 0x02
 cmp_input = 0x04
 ;;  entidades con colisiones
 cmp_collider = 0x08
+;;  entidades con animaciones
+cmp_animation = 0x10
 
 
 ;; Tipos de las entidades
@@ -93,6 +114,11 @@ t_caja = 0x04
 t_salida = 0x08
 
 t_dead = 0x80
+
+t_nada = 0x10
+
+
+animation_speed = 0x5
 
 
 

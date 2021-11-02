@@ -5,14 +5,15 @@
 .module entity_sys_physics
 
 
+
 screen_width = 80
 screen_height = 200
 
 physics_sys_init::
+
 ret
 
 physics_sys_update::
-    ld d, a
     ld a, #cmp_ia+#cmp_input
     call E_M_for_all_matching
 ret
@@ -58,6 +59,11 @@ endif_x:
         ld  e_vy(ix), a
 endif_y:
 
+
+; comprobamos que haya alguna velocidad que no sea 0 antes de guardarlas
+    ld a, e_vx(ix)
+    or e_vy(ix)
+    ret z
     ld a, e_vx(ix)
     ld e_vx_prev(ix), a
     ld a, e_vy(ix)

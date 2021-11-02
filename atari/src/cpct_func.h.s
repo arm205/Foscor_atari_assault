@@ -8,4 +8,7 @@
 .globl _cpct_getRandom_mxor_u8
 .globl cpct_isKeyPressed_asm
 .globl cpct_scanKeyboard_f_asm
+.globl cpct_isAnyKeyPressed_f_asm
 .globl cpct_memset_asm
+
+.globl cpct_zx7b_decrunch_s_asm

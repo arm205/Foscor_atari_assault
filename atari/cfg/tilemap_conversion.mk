@@ -38,9 +38,23 @@
 # Conversion 
 #$(eval $(call TMX2DATA, CONVERT, tmxfile, array )) 
 
-$(eval $(call TMX2DATA, SET_OUTPUTS, hs s))
+$(eval $(call TMX2DATA, SET_OUTPUTS, bin))
 $(eval $(call TMX2DATA, SET_FOLDER, src/assets/tiles))
-$(eval $(call TMX2DATA, CONVERT, img/tilemap/tilemap_02.tmx, tilemap ))  
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_01.tmx, level_01 ))  
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_02.tmx, level_02 )) 
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_03.tmx, level_03 ))
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_04.tmx, level_04 )) 
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_05.tmx, level_05 )) 
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_06.tmx, level_06 )) 
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_07.tmx, level_07 ))
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_08.tmx, level_08 ))
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_09.tmx, level_09 )) 
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_10.tmx, level_10 )) 
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_11.tmx, level_11 )) 
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_12.tmx, level_12 ))
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_13.tmx, level_13 ))  
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_14.tmx, level_14 ))  
+$(eval $(call TMX2DATA, CONVERT, img/tilemap/level_15.tmx, level_15 ))    
 
 
 ##
