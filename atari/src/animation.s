@@ -98,10 +98,16 @@ player_eating_left::
 
 
 key_pack_sprites:
-    .dw Key_O, player_moving_left_stoped
-    .dw Key_P, player_moving_right_stoped
-    .dw Key_Q, player_moving_up_stoped
-    .dw Key_A, player_moving_down_stoped
+    .dw Key_A, player_moving_left_stoped
+    .dw Key_D, player_moving_right_stoped
+    .dw Key_W, player_moving_up_stoped
+    .dw Key_S, player_moving_down_stoped
+
+
+    .dw Key_CursorLeft, player_moving_left_stoped
+    .dw Key_CursorRight, player_moving_right_stoped
+    .dw Key_CursorUp, player_moving_up_stoped
+    .dw Key_CursorDown, player_moving_down_stoped
 
     .dw Joy0_Left, player_moving_left_stoped
     .dw Joy0_Right, player_moving_right_stoped

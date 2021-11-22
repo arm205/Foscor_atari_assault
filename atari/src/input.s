@@ -50,11 +50,17 @@ ret
 
 
 key_actions:
-    .dw Key_O, move_left
-    .dw Key_P, move_right
-    .dw Key_Q, move_up
-    .dw Key_A, move_down
+    .dw Key_A, move_left
+    .dw Key_D, move_right
+    .dw Key_W, move_up
+    .dw Key_S, move_down
     .dw Key_Space, eat
+
+
+    .dw Key_CursorLeft, move_left
+    .dw Key_CursorRight, move_right
+    .dw Key_CursorUp, move_up
+    .dw Key_CursorDown, move_down
 
     .dw Joy0_Left, move_left
     .dw Joy0_Right, move_right
