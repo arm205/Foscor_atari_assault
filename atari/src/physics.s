@@ -52,9 +52,6 @@ physics_sys_for_one::
     cp  c
     jr nc, invalid_x
 
-    ;mirando si la fisica es de player
-    ld b, a
-    ld a, e_t(ix)
 
     id_x:
         ld e_x(ix), a
@@ -71,6 +68,8 @@ endif_x:
     cp  c
     jr nc, invalid_y
 
+
+
     id_y:
         ld e_y(ix), a
         jr  endif_y
@@ -80,6 +79,31 @@ endif_x:
         ld  e_vy(ix), a
 endif_y:
 
+    ;mirando si la fisica es de player
+    ld a, e_t(ix)
+
+    xor #t_player
+    jr nz, no_player
+        ld a, e_vx(ix)
+        or e_vx(ix)
+        jr nz, no_player
+            call estoy_en_8
+            or a
+            jr nz, no_player
+
+
+                ld a, e_x(ix)
+                add e_vx_prev(ix)
+                ld e_x(ix), a
+
+
+                ld a, e_y(ix)
+                add e_vy_prev(ix)
+                ld e_y(ix), a
+
+
+
+    no_player:
 
 ; comprobamos que haya alguna velocidad que no sea 0 antes de guardarlas
     ld a, e_vx(ix)
@@ -91,4 +115,48 @@ endif_y:
     ld e_vy_prev(ix), a
 
 
+ret
+
+
+estoy_en_8:
+
+    ld a, e_x(ix)
+    ld b, #2
+
+contando_multiplos:
+
+    sub b
+
+    jr z, siguiente_eje
+
+    jr c, moverse_mismo_tile
+
+
+    jr contando_multiplos
+
+siguiente_eje:
+
+    ld a, e_y(ix)
+    ld b, #8
+
+    contando_multiplos2:
+
+    sub b
+
+    jr z, esta_donde_toca
+
+    jr c, moverse_mismo_tile
+
+
+    jr contando_multiplos2
+
+
+ret
+
+moverse_mismo_tile:
+    ld a, #0
+ret
+
+esta_donde_toca:
+    ld a, #1
 ret
