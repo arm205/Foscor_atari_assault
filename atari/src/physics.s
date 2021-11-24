@@ -52,6 +52,10 @@ physics_sys_for_one::
     cp  c
     jr nc, invalid_x
 
+    ;mirando si la fisica es de player
+    ld b, a
+    ld a, e_t(ix)
+
     id_x:
         ld e_x(ix), a
         jr  endif_x
