@@ -133,6 +133,7 @@ check_acabo_en_tile:
 
                 ld a, e_vy_prev(ix)
                 ld e_vy(ix), a
+            ret
 
 
 
