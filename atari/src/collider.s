@@ -306,8 +306,10 @@ check_tile:
                 ld a, e_be(ix)
                 or #0
                 jr z, no_en_3
-                    call ia_colides_tilemap
-                    ret
+                    xor #3
+                    jr z, no_en_3
+                        call ia_colides_tilemap
+                        ret
 
             no_en_3:  
             ld e_vy(ix), #0
@@ -337,8 +339,11 @@ check_tile:
                     ld a, e_be(ix)
                     or #0
                     jr z, no_en
-                        call ia_colides_tilemap
-                        ret
+
+                        xor #3
+                        jr z, no_en
+                            call ia_colides_tilemap
+                            ret
 
                 no_en:    
                 ld e_vx(ix), #0
@@ -367,8 +372,10 @@ check_tile:
                     ld a, e_be(ix)
                     or #0
                     jr z, no_en_4
-                        call ia_colides_tilemap
-                        ret
+                        xor #3
+                        jr z, no_en_4
+                            call ia_colides_tilemap
+                            ret
 
                 no_en_4:  
                 ld e_vy(ix), #0
@@ -401,8 +408,10 @@ check_tile:
                     ld a, e_be(ix)
                     or #0
                     jr z, no_en_2
-                        call ia_colides_tilemap
-                        ret
+                        xor #3
+                        jr z, no_en_2
+                            call ia_colides_tilemap
+                            ret
 
                 no_en_2:  
                 ld e_vx(ix), #0
@@ -658,6 +667,9 @@ no_player:
             ld a, e_be(iy)
 
             or #0
+            jr z, es_ghost
+
+            xor #3
             jr z, es_ghost
 
              	ex__hl_ix
