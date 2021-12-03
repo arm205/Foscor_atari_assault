@@ -325,7 +325,7 @@ L_M_loadFirstLevel::
 ld  a, (_num_total_levels)
 ld (_num_level), a
 
-ld hl, #_level_9
+ld hl, #_level_1
 ld (_current_level), hl
 
 
