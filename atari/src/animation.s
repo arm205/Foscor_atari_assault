@@ -30,6 +30,13 @@ ghost_moving::
 .dw 0x0
 .dw ghost_moving
 
+active_ghost_moving::
+.dw  _h2_array_2
+.dw  _h2_array_3
+.dw 0x0
+.dw ghost_moving
+
+
 ant_moving::
 .dw  _h_array_0
 .dw  _h_array_1
@@ -98,10 +105,16 @@ player_eating_left::
 
 
 key_pack_sprites:
-    .dw Key_O, player_moving_left_stoped
-    .dw Key_P, player_moving_right_stoped
-    .dw Key_Q, player_moving_up_stoped
-    .dw Key_A, player_moving_down_stoped
+    .dw Key_A, player_moving_left_stoped
+    .dw Key_D, player_moving_right_stoped
+    .dw Key_W, player_moving_up_stoped
+    .dw Key_S, player_moving_down_stoped
+
+
+    .dw Key_CursorLeft, player_moving_left_stoped
+    .dw Key_CursorRight, player_moving_right_stoped
+    .dw Key_CursorUp, player_moving_up_stoped
+    .dw Key_CursorDown, player_moving_down_stoped
 
     .dw Joy0_Left, player_moving_left_stoped
     .dw Joy0_Right, player_moving_right_stoped
@@ -240,12 +253,23 @@ animation_update_one::
     or #0
     jr nz, no_parado
 
+
     ld a, e_t(ix)
     xor #t_player
     jr nz, no_player2
+
+
     
     call check_change_parado
     no_player2:
+
+        ld a, e_be(ix)
+        xor #3
+        ret nz
+
+        ld e_be(ix), #0
+        call check_new_direction;
+
 ;; Player parado
     ret
 
@@ -261,6 +285,9 @@ animation_update_one::
     jr nz, distinta_direccion
 
 
+    ld a, e_be(ix)
+    xor #3
+    jr z, distinta_direccion
 
     ld a, (vengo_de_comer)
     or #0
@@ -268,6 +295,12 @@ animation_update_one::
 
     misma_dir:
         call misma_direccion
+            ld a, e_be(ix)
+            xor #3
+            ret nz
+
+            ld e_be(ix), #0
+
         ret
 
     distinta_direccion:
@@ -354,12 +387,22 @@ check_new_direction:
     and a
     jr z, direction_ghost
 
+    xor #3
+    jr z, direction_ghost_active
+
+
     ld hl, #ant_moving
     call cargar_sprite_pack
     ret
 
     direction_ghost:
     ld hl, #ghost_moving
+    call cargar_sprite_pack
+    ret
+
+    direction_ghost_active:
+    ld e_be(ix), #0
+    ld hl, #active_ghost_moving
     call cargar_sprite_pack
     ret
 

@@ -64,7 +64,7 @@ caja_verde:: .db t_caja, cmp_collider | cmp_render, 0, 0, 4, 16, 0, 0, 0, 0, 0xF
 salida:: .db t_salida, cmp_collider, 12, 0, 8, 10, 0, 0, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0x0, 0x0, 0x0, 0x0, animation_speed, 0x00, 0x10, t_player
 
 
-nada:: .db t_nada,  cmp_collider, 12, 0, 8, 10, 0, 0, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0x0, 0x0, 0x0, 0x0, animation_speed, 0x00, 0x10, 0
+nada:: .db t_nada,  cmp_collider | cmp_ia | cmp_input, 12, 0, 8, 10, 0, 0, 0, 0, 0xF0, 0, 0xCC, 0xCC, 0x0, 0x0, 0x0, 0x0, animation_speed, 0x00, 0x10, 0
 
 
 mandibula:: .db salida, cmp_collider | cmp_render, 0, 0, 4, 16, 0, 0, 0, 0, 0xF0, 0

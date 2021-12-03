@@ -126,6 +126,7 @@ ret
 
 
 stalker_mode::
+    ld e_be(ix), #3
 
     ld a, e_x(iy)
     sub e_x(ix)
@@ -144,7 +145,7 @@ obx_greater_or_equal:
     jr endifx
 
 arrived_x:
-    ld e_vx(ix), #0
+;    ld e_vx(ix), #0
 endifx:    
 
 
@@ -167,7 +168,7 @@ oby_greater_or_equal:
     jr endify
 
 arrived_y:
-    ld e_vy(ix), #0
+;    ld e_vy(ix), #0
 endify: 
 
 ret

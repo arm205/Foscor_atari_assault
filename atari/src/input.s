@@ -50,11 +50,17 @@ ret
 
 
 key_actions:
-    .dw Key_O, move_left
-    .dw Key_P, move_right
-    .dw Key_Q, move_up
-    .dw Key_A, move_down
+    .dw Key_A, move_left
+    .dw Key_D, move_right
+    .dw Key_W, move_up
+    .dw Key_S, move_down
     .dw Key_Space, eat
+
+
+    .dw Key_CursorLeft, move_left
+    .dw Key_CursorRight, move_right
+    .dw Key_CursorUp, move_up
+    .dw Key_CursorDown, move_down
 
     .dw Joy0_Left, move_left
     .dw Joy0_Right, move_right
@@ -82,6 +88,7 @@ input_update_one::
 
     call check_keyboard_input
 
+    call check_acabo_en_tile
     saltar_input:
     ld a, (hungry)
     cp #1
@@ -106,6 +113,84 @@ input_update_one::
 
         no_eat:
         ld e_be(ix), #0
+
+ret
+
+check_acabo_en_tile:
+;Mirando si hay imput
+    ld a, e_vx(ix)
+    or e_vy(ix)
+    ret nz
+    ;No lo hay
+    ;Miramos si estamos a mitad de tile
+    call estoy_en_8
+    or #0
+    ret z
+
+        xor #1
+        jr z, muevo_x
+            muevo_y:
+
+                ld a, e_vy_prev(ix)
+                ld e_vy(ix), a
+            ret
+
+
+
+    muevo_x:
+
+        ld a, e_vx_prev(ix)
+        ld e_vx(ix), a
+
+ret
+
+
+estoy_en_8:
+
+    ld a, e_x(ix)
+    ld b, #4
+
+contando_multiplos:
+
+    sub b
+
+    jr z, siguiente_eje
+
+    jr c, moverse_mismo_tilex
+
+
+    jr contando_multiplos
+
+siguiente_eje:
+
+    ld a, e_y(ix)
+    ld b, #16
+
+    contando_multiplos2:
+
+    sub b
+
+    jr z, esta_donde_toca
+
+    jr c, moverse_mismo_tiley
+
+
+    jr contando_multiplos2
+
+
+ret
+
+moverse_mismo_tilex:
+    ld a, #1
+ret
+
+
+moverse_mismo_tiley:
+    ld a, #2
+ret
+
+esta_donde_toca:
+    ld a, #0
 ret
 
 
